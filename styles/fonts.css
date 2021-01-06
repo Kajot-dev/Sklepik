@@ -1,0 +1,24 @@
+@font-face {
+    font-family: "Lato";
+    src: url("../fonts/Lato-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Lato Light";
+    src: url("../fonts/Lato-Light.ttf");
+}
+
+@font-face {
+    font-family: "Hanalei";
+    src: url("../fonts/HanaleiFill-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Roboto Condensed";
+    src: url("../fonts/RobotoCondensed-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Big Shoulders";
+    src: url("../fonts/BigShoulders.ttf");
+}

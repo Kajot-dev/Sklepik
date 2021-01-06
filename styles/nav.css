@@ -1,0 +1,68 @@
+#navBarContainer {
+    --navBarHeight: 55px;
+    --navBarFontSize: 20px;
+
+    height: var(--navBarHeight);
+    position: relative;
+    display: block;
+}
+
+#navBar {
+    background-color: var(--color-A);
+    color: var(--color-B);
+    font-family: "Roboto Condensed", sans-serif;
+    font-size: var(--navBarFontSize);
+}
+
+#navBar a {
+    border-color: transparent;
+    text-decoration: none;
+    color: var(--color-B);
+    font-weight: bold;
+}
+
+#navBar > * {
+    float: left;
+}
+#navBar > *.right-side {
+    float: right;
+}
+
+#navBar a.tile-link {
+    background-clip: border-box;
+    transform: rotate3d(0, 1, 0, 0deg);
+    transform-origin: left center 0px;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0);
+    background-color: transparent;
+    height: 100%;
+    padding: 0 0.6em 0 0.6em;
+    transition: background-color 0.4s ease, text-shadow 0.4s ease;
+}
+
+#navBar a.tile-link .text {
+    transform: translateY(0px);
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+#navBar a.tile-link:hover {
+    background-color: var(--color-B-aplha);
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+#navBar a.tile-link:hover .text {
+    transform: translateY(2px);
+}
+
+#navBar div.symbol-container {
+    padding: 0 0.8em 0 0.8em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: fit-content;
+    color: var(--color-B);
+}
+#navBar div.symbol-container span.symbol {
+    transition: transform 0.4s ease;
+}
