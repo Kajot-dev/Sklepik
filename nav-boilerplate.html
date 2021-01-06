@@ -12,13 +12,14 @@
         <link rel="stylesheet" href="styles/fonts.css">
         <link rel="stylesheet" href="styles/basic.css">
         <link rel="stylesheet" href="styles/nav.css">
+        <script src="./scripts/main.mjs" type="module"></script>
     </head>
     <body>
         <header>
             <div id="navBarContainer">
                 <div id="navBar" class="full-size">
                     <div class="symbol-container clickable" id="sidebarTrigger">
-                        <span class="symbol">X</span>
+                        <div class="symbol">&#48;</div>
                     </div>
                     <a class="tile title-container" href="#">
                         <span class="text title">WITTY</span>
@@ -34,7 +35,17 @@
                     </a>
                 </div>
             </div>
-            <div id="navSidebar"></div>
+            <div id="navSidebarContainer">
+                <div id="navSidebar">
+                    <ul>
+                        <li><a href="#">Ktoś Kiedyś</a></li>
+                        <li><a href="#">Mi Powiedział</a></li>
+                        <li><a href="#">Że Świat</a></li>
+                        <li><a href="#">Będzie Mnie</a></li>
+                        <li><a href="#">Toczyć</a></li>
+                    </ul>
+                </div>
+            </div>
         </header>
         <footer></footer>
     </body>
