@@ -5,7 +5,7 @@
   "main": "index.html",
   "scripts": {
     "open": "delay 1 && open-cli \"http://localhost:8000\"",
-    "server": "ws --port 8000",
+    "server": "cd src && ws --port 8000",
     "start": "run-p server open"
   },
   "repository": {

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self'">
+    <meta charset="utf-8">
+    <meta name="author" content="Jakub Jaruszewski, Mikołaj Rak">
+    <meta name="robots" content="index, follow">
+    <meta name="description" content="Sklep z obuwiem typu streetwear">
+    <meta name="keywords" content="streetwear, shoes, nike, addidas, puma">
+    <title>Sklepik</title>
+    <link rel="stylesheet" href="styles/fonts.css">
+    <link rel="stylesheet" href="styles/nav.css">
+    <link rel="stylesheet" href="styles/sections.css">
+    <link rel="stylesheet" href="styles/basic.css">
+    <script src="./scripts/main.mjs" type="module"></script>
+</head>
+
+<body>
+    <header>
+        <div id="navBarContainer">
+            <div id="navBar" class="full-size">
+                <div class="flex-row flex-left flex-inline full-height left">
+                    <div class="symbol-container clickable" id="sidebarTrigger" tabindex="0">
+                        <div class="symbol">&#xf0c9;</div>
+                    </div>
+                    <a class="tile title-container" href="#">
+                        <span class="text title">MISCHWEAR</span>
+                    </a>
+                    <a class="tile-link" href="#">
+                        <span class="text">Produkty</span>
+                    </a>
+                    <a class="tile-link" href="#">
+                        <span class="text">O Nas</span>
+                    </a>
+                    <a class="tile-link" href="#">
+                        <span class="text">Promocje</span>
+                    </a>
+                </div>
+                
+                <div class="flex-row flex-left flex-inline full-height right">
+                    <!-- Koszyk -->
+                    <div class="tile-link clickable bold" tabindex="0">
+                        <span class="text symbol big bold">&#xe801;</span>
+                    </div>
+
+                    <a class="tile-link" href="#">
+                        <div class="text flex-row align-center flex-line-space">
+                            <span class="symbol big">&#xe802;</span>
+                            <span>Konto</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div id="navSidebarContainer">
+            <div id="navSidebar">
+                <div class="flex-row pad-bottom flex-center bg-focus navElem">
+                    <div id="searchBarContainer" class="flex-row flex-baseline">
+                        <div id="searchIcon" class="symbol clickable" tabindex="0">&#xe800;</div>
+                        <input id="searchInput" type="text" placeholder="Szukaj...">
+                    </div>
+                </div>
+                <a href="#" class="navElem">
+                    <span class="text">Moje zamówienia</span>
+                </a>
+                <a href="#" class="navElem">
+                    <span class="text">Moje ulubione</span>
+                </a>
+                <a href="#" class="navElem">
+                    <span class="text">Kategorie</span>
+                </a>
+                <a href="#" class="navElem">
+                    <span class="text">Kontakt</span>
+                </a>
+            </div>
+        </div>
+    </header>
+    <footer id="footer">
+        <div class="flex-row flex-around">
+            <div class="self-centered">
+                <a href="#" class="big">Kontakt</a>
+            </div>
+
+            <div class="flex-row align-center flex-center self-centered">
+                <hr class="box-shadow">
+                <div class="title">JEBAĆ MISCH</div>
+                <hr class="box-shadow">
+            </div>
+
+            <div class="self-centered">
+                <a href="#" class="big">Współpraca</a>
+            </div>
+        </div>
+        
+        <div class="flex-row flex-center">
+            <div class="self-centered">
+                <span id="copyright" class="text-shadow">Copyright <span id="authors" class="bold">Jakub Jaruszewski &
+                        Mikołaj Rak</span> 2021</span>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

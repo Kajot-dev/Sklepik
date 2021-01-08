@@ -1,3 +1,10 @@
+:root {
+    --navBarHeight: 55px;
+    --navBarFontSize: 20px;
+    --footerHeight: 87.6px;
+    --footerVerticalPadding: 1em;
+}
+
 #navBarContainer {
     height: var(--navBarHeight);
     position: relative;
@@ -35,14 +42,14 @@
     font-weight: bold;
 }
 
-#navBar > * {
+/*#navBar > * {
     float: left;
 }
 #navBar > *.right-side {
     float: right;
-}
+}*/
 
-#navBar a.tile-link {
+#navBar .tile-link {
     background-clip: border-box;
     transform: rotate3d(0, 1, 0, 0deg);
     transform-origin: left center 0px;
@@ -53,19 +60,25 @@
     transition: background-color 0.4s ease, text-shadow 0.4s ease;
 }
 
-#navBar a.tile-link .text {
+#navBar .tile-link .text {
     transform: translateY(0px);
     display: block;
     transition: transform 0.4s ease;
 }
-
-#navBar a.tile-link:hover {
+#navBar .tile-link .text.flex-row {
+    display: flex;
+}
+#navBar .tile-link:hover {
     background-color: var(--color-B-aplha);
     text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
 }
 
-#navBar a.tile-link:hover .text {
+#navBar .tile-link:hover .text {
     transform: translateY(2px);
+}
+
+#navBar [tabindex]:focus,  #navBar a:focus{
+    outline: 2px solid currentColor;
 }
 
 #navBar div.symbol-container {
@@ -100,6 +113,7 @@
     top: 0;
     left: -302px;
     z-index: 4;
+    color: var(--color-B);
     padding-top: var(--navBarHeight);
     transform: translateX(0px);
     transition: transform 0.4s ease, box-shadow 0.6s ease;
@@ -111,9 +125,13 @@
 }
 
 #navSidebar {
-    padding: 30px 0px 25px 0px;
-    color: var(--color-B);
+    padding: 0px 0px 15px 0px;
     font-size: 25px;
+}
+
+#navSidebar > *:first-child {
+    border-top: 15px solid transparent;
+    background-clip: border-box;
 }
 
 #navSidebarContainer #navSidebar {
@@ -127,24 +145,114 @@
     transform: scale(1) rotate(0deg) translateX(0);
 }
 
-#navSidebarContainer ul {
-    margin-block-start: 0;
-    margin-block-end: 0;
+#navSidebarContainer .navElem {
+    padding: 0.3em 0.6em 0.3em 0.6em;
+    display: block;
 }
 
-#navSidebarContainer li {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    list-style-type: disc;
-}
-
-#navSidebarContainer a {
-    display: inline-block;
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0);
-    transition: transform 0.4s ease, text-shadow 0.4s ease;
+#navSidebarContainer .navElem + .navElem {
+    border-top: 2px solid var(--color-A);
 }
 
 #navSidebarContainer a:hover {
     text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+#navSidebarContainer a .text {
+    display: inline-block;
+    transition: transform 0.4s ease;
+}
+
+#navSidebarContainer a:hover .text {
     transform: translateX(3px);
+}
+
+#navSidebarContainer a.navElem {
+    transition: text-shadow 0.4s ease, background-color 0.4s ease;
+}
+
+#navSidebarContainer a.navElem:hover {
+    background-color: var(--color-A);
+}
+
+#navSidebarContainer .bg-focus {
+    transition: background-color 0.4s ease;
+}
+
+#navSidebarContainer .bg-focus:focus-within {
+    background-color: var(--color-A);
+}
+
+#footer {
+    box-shadow: 0px -2px 6px rgba(0, 0, 0, 0.6);
+    height: var(--footerHeight);
+    width: calc(100% - 1.6em);
+    background-color: var(--color-D);
+    padding: var(--footerVerticalPadding) 0.8em var(--footerVerticalPadding) 0.8em;
+    color: var(--color-B);
+    font-size: var(--navBarFontSize);
+}
+
+#footer  {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+
+#footer .flex-row {
+    justify-items: stretch;
+}
+
+#footer hr {
+    width: 10vw;
+}
+
+#copyright {
+    font-family: "Lato Light", sans-serif;
+}
+
+#searchBarContainer {
+    display: flex !important;
+    position: relative;
+    border-bottom: 3px solid transparent;
+    padding-bottom: 5px;
+    transition: border-bottom 0.4s ease;
+}
+
+#searchBarContainer:focus-within {
+    border-bottom: 3px solid var(--color-B);
+}
+
+#searchBarContainer #searchIcon {
+    margin-right: 10px;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0);
+    transition: transform 0.4s ease, text-shadow 0.4s ease;
+}
+#searchBarContainer #searchIcon:hover {
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+    transform: scale(1.1);
+}
+
+#searchInput {
+    width: -moz-available;
+    width: -webkit-fill-available;
+    width: fill-available;
+    height: 100%;
+    outline: none;
+    background-color: transparent;
+    border: none;
+    color: var(--color-B);
+    font-size: inherit;
+    font-family: "Roboto Condensed", sans-serif;
+    transition: filter 0.4s ease;
+}
+#searchInput:hover {
+    filter: brightness(1.4);
+}#searchInput:focus:hover {
+    filter: unset;
+}
+#searchInput::placeholder {
+    opacity: 0.5;
+    color: var(--color-B);
+    font-family: "Lato Light", sans-serif;
 }

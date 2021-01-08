@@ -1,0 +1,5 @@
+Font awesome:
+search &#xe800;
+user &#xe802;
+menu &#xf0c9;
+basket &#xe801;
