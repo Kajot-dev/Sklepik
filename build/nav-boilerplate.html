@@ -10,11 +10,11 @@
     <meta name="description" content="Sklep z obuwiem typu streetwear">
     <meta name="keywords" content="streetwear, shoes, nike, addidas, puma">
     <title>Sklepik</title>
-    <link rel="stylesheet" href="styles/fonts.css">
-    <link rel="stylesheet" href="styles/nav.css">
-    <link rel="stylesheet" href="styles/sections.css">
-    <link rel="stylesheet" href="styles/basic.css">
-    <script src="./scripts/main.mjs" type="module"></script>
+    <link rel="stylesheet" href="/styles/fonts.css">
+    <link rel="stylesheet" href="/styles/nav.css">
+    <link rel="stylesheet" href="/styles/sections.css">
+    <link rel="stylesheet" href="/styles/basic.css">
+    <script src="/scripts/main.mjs" type="module"></script>
 </head>
 
 <body>
@@ -25,30 +25,30 @@
                     <div class="symbol-container clickable" id="sidebarTrigger" tabindex="0">
                         <div class="symbol">&#xf0c9;</div>
                     </div>
-                    <a class="tile title-container" href="#">
+                    <a class="tile title-container" href="/">
                         <span class="text title">MISCHWEAR</span>
                     </a>
-                    <a class="tile-link" href="#">
+                    <a class="tile-link" href="/produkty">
                         <span class="text">Produkty</span>
                     </a>
-                    <a class="tile-link" href="#">
+                    <a class="tile-link" href="/oNas.html">
                         <span class="text">O Nas</span>
                     </a>
-                    <a class="tile-link" href="#">
+                    <a class="tile-link" href="/produkty/promocje.html">
                         <span class="text">Promocje</span>
                     </a>
                 </div>
                 
                 <div class="flex-row flex-left flex-inline full-height right">
                     <!-- Koszyk -->
-                    <div class="tile-link clickable bold" tabindex="0">
+                    <a class="tile-link" href="koszyk.html">
                         <span class="text symbol big bold">&#xe801;</span>
-                    </div>
+                    </a>
 
-                    <a class="tile-link" href="#">
+                    <a id="loginLink" class="tile-link" href="/logowanie.html">
                         <div class="text flex-row align-center flex-line-space">
                             <span class="symbol big">&#xe802;</span>
-                            <span>Konto</span>
+                            <span id="loginText">Zaloguj się</span>
                         </div>
                     </a>
                 </div>
@@ -62,16 +62,16 @@
                         <input id="searchInput" type="text" placeholder="Szukaj...">
                     </div>
                 </div>
-                <a href="#" class="navElem">
+                <a href="/profil/zamówienia.html" class="navElem">
                     <span class="text">Moje zamówienia</span>
                 </a>
-                <a href="#" class="navElem">
+                <a href="/profil/ulubione.html" class="navElem">
                     <span class="text">Moje ulubione</span>
                 </a>
-                <a href="#" class="navElem">
+                <a href="/produkty/kategorie.html" class="navElem">
                     <span class="text">Kategorie</span>
                 </a>
-                <a href="#" class="navElem">
+                <a href="/kontakt.html" class="navElem">
                     <span class="text">Kontakt</span>
                 </a>
             </div>
@@ -80,7 +80,7 @@
     <footer id="footer">
         <div class="flex-row flex-around">
             <div class="self-centered">
-                <a href="#" class="big">Kontakt</a>
+                <a href="/kontakt.html" class="big">Kontakt</a>
             </div>
 
             <div class="flex-row align-center flex-center self-centered">
@@ -90,7 +90,7 @@
             </div>
 
             <div class="self-centered">
-                <a href="#" class="big">Współpraca</a>
+                <a href="/współpraca.html" class="big">Współpraca</a>
             </div>
         </div>
         
