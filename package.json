@@ -4,8 +4,9 @@
   "description": "Internet Shopping",
   "main": "index.html",
   "scripts": {
-    "open": "open-cli \"http://localhost:8000\"",
-    "start": "ws"
+    "open": "delay 1 && open-cli \"http://localhost:8000\"",
+    "server": "ws --port 8000",
+    "start": "run-p server open"
   },
   "repository": {
     "type": "git",
@@ -18,7 +19,9 @@
   },
   "homepage": "https://github.com/Kjplay/Witty#readme",
   "devDependencies": {
+    "delay-cli": "^1.1.0",
     "local-web-server": "^4.2.1",
+    "npm-run-all": "^4.1.5",
     "open-cli": "^6.0.1"
   }
 }

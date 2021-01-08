@@ -22,3 +22,8 @@
     font-family: "Big Shoulders";
     src: url("../fonts/BigShoulders.ttf");
 }
+
+@font-face {
+    font-family: "Fontello";
+    src: url("../fonts/fontello.woff2");
+}

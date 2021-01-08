@@ -57,6 +57,9 @@ a:hover {
     font-weight: bold;
 }
 
+.symbol {
+    font-family: "Fontello" !important;
+}
 /* title animation */
 .title {
     font-family: "Big Shoulders", sans-serif;
