@@ -66,6 +66,7 @@ function initSearchBar() {
     const search = function() {
         let value = searchInput.value.trim();
         if (value.length == 0) {
+            searchInput.value = searchInput.value.trim();
             let currentPlaceholder = placeholders.indexOf(searchInput.placeholder);
             if (currentPlaceholder >= 0 && currentPlaceholder < placeholders.length - 1) currentPlaceholder++;
             else currentPlaceholder = 0;
@@ -78,7 +79,7 @@ function initSearchBar() {
                 match = [...new Set(match)];
                 searchInput.placeholder = "Nie używaj: " + match.join(", ");
             } else {
-                let destination = new URL("search.html", window.location.origin);
+                let destination = new URL("szukaj.html", window.location.origin);
                 destination.searchParams.set("q", value);
                 window.location.assign(destination.toString());
             }

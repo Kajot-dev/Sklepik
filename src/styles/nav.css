@@ -183,7 +183,7 @@
     background-color: var(--color-A);
 }
 
-#footer {
+footer {
     box-shadow: 0px -2px 6px rgba(0, 0, 0, 0.6);
     height: var(--footerHeight);
     width: calc(100% - 1.6em);
@@ -193,17 +193,17 @@
     font-size: var(--navBarFontSize);
 }
 
-#footer  {
+footer  {
     position: fixed;
     bottom: 0;
     left: 0;
 }
 
-#footer .flex-row {
+footer .flex-row {
     justify-items: stretch;
 }
 
-#footer hr {
+footer hr {
     width: 10vw;
 }
 
