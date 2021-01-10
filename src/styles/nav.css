@@ -42,13 +42,6 @@
     font-weight: bold;
 }
 
-/*#navBar > * {
-    float: left;
-}
-#navBar > *.right-side {
-    float: right;
-}*/
-
 #navBar .tile-link {
     background-clip: border-box;
     transform: rotate3d(0, 1, 0, 0deg);
@@ -117,6 +110,7 @@
     padding-top: var(--navBarHeight);
     transform: translateX(0px);
     transition: transform 0.4s ease, box-shadow 0.6s ease;
+    overflow-y: hidden;
 }
 
 #navSidebarContainer.open {
