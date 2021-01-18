@@ -69,9 +69,6 @@ export class Product {
     updateCurrency() {
         this.events.emit("priceUpdate"); //this is just for the ProductTile to update the DOM
     }
-    getCurrency() {
-        return localData.currentCurrency;
-    }
     static safeCreate(prodObj) {
         let { name } = prodObj;
         if (name) {

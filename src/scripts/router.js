@@ -1,5 +1,6 @@
-import { ProductTileList } from "./UI.js";
+import { ProductTileList, ProductTile } from "./UI.js";
 import { Product } from "./internals.js";
+import { fieldGenerator } from "./utils.js";
 import database from "./database.js";
 const routes = {
   "szukaj.html": function () {
@@ -11,6 +12,8 @@ const routes = {
   "produkty": async function () {
     let cont = document.getElementById("produkty");
     let products = await database.loadProducts();
+    const classesIterator = fieldGenerator("type-A", "type-B", "type-C", "type-D", "type-E");
+    products = products.map(p => new ProductTile(p, classesIterator.next().value));
     cont.appendChild(new ProductTileList(...products));
   }
 };

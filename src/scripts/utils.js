@@ -134,6 +134,13 @@ export class EventEmitter {
     }
 }
 
+export function* fieldGenerator(...fields) {
+    if (fields.length == 0) throw new Error("Color Generator Must be given at least one field!");
+    while (true) {
+        for (let i = 0; i < fields.length; i++) yield fields[i];
+    }
+}
+
 export default {
     sortByDate,
     sortAlphabetically,
@@ -145,5 +152,6 @@ export default {
     convertPrice,
     hash,
     EventEmitter,
+    colorGenerator: fieldGenerator,
     pricesVal
 };

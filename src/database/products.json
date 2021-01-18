@@ -1,73 +1,73 @@
 [{
     "name": "Sportowe buty 1",
-    "imageLink": "/images/test.jpg",
+    "imageLink": "/images/test.png",
     "prices": {
-        "PLN": 299.99
+        "PLN": 199.99
     }
 }, {
     "name": "Sportowe buty 2",
-    "imageLink": "/images/test.jpg",
+    "imageLink": "/images/test.png",
     "prices": {
-        "PLN": 259.99
+        "PLN": 189.99
     }
 }, {
     "name": "Sportowe buty 3",
-    "imageLink": "/images/test.jpg",
+    "imageLink": "/images/test.png",
     "prices": {
-        "PLN": 259.99
+        "PLN": 69.99
     }
 }, {
     "name": "Sportowe buty 4",
-    "imageLink": "/images/test.jpg",
+    "imageLink": "/images/test.png",
     "prices": {
-        "PLN": 259.99
+        "PLN": 89.99
     }
 }, {
     "name": "Sportowe buty 5",
-    "imageLink": "/images/test.jpg",
+    "imageLink": "/images/test.png",
     "prices": {
-        "PLN": 259.99
+        "PLN": 99.99
     }
 }, {
     "name": "Sportowe buty 6",
-    "imageLink": "/images/test.jpg",
+    "imageLink": "/images/test.png",
     "prices": {
-        "PLN": 259.99
+        "PLN": 119.99
     }
 }, {
     "name": "Sportowe buty 7",
-    "imageLink": "/images/test.jpg",
+    "imageLink": "/images/test.png",
     "prices": {
-        "PLN": 259.99
+        "PLN": 219.99
     }
 }, {
     "name": "Sportowe buty 8",
-    "imageLink": "/images/test.jpg",
+    "imageLink": "/images/test.png",
     "prices": {
-        "PLN": 259.99
+        "PLN": 169.99
     }
 }, {
     "name": "Sportowe buty 9",
-    "imageLink": "/images/test.jpg",
+    "imageLink": "/images/test.png",
     "prices": {
-        "PLN": 259.99
+        "PLN": 9.99
     }
 }, {
     "name": "Sportowe buty 10",
-    "imageLink": "/images/test.jpg",
+    "imageLink": "/images/test.png",
     "prices": {
-        "PLN": 259.99
+        "PLN": 5.99
     }
 }, {
     "name": "Sportowe buty 11",
-    "imageLink": "/images/test.jpg",
+    "imageLink": "/images/test.png",
     "prices": {
-        "PLN": 259.99
+        "PLN": 200.99
     }
 }, {
     "name": "Sportowe buty 12",
-    "imageLink": "/images/test.jpg",
+    "imageLink": "/images/test.png",
     "prices": {
-        "PLN": 259.99
+        "PLN": 129.99
     }
 }]

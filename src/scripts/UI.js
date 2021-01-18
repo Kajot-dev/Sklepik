@@ -1,5 +1,6 @@
 import Utils from "./utils.js"
 import { Product } from "./internals.js";
+import localData from "./localData.js";
 export const navBarTrigger = 70;
 //tutaj będą funkcje np do tworzenia listy produktów
 export class ProductTileList extends HTMLElement {
@@ -54,6 +55,8 @@ export class ProductTile extends HTMLElement {
     imageContainer = document.createElement("div");
     productNameElement = document.createElement("span");
     priceContainer = document.createElement("div");
+    overlay = document.createElement("div");
+    buyButton = document.createElement("button");
     product;
     constructor(product, classes) {
         super();
@@ -80,7 +83,18 @@ export class ProductTile extends HTMLElement {
             this.classList.add(...classes);
         }
         //elementy do kupna
-
+        this.buyButton.innerText = "KUP";
+        this.buyButton.classList.add("buy-button");
+        //TODO EVENTY DLA PRZYCISKU
+        this.overlay.appendChild(this.buyButton);
+        this.overlay.classList.add("tile-overlay", "hidden");
+        this.addEventListener("mouseenter", () => {
+            this.overlay.classList.remove("hidden");
+        });
+        this.addEventListener("mouseleave", () => {
+            this.overlay.classList.add("hidden");
+        });
+        this.appendChild(this.overlay);
         //wypełniamy elementy
         this.viewProductInfo(product);
         //zakładamy eventy
@@ -97,7 +111,8 @@ export class ProductTile extends HTMLElement {
         if (product.prices) this.viewPrice(product.prices);
     }
     viewPrice(pricesObj) {
-        if (this.product.currency in pricesObj) this.priceContainer.innerText = pricesObj[this.product.currency] + " " + this.product.currency;
+        const currency = localData.currentCurrency;
+        if (currency in pricesObj) this.priceContainer.innerText = pricesObj[currency] + " " + currency;
     }
     viewImage(imageLink) {
         this.image.src = imageLink;
