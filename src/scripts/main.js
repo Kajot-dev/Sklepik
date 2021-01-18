@@ -1,5 +1,6 @@
 //import UI from "./UI";
 import router from './router.js';
+import { navBarTrigger } from "./UI.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   init();
@@ -39,18 +40,28 @@ function preventOutline() {
 function prapareNavigation() {
   //navbar Scroll
   const navBar = document.getElementById("navBar");
+  let outAnim;
   let navBarTick = false;
-  document.body.addEventListener("scroll", _ => {
+  document.addEventListener("scroll", _ => {
     const scrollPos = window.scrollY;
     if (navBarTick) return;
     navBarTick = true;
     window.requestAnimationFrame(() => {
-      if (scrollPos >= NavBarTrigger) {
-        if (!navBar.classList.has("floating")) {
-          navbar.classList.add("floating");
+      if (scrollPos >= navBarTrigger) {
+        if (!navBar.classList.contains("floating") || typeof outAnim === "number") {
+          navBar.style.animation = "";
+          clearTimeout(outAnim);
+          navBar.classList.add("floating");
         }
-      } else if (navBar.classList.has("floating")) {
-        navbar.classList.remove("floating");
+      } else if (navBar.classList.contains("floating") && typeof outAnim !== "number") {
+        navBar.style.animation = "";
+        window.requestAnimationFrame(() => {
+          outAnim = setTimeout(() => {
+            navBar.classList.remove("floating");
+            outAnim = null;
+          }, 400);
+          navBar.style.animation = "navbar-out 0.8s ease";
+        });
       }
       navBarTick = false;
     });

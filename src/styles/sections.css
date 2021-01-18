@@ -1,0 +1,17 @@
+section[type="hr-title"] {
+    padding: 0.5em 1em 0.5em 1em;
+    font-size: 150%;
+    font-family: "Big Shoulders", sans-serif;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+    align-items: center;
+}
+
+section[type="hr-title"] hr {
+    max-width: -moz-available;
+    max-width: -webkit-fill-available;
+    max-width: fill-available;
+    width: 10vw;
+}

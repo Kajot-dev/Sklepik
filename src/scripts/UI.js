@@ -1,13 +1,6 @@
 import Utils from "./utils.js"
 import { Product } from "./internals.js";
-const allProducts = []; //tutaj będą wszystkie pordukty, które zaimportujemy z bazy danych
-
-
-
-function processSpecialElements() {
-
-}
-
+export const navBarTrigger = 70;
 //tutaj będą funkcje np do tworzenia listy produktów
 export class ProductTileList extends HTMLElement {
     tagName = "product-list";
@@ -62,31 +55,55 @@ export class ProductTile extends HTMLElement {
     productNameElement = document.createElement("span");
     priceContainer = document.createElement("div");
     product;
-    constructor(product) {
+    constructor(product, classes) {
         super();
+        //sprawdzamy czy to product
+        if (!(product instanceof Product)) throw new Error("Product is required!");
         //zapisujemy produkt
         this.product = product;
         //tworzymy wszystkie potrzebne elementy
-        this.classList.add("product-tile", "flex-center", "align-center");
+        this.classList.add("product-tile", "align-center");
         //nazwa produktu
         this.productNameElement.classList.add("product-name");
-        if (product.name) this.productNameElement.innerText = product.name;
         this.appendChild(this.productNameElement);
         //zdjęcie produktu
         this.imageContainer.classList.add("image-container");
         this.image.classList.add("product-image");
         this.image.setAttribute("alt", "Zdjęcie produktu");
-        if (product.imageLink) this.image.src = product.imageLink;
         this.imageContainer.appendChild(this.image);
         this.appendChild(this.imageContainer);
-        //cena - TODO
+        //cena
         this.priceContainer.classList.add("product-price");
-        this.addProductInfo(product);
+        //dodatkowe klasy
+        if (typeof classes == "string") classes = [classes];
+        if (classes instanceof Array) {
+            this.classList.add(...classes);
+        }
+        //elementy do kupna
+
+        //wypełniamy elementy
+        this.viewProductInfo(product);
+        //zakładamy eventy
+        this.product.events.on("priceUpdate", this.viewPrice);
+        this.product.events.on("imageUpdate", this.viewImage);
+        //dodajemy element do drzewa DOM
         this.appendChild(this.priceContainer);
     }
-    addProductInfo(product) {
-        if (product !== this.product) this.product = product;
-        
+    viewProductInfo(product) {
+        if (!( product instanceof Product ) && this.product instanceof Product) product = this.product;
+        else if (product instanceof Product) this.product = product;
+        if (product.name) this.viewName(product.name);
+        if (product.imageLink) this.viewImage(product.imageLink);
+        if (product.prices) this.viewPrice(product.prices);
+    }
+    viewPrice(pricesObj) {
+        if (this.product.currency in pricesObj) this.priceContainer.innerText = pricesObj[this.product.currency] + " " + this.product.currency;
+    }
+    viewImage(imageLink) {
+        this.image.src = imageLink;
+    }
+    viewName(name) {
+        this.productNameElement.innerText = name
     }
     static possibleColors = []; //tutaj będą wszystkie możliwe kolory
     static lastColor = null;
@@ -96,4 +113,4 @@ export class ProductTile extends HTMLElement {
 window.customElements.define("product-list", ProductTileList);
 window.customElements.define("product-tile", ProductTile);
 
-export default { ProductTile, ProductTileList }
+export default { ProductTile, ProductTileList, navBarTrigger }

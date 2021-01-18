@@ -1,0 +1,73 @@
+[{
+    "name": "Sportowe buty 1",
+    "imageLink": "/images/test.jpg",
+    "prices": {
+        "PLN": 299.99
+    }
+}, {
+    "name": "Sportowe buty 2",
+    "imageLink": "/images/test.jpg",
+    "prices": {
+        "PLN": 259.99
+    }
+}, {
+    "name": "Sportowe buty 3",
+    "imageLink": "/images/test.jpg",
+    "prices": {
+        "PLN": 259.99
+    }
+}, {
+    "name": "Sportowe buty 4",
+    "imageLink": "/images/test.jpg",
+    "prices": {
+        "PLN": 259.99
+    }
+}, {
+    "name": "Sportowe buty 5",
+    "imageLink": "/images/test.jpg",
+    "prices": {
+        "PLN": 259.99
+    }
+}, {
+    "name": "Sportowe buty 6",
+    "imageLink": "/images/test.jpg",
+    "prices": {
+        "PLN": 259.99
+    }
+}, {
+    "name": "Sportowe buty 7",
+    "imageLink": "/images/test.jpg",
+    "prices": {
+        "PLN": 259.99
+    }
+}, {
+    "name": "Sportowe buty 8",
+    "imageLink": "/images/test.jpg",
+    "prices": {
+        "PLN": 259.99
+    }
+}, {
+    "name": "Sportowe buty 9",
+    "imageLink": "/images/test.jpg",
+    "prices": {
+        "PLN": 259.99
+    }
+}, {
+    "name": "Sportowe buty 10",
+    "imageLink": "/images/test.jpg",
+    "prices": {
+        "PLN": 259.99
+    }
+}, {
+    "name": "Sportowe buty 11",
+    "imageLink": "/images/test.jpg",
+    "prices": {
+        "PLN": 259.99
+    }
+}, {
+    "name": "Sportowe buty 12",
+    "imageLink": "/images/test.jpg",
+    "prices": {
+        "PLN": 259.99
+    }
+}]

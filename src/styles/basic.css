@@ -169,6 +169,11 @@ footer .flex-row + .flex-row {
 .pad-bottom {
     padding-bottom: 0.8em;
 }
+/* themes */
+.theme-A {
+    color: var(--color-B);
+    background-color: var(--color-A);
+}
 /*sections*/
 section:only-of-type {
     min-height: calc(100vh - var(--footerHeight) - var(--navBarHeight) - (var(--footerVerticalPadding) * 2) - 8px);

@@ -10,9 +10,13 @@
     position: relative;
     display: block;
     z-index: 5;
+    width: 100%;
+    background-color: var(--color-A);
 }
 
 #navBar {
+    height: var(--navBarHeight);
+    width: 100%;
     background-color: var(--color-A);
     color: var(--color-B);
     font-family: "Roboto Condensed", sans-serif;
@@ -24,10 +28,22 @@
     position: fixed;
     left: 0;
     top: 0;
+    animation: navbar-in 0.4s ease;
 }
-
 @keyframes navbar-in {
     0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+@keyframes navbar-out {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
         transform: translateY(-100%);
     }
     100% {

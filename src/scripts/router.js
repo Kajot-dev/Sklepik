@@ -1,6 +1,6 @@
 import { ProductTileList } from "./UI.js";
 import { Product } from "./internals.js";
-
+import database from "./database.js";
 const routes = {
   "szukaj.html": function () {
     const query = new URLSearchParams(window.location.search);
@@ -8,23 +8,10 @@ const routes = {
     if (!searchquery) redirectToMain();
 
   },
-  "produkty": function () {
+  "produkty": async function () {
     let cont = document.getElementById("produkty");
-    let buty = new Product({
-      name: "Buty sportowe",
-      prices: {
-        "PLN": "299.99"
-      },
-      "imageLink": "/images/test.jpg"
-    });
-    let buty2 = new Product({
-      name: "Buty co biegania",
-      prices: {
-        "PLN": "269.99"
-      },
-      "imageLink": "/images/test1.jpg"
-    });
-    cont.appendChild(new ProductTileList(buty, buty2));
+    let products = await database.loadProducts();
+    cont.appendChild(new ProductTileList(...products));
   }
 };
 
