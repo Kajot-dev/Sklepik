@@ -10,7 +10,9 @@ product-list[type="tile-list"] {
 product-tile {
     display: flex;
     flex-direction: column;
-    width: 250px;
+    padding: 10px 20px;
+    flex-basis: auto;
+    flex-grow: 1;;
     height: 250px;
     justify-content: space-around;
     overflow: hidden;

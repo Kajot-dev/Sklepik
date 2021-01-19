@@ -12,9 +12,6 @@ export function convertPrice(source, target, ammount) {
     return ~~(total * 100) / 100;
 }
 
-function autocompletePrices(obj) {
-
-}
 
 /**
  * @description Do użwania razem z sort(), alfabetycznie
@@ -25,11 +22,22 @@ function autocompletePrices(obj) {
 export function sortAlphabetically(a, b) {
     let e1 = a.toUpperCase();
     let e2 = b.toUpperCase();
-    if (e1[0] < e2[0]) return -1;
-    else if (e1[0] > e2[0]) return 1;
+    if (e1 < e2) return -1;
+    else if (e1 > e2) return 1;
     else return 0;
 }
 
+/**
+ * @description Do użwania razem z sort(), po numerach
+ * @param {string} a 
+ * @param {string} b 
+ * @return -1 | 1 | 0
+ */
+export function sortByNumber(a, b) {
+    if (a < b) return -1;
+    else if (a > b) return 1;
+    else return 0;
+}
 
 /**
  * @description Do użwania razem z sort() po dacie
@@ -40,8 +48,8 @@ export function sortAlphabetically(a, b) {
 export function sortByDate(a, b) {
     let e1 = a.getTime();
     let e2 = b.getTime();
-    if (e1[0] < e2[0]) return -1;
-    else if (e1[0] > e2[0]) return 1;
+    if (e1 < e2) return -1;
+    else if (e1 > e2) return 1;
     else return 0;
 }
 
@@ -54,8 +62,8 @@ export function sortByDate(a, b) {
 export function sortByDateString(a, b) {
     let e1 = new Date(a).getTime();
     let e2 = new Date(b).getTime();
-    if (e1[0] < e2[0]) return -1;
-    else if (e1[0] > e2[0]) return 1;
+    if (e1 < e2) return -1;
+    else if (e1 > e2) return 1;
     else return 0;
 }
 
@@ -68,7 +76,9 @@ export function createPropEntries(props, ...objects) {
     let output = [];
     for (let o of objects) {
         let p = o;
-        for (let prop of props) p = p[prop];
+        for (let prop of props) {
+            p = p[prop];
+        }
         output.push([p, o]);
     }
     return output;
@@ -80,10 +90,20 @@ export function unpackEntriesObj(entries) {
 }
 
 export function autoSort(a, b) {
-    if (typeof a == "undefined" || typeof b == "undefined") return 0;
-    else if (a instanceof String && b instanceof String) return sortAlphabetically(a, b);
-    else if (a instanceof Date && b instanceof Date) return sortByDate(a, b);
-    else return 0;
+    a = a[0];
+    b = b[0];
+    let type = typeof a;
+    switch (type) {
+        case "number":
+            return sortByNumber(a, b);
+        case "string":
+            return sortAlphabetically(a, b);
+        case "object":
+            if (a instanceof Date) return sortByDate(a, b);
+            return 0;
+        default:
+            return 0;
+    }
 }
 
 export function hash(str, seed = 0) {
@@ -145,6 +165,7 @@ export default {
     sortByDate,
     sortAlphabetically,
     sortByDateString,
+    sortByNumber,
     createEntries,
     createPropEntries,
     unpackEntriesObj,

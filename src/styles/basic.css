@@ -166,6 +166,11 @@ hr {
 .flex-line-space > * + * {
     margin-left: 0.2em;
 }
+.abs-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
 /*margins*/
 footer .flex-row + .flex-row {
     margin-top: 0.5em;

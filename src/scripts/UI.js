@@ -1,6 +1,11 @@
 import Utils from "./utils.js"
 import { Product } from "./internals.js";
 import localData from "./localData.js";
+import { fieldGenerator } from "./utils.js";
+
+
+
+
 export const navBarTrigger = 70;
 //tutaj będą funkcje np do tworzenia listy produktów
 export class ProductTileList extends HTMLElement {
@@ -20,12 +25,19 @@ export class ProductTileList extends HTMLElement {
         }
         if (products.length > 1) {
             this.sort();
-        }
+        } else this.retype();
     }
-    sort(w) {
-        if (typeof w !== "string") w = ProductTileList.defaultSort;
+    sort(w, desc = false) {
+        if (typeof w == "undefined") w = ProductTileList.defSort;
+        if (!(w in ProductTileList.sorts)) throw new Error("Invalid sort!");
+        this.curSort = [w, desc];
+        w = ProductTileList.sorts[w];
+        if (typeof w == "string") w = [w]; 
         let productTiles = this.getTileList();
-        productTiles = Utils.unpackEntriesObj(Utils.createPropEntries(["product", w[1]], ...productTiles).sort(Utils.autoSort));
+        let sorted = Utils.createPropEntries(["product", ...w], ...productTiles).sort(Utils.autoSort);
+        productTiles = Utils.unpackEntriesObj(sorted);
+        if (desc) productTiles = productTiles.reverse();
+        this.retype(productTiles);
         for (let p of productTiles) {
             this.appendChild(p);
         }
@@ -36,8 +48,17 @@ export class ProductTileList extends HTMLElement {
     getProductList() {
         return this.getTileList().map(c => c.product);
     }
-    static get defaultSort() {
-        return [ProductTileList.defSort, ProductTileList.sorts[ProductTileList.defSort]];
+    retype(newOrder) {
+        newOrder = newOrder instanceof Array ? newOrder : this.getTileList();
+        const colorGenerator = fieldGenerator(...ProductTileList.defColors);
+        for (let pT of newOrder) {
+            pT.changeType(colorGenerator.next().value);
+        }
+    }
+    curSort;
+    get currentSort() {
+        if (this.curSort instanceof Array) return this.curSort;
+        return [ProductTileList.defSort, false];
     }
     static get allSorts() {
         return Object.entries(ProductTileList.sorts);
@@ -46,8 +67,10 @@ export class ProductTileList extends HTMLElement {
     static sorts = {
         "Data": "dateCreated",
         "Nazwa": "name",
-        "Marka": "brand"
+        "Marka": "brand",
+        "Cena": ["prices", localData.currentCurrency]
     }
+    static defColors = ["type-A", "type-B", "type-C", "type-D", "type-E"];
 }
 
 export class ProductTile extends HTMLElement {
@@ -58,7 +81,7 @@ export class ProductTile extends HTMLElement {
     overlay = document.createElement("div");
     buyButton = document.createElement("button");
     product;
-    constructor(product, classes) {
+    constructor(product) {
         super();
         //sprawdzamy czy to product
         if (!(product instanceof Product)) throw new Error("Product is required!");
@@ -77,11 +100,6 @@ export class ProductTile extends HTMLElement {
         this.appendChild(this.imageContainer);
         //cena
         this.priceContainer.classList.add("product-price");
-        //dodatkowe klasy
-        if (typeof classes == "string") classes = [classes];
-        if (classes instanceof Array) {
-            this.classList.add(...classes);
-        }
         //elementy do kupna
         this.buyButton.innerText = "KUP";
         this.buyButton.classList.add("buy-button");
@@ -120,7 +138,11 @@ export class ProductTile extends HTMLElement {
     viewName(name) {
         this.productNameElement.innerText = name
     }
-    static possibleColors = []; //tutaj będą wszystkie możliwe kolory
+    changeType(type) {
+        if (this.type) this.classList.remove(this.type);
+        this.classList.add(type);
+        this.type = type;
+    }
     static lastColor = null;
 }
 

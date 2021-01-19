@@ -1,9 +1,9 @@
 import { Product } from './internals.js';
-
+import Utils from "./utils.js"
 //tutaj będzie "sztuczna" baza danych (przechowywana w cookies) oraz w plikach JSON
 
 const database = {
-
+    products: {}
 }
 
 
@@ -16,15 +16,34 @@ export async function loadProducts() {
     let products = await fetch("/database/products.json");
     if (!products.ok) throw new Error("Error loading products!");
     products = await products.json();
-    database.products = [];
+    let output = [];
     for (let p of products) {
-        database.products.push(Product.safeCreate(p));
+        output.push(Product.safeCreate(p));
     }
-    return database.products;
+    return output;
 }
 
-export async function getAllProducts() {
-    return database.products;
+export function getAllProducts() {
+    return Object.values(database.products);
 }
 
-export default { loadProducts, getAllProducts };
+export function hasProductByName(name) {
+    let h = Utils.hash(name);
+    if (h in database.products) return true;
+    return false;
+}
+
+export function registerProduct(pr) {
+    if (pr instanceof Product) {
+        let h = Utils.hash(pr.name);
+        if (h in database.products) throw new Error(`Product "${pr.name}" already registered!`);
+        database.products[h] = pr;
+    } else throw new Error("This is not a Product!");
+}
+
+export function getProduct(name) {
+    let h = Utils.hash(name);
+    return database.products[h];
+}
+
+export default { loadProducts, getAllProducts, hasProductByName, registerProduct, getProduct };

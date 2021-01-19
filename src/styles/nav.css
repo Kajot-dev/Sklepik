@@ -78,7 +78,7 @@
     display: flex;
 }
 #navBar .tile-link:hover {
-    background-color: var(--color-B-aplha);
+    background-color: var(--color-B-alpha);
     text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
 }
 

@@ -1,6 +1,6 @@
 import Utils from "./utils.js";
+import database from "./database.js";
 const { EventEmitter } = Utils;
-import localData from "./localData.js";
 const productsBase = {};
 
 
@@ -11,13 +11,9 @@ export class Product {
     imageLink;
     events = new EventEmitter();
     constructor({ name, prices, imageLink, dateCreated }) {
+        if (!name) throw new Error("Name is required!");
         //we don't fire events in constructor
         this.name = name;
-        if (name) {
-            let h = Utils.hash(name);
-            if (h in productsBase) throw new Error("This Product has already been declared! Use Product.getByName() instead!");
-            productsBase[h] = this;
-        }
         this.prices = prices;
         this.imageLink = imageLink;
         if (dateCreated instanceof String) this.dateCreated = new Date(dateCreated);
@@ -33,6 +29,7 @@ export class Product {
                 }
             }
         }
+        database.registerProduct(this);
     }
     autocompletePrices() {
         const Aprices = Object.keys(this.prices);
@@ -71,9 +68,8 @@ export class Product {
     }
     static safeCreate(prodObj) {
         let { name } = prodObj;
-        if (name) {
-            let h = Utils.hash(name);
-            if (h in productsBase) return productsBase[h];
+        if (name && database.hasProductByName(name)) {
+            return database.getProduct(name);
         }
         return new Product(prodObj);
     }
