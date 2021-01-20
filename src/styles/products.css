@@ -50,6 +50,7 @@ product-tile .tile-overlay {
     transform: translateY(100%);
     height: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     transition: transform 0.4s ease;
@@ -70,7 +71,9 @@ product-tile .tile-overlay button {
     transition: transform 0.4s ease, text-shadow 0.4s ease;
     border-radius: 0;
 }
-
+product-tile .tile-overlay button + button {
+    margin-top: 25px;
+}
 product-tile .tile-overlay button:hover {
     cursor: pointer;
     transform: translateY(4px);
@@ -85,7 +88,7 @@ product-tile.type-A:hover .image-container {
     transform: rotate(10deg) scale(1.1);
 }
 
-product-tile.type-A .buy-button {
+product-tile.type-A button {
     background-color: var(--color-A);
     color: white;
 }
@@ -98,7 +101,7 @@ product-tile.type-B:hover .image-container {
     transform: rotate(-10deg) scale(0.95);
 }
 
-product-tile.type-B .buy-button {
+product-tile.type-B button {
     background-color: var(--color-B);
     color: white;
 }
@@ -111,7 +114,7 @@ product-tile.type-C:hover .image-container {
     transform: rotate(7deg) scale(0.95);
 }
 
-product-tile.type-C .buy-button {
+product-tile.type-C button {
     background-color: var(--color-C);
     color: white;
 }
@@ -124,7 +127,7 @@ product-tile.type-D:hover .image-container {
     transform: rotate(-5deg) scale(1.1);
 }
 
-product-tile.type-D .buy-button {
+product-tile.type-D button {
     background-color: var(--color-D);
     color: white;
 }
@@ -137,7 +140,7 @@ product-tile.type-E:hover .image-container {
     transform: rotate(5deg) scale(1.05);
 }
 
-product-tile.type-E .buy-button {
+product-tile.type-E button {
     background-color: var(--color-E);
     color: white;
 }
