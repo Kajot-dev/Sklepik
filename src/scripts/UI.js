@@ -80,6 +80,7 @@ export class ProductTile extends HTMLElement {
     priceContainer = document.createElement("div");
     overlay = document.createElement("div");
     buyButton = document.createElement("button");
+    addToCartButton = document.createElement("button");
     product;
     constructor(product) {
         super();
@@ -101,10 +102,14 @@ export class ProductTile extends HTMLElement {
         //cena
         this.priceContainer.classList.add("product-price");
         //elementy do kupna
-        this.buyButton.innerText = "KUP";
+        this.buyButton.innerText = "Kup teraz";
         this.buyButton.classList.add("buy-button");
+        //dodaj do koszyka
+        this.addToCartButton.innerText = "Dodaj do koszyka";
+        this.addToCartButton.classList.add("add-to-cart-button");
         //TODO EVENTY DLA PRZYCISKU
         this.overlay.appendChild(this.buyButton);
+        this.overlay.appendChild(this.addToCartButton);
         this.overlay.classList.add("tile-overlay", "hidden");
         this.addEventListener("mouseenter", () => {
             this.overlay.classList.remove("hidden");
