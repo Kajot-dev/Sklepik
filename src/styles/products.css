@@ -13,20 +13,26 @@ product-tile {
     padding: 10px 20px;
     flex-basis: auto;
     flex-grow: 1;;
-    height: 250px;
+    height: 125%;
+    width: 25%;
+    
     justify-content: space-around;
     overflow: hidden;
     position: relative;
+  
+
+
 }
 
 product-tile .product-name {
     font-weight: bold;
     font-size: 140%;
+    text-align: center;
 }
 
 product-tile .image-container {
-    width: 200px;
-    height: 100px;
+    width: 55%;
+    height: 55%;
     transition: transform 0.4s ease;
 }
 

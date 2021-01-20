@@ -1,73 +1,170 @@
 [{
-    "name": "Sportowe buty 1",
-    "imageLink": "/images/test.png",
+    "name": "ADIDAS YEEZY 500 \n UTILITY BLACK",
+    "imageLink": "/images/ADIDAS YEEZY 500 UTILITY BLACK.png",
     "prices": {
-        "PLN": 199.99
+        "PLN": 1599
     }
 }, {
-    "name": "Sportowe buty 2",
-    "imageLink": "/images/test.png",
+    "name": "ADIDAS YEEZY 700 V3 \n SAFFLOWER",
+    "imageLink": "/images/ADIDAS YEEZY 700 V3 SAFFLOWER.png",
     "prices": {
-        "PLN": 189.99
+        "PLN": 1299
     }
 }, {
-    "name": "Sportowe buty 3",
-    "imageLink": "/images/test.png",
+    "name": "ADIDAS YEEZY BOOST 350 V2 \n BLACK RED (BRED)",
+    "imageLink": "/images/ADIDAS YEEZY BOOST 350 V2 BLACK RED (BRED).png",
     "prices": {
-        "PLN": 69.99
+        "PLN": 1499
     }
 }, {
-    "name": "Sportowe buty 4",
-    "imageLink": "/images/test.png",
+    "name": "ADIDAS YEEZY BOOST 350 V2 \n CARBON",
+    "imageLink": "/images/ADIDAS YEEZY BOOST 350 V2 CARBON.png",
     "prices": {
-        "PLN": 89.99
+        "PLN": 1349
     }
 }, {
-    "name": "Sportowe buty 5",
-    "imageLink": "/images/test.png",
+    "name": "ADIDAS YEEZY BOOST 350 V2 \n NATURAL",
+    "imageLink": "/images/ADIDAS YEEZY BOOST 350 V2 NATURAL.png",
     "prices": {
-        "PLN": 99.99
+        "PLN": 1399
     }
 }, {
-    "name": "Sportowe buty 6",
-    "imageLink": "/images/test.png",
+    "name": "ADIDAS YEEZY BOOST 350 V2 \n ZEBRA",
+    "imageLink": "/images/ADIDAS YEEZY BOOST 350 V2 ZEBRA.png",
     "prices": {
-        "PLN": 119.99
+        "PLN": 1299
     }
 }, {
-    "name": "Sportowe buty 7",
-    "imageLink": "/images/test.png",
+    "name": "ADIDAS YEEZY BOOST 350 V2 \n ZYON",
+    "imageLink": "/images/ADIDAS YEEZY BOOST 350 V2 ZYON.png",
     "prices": {
-        "PLN": 219.99
+        "PLN": 1449
     }
 }, {
-    "name": "Sportowe buty 8",
-    "imageLink": "/images/test.png",
+    "name": "ADIDAS YEEZY BOOST 700 \n ANALOG",
+    "imageLink": "/images/ADIDAS YEEZY BOOST 700 ANALOG.png",
     "prices": {
-        "PLN": 169.99
+        "PLN": 2099
     }
 }, {
-    "name": "Sportowe buty 9",
-    "imageLink": "/images/test.png",
+    "name": "ADIDAS YEEZY QNTM BARIUM \n BASKETBALL",
+    "imageLink": "/images/ADIDAS YEEZY QNTM BARIUM.png",
     "prices": {
-        "PLN": 9.99
+        "PLN": 1449
     }
 }, {
-    "name": "Sportowe buty 10",
-    "imageLink": "/images/test.png",
+    "name": "ADIDAS YEEZY SLIDE \n BONE",
+    "imageLink": "/images/ADIDAS YEEZY SLIDE BONE.png",
     "prices": {
-        "PLN": 5.99
+        "PLN": 1049
     }
 }, {
-    "name": "Sportowe buty 11",
-    "imageLink": "/images/test.png",
+    "name": "ADIDAS YEEZY SLIDE \n EARTH",
+    "imageLink": "/images/ADIDAS YEEZY SLIDE EARTH.png",
     "prices": {
-        "PLN": 200.99
+        "PLN": 899
     }
 }, {
-    "name": "Sportowe buty 12",
-    "imageLink": "/images/test.png",
+    "name": "AIR JORDAN 1 HIGH OG \n TRAVIS SCOTT",
+    "imageLink": "/images/AIR JORDAN 1 HI OG TRAVIS SCOTT.png",
     "prices": {
-        "PLN": 129.99
+        "PLN": 6999
+    }
+}, {
+    "name": "AIR JORDAN 1 HIGH OG \n SATIN BLACK TOE",
+    "imageLink": "/images/AIR JORDAN 1 HIGH OG SATIN BLACK TOE.png",
+    "prices": {
+        "PLN": 1849
+    }
+}, {
+    "name": "AIR JORDAN 1 RETRO HIGH \n DARK MOCHA",
+    "imageLink": "/images/AIR JORDAN 1 RETRO HIGH DARK MOCHA.png",
+    "prices": {
+        "PLN": 1999
+     }
+}, {
+    "name": "AIR JORDAN 1 RETRO HIGH OG \n COURT PURPLE 2020",
+    "imageLink": "/images/AIR JORDAN 1 RETRO HIGH OG COURT PURPLE 2020.png",
+    "prices": {
+        "PLN": 1499
+    }
+}, {
+    "name": "AIR JORDAN 1 RETRO HIGH OG \n LUCKY GREEN",
+    "imageLink": "/images/AIR JORDAN 1 RETRO HIGH OG LUCKY GREEN.png",
+    "prices": {
+        "PLN": 1399
+    }
+
+}, {
+    "name": "AIR JORDAN 1 RETRO HIGH OG \n TURBO GREEN",
+    "imageLink": "/images/AIR JORDAN 1 RETRO HIGH OG TURBO GREEN.png",
+    "prices": {
+        "PLN": 2249
+    }
+ }, {
+    "name": "DIOR X AIR JORDAN 1 LOW",
+    "imageLink": "/images/DIOR X AIR JORDAN 1 LOW.png",
+    "prices": {
+        "PLN": 49990
+    }
+}, {
+    "name": "NIKE AIR MAX \n SEAN WOTHERSPOON",
+    "imageLink": "/images/NIKE AIR MAX  SEAN WOTHERSPOON.png",
+    "prices": {
+        "PLN": 4999
+    }
+}, {
+    "name": "NIKE DUNK LOW \n SP VENEER",
+    "imageLink": "/images/NIKE DUNK LOW SP VENEER.png",
+    "prices": {
+        "PLN": 6999
+    }
+}, {
+    "name": "NIKE LDWAFFLE SACAI \n BLACK NYLON",
+    "imageLink": "/images/NIKE LDWAFFLE SACAI BLACK NYLON.png",
+    "prices": {
+        "PLN": 6999
+    }
+}, {
+    "name": "NIKE LDWAFFLE SACAI \n VARSITY BLUE",
+    "imageLink": "/images/NIKE LDWAFFLE SACAI VARSITY BLUE.png",
+    "prices": {
+        "PLN": 6999
+    }
+}, {
+    "name": "NIKE OFF-WHITE DUNK LOW \n PINE GREEN",
+    "imageLink": "/images/NIKE OFF-WHITE DUNK LOW PINE GREEN.png",
+    "prices": {
+        "PLN": 6999
+    }
+}, {
+    "name": "NIKE SB DUNK LOW \n BE@RBRICK MEDICOM TOY",
+    "imageLink": "/images/NIKE SB DUNK LOW BE@RBRICK MEDICOM TOY.png",
+    "prices": {
+        "PLN": 6999
+    }
+}, {
+    "name": "NIKE SB DUNK LOW PRO \n STRANGE LOVE",
+    "imageLink": "/images/NIKE SB DUNK LOW PRO STRANGE LOVE.png",
+    "prices": {
+        "PLN": 6999
+    }
+}, {
+    "name": "NIKE SB DUNK LOW \n TRAVIS SCOTT",
+    "imageLink": "/images/NIKE SB DUNK LOW TRAVIS SCOTT.png",
+    "prices": {
+        "PLN": 6999
+    }
+}, {
+    "name": "NIKE W AIR FORCE 1 \n SHADOW PASTEL",
+    "imageLink": "/images/NIKE W AIR FORCE 1 SHADOW PASTEL.png",
+    "prices": {
+        "PLN": 6999
+    }
+}, {
+    "name": "ASICS GEL-LYTE III \n SEAN WOTHERSPOON X ATMOS X ",
+    "imageLink": "/images/SEAN WOTHERSPOON X ATMOS X ASICS GEL-LYTE III.png",
+    "prices": {
+        "PLN": 6999
     }
 }]
