@@ -12,16 +12,11 @@ product-tile {
     flex-direction: column;
     padding: 10px 20px;
     flex-basis: auto;
-    flex-grow: 1;;
-    height: 125%;
-    width: 25%;
-    
+    width: calc(33.3% - 40px);
     justify-content: space-around;
     overflow: hidden;
     position: relative;
-  
-
-
+    min-width: 125px;
 }
 
 product-tile .product-name {
@@ -31,8 +26,9 @@ product-tile .product-name {
 }
 
 product-tile .image-container {
-    width: 55%;
-    height: 55%;
+    width: 65%;
+    margin-top: 10px;
+    margin-bottom: 10px;
     transition: transform 0.4s ease;
 }
 
@@ -41,7 +37,7 @@ product-tile .image-container .product-image {
     height: 100%;
 }
 
-product-tile .price-container {
+product-tile .product-price {
     font-weight: bold;
     font-size: 120%;
 }

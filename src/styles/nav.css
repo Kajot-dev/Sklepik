@@ -21,7 +21,7 @@
     color: var(--color-B);
     font-family: "Roboto Condensed", sans-serif;
     font-size: var(--navBarFontSize);
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.5)
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.5);
 }
 
 #navBar.floating {
