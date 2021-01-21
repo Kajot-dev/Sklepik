@@ -35,6 +35,23 @@ export function getAllProducts() {
     return Object.values(database.products);
 }
 
+export function getRecentProducts(num = 3) {
+    const products = getAllProducts();
+    return Utils.sortByProps(Utils.sortByDate, ["dateCreated"], ...products).slice(0, num);
+}
+
+export function getRandomProducts(num = 1) {
+    let output = [];
+    let products = getAllProducts();
+    for (let i = 0; i < num; i++) {
+        if (products.length == 0) break;
+        let chosen = Utils.randomInt(0, products.length-1);
+        output.push(products[chosen]);
+        products.splice(chosen, 1);
+    }
+    return output;
+}
+
 export function hasProductByName(name) {
     let h = Utils.hash(name);
     if (h in database.products) return true;
@@ -54,4 +71,4 @@ export function getProduct(name) {
     return database.products[h];
 }
 
-export default { isReady, getAllProducts, hasProductByName, registerProduct, getProduct, init };
+export default { isReady, getAllProducts, hasProductByName, registerProduct, getProduct, init, getRecentProducts };

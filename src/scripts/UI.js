@@ -34,8 +34,7 @@ export class ProductTileList extends HTMLElement {
         w = ProductTileList.sorts[w];
         if (typeof w == "string") w = [w]; 
         let productTiles = this.getTileList();
-        let sorted = Utils.createPropEntries(["product", ...w], ...productTiles).sort(Utils.autoSort);
-        productTiles = Utils.unpackEntriesObj(sorted);
+        productTiles = Utils.sortByProps(Utils.autoSort, ["product", ...w], ...productTiles);
         if (desc) productTiles = productTiles.reverse();
         this.retype(productTiles);
         for (let p of productTiles) {

@@ -20,6 +20,8 @@ export function convertPrice(source, target, ammount) {
  * @return -1 | 1 | 0
  */
 export function sortAlphabetically(a, b) {
+    a = a[0];
+    b = b[0];
     let e1 = a.toUpperCase();
     let e2 = b.toUpperCase();
     if (e1 < e2) return -1;
@@ -34,6 +36,8 @@ export function sortAlphabetically(a, b) {
  * @return -1 | 1 | 0
  */
 export function sortByNumber(a, b) {
+    a = a[0];
+    b = b[0];
     if (a < b) return -1;
     else if (a > b) return 1;
     else return 0;
@@ -46,6 +50,8 @@ export function sortByNumber(a, b) {
  * @return -1 | 1 | 0
  */
 export function sortByDate(a, b) {
+    a = a[0];
+    b = b[0];
     let e1 = a.getTime();
     let e2 = b.getTime();
     if (e1 < e2) return -1;
@@ -65,6 +71,12 @@ export function sortByDateString(a, b) {
     if (e1 < e2) return -1;
     else if (e1 > e2) return 1;
     else return 0;
+}
+
+export function sortByProps(sortFunc, props, ...objs) {
+    let entries = createPropEntries(props, ...objs);
+    entries = entries.sort(sortFunc);
+    return unpackEntriesObj(entries);
 }
 
 export function createEntries(prop, ...objects) {
@@ -90,9 +102,7 @@ export function unpackEntriesObj(entries) {
 }
 
 export function autoSort(a, b) {
-    a = a[0];
-    b = b[0];
-    let type = typeof a;
+    let type = typeof a[0];
     switch (type) {
         case "number":
             return sortByNumber(a, b);
@@ -161,17 +171,23 @@ export function* fieldGenerator(...fields) {
     }
 }
 
+export function randomInt(min, max) {
+    return ~~(Math.random() * (max - min + 1) + min);
+}
+
 export default {
     sortByDate,
     sortAlphabetically,
     sortByDateString,
     sortByNumber,
+    sortByProps,
     createEntries,
     createPropEntries,
     unpackEntriesObj,
     autoSort,
     convertPrice,
     hash,
+    randomInt,
     EventEmitter,
     colorGenerator: fieldGenerator,
     pricesVal

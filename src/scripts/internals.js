@@ -18,6 +18,7 @@ export class Product {
         this.imageLink = imageLink;
         if (dateCreated instanceof String) this.dateCreated = new Date(dateCreated);
         else if (dateCreated instanceof Date) this.dateCreated = dateCreated;
+        else this.dateCreated = new Date();
         const Aprices = Object.keys(this.prices);
         if (Aprices.length !== 0) {
             let main = Aprices.find(p => p in Utils.pricesVal);
