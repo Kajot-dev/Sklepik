@@ -21,7 +21,7 @@
     color: var(--color-B);
     font-family: "Roboto Condensed", sans-serif;
     font-size: var(--navBarFontSize);
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.5);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 #navBar.floating {
@@ -62,7 +62,7 @@
     background-clip: border-box;
     transform: rotate3d(0, 1, 0, 0deg);
     transform-origin: left center 0px;
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0);
     background-color: transparent;
     height: 100%;
     padding: 0 0.6em 0 0.6em;
@@ -79,7 +79,7 @@
 }
 #navBar .tile-link:hover {
     background-color: var(--color-B-alpha);
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 #navBar .tile-link:hover .text {
@@ -101,14 +101,14 @@
     color: var(--color-B);
 }
 #navBar div.symbol-container div.symbol {
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0);
     transition: transform 0.4s ease, text-shadow 0.4s ease, filter 0.2s ease;
 }
 #navBar div.symbol-container:active div.symbol {
     filter: brightness(1.5);
 }
 #navBar div.symbol-container:hover div.symbol {
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
     transform: translateX(2px);
 }
 
@@ -117,7 +117,7 @@
     height: 100vh;
     width: 300px;
     background-color: var(--color-D);
-    box-shadow: 4px 2px 6px rgba(0, 0, 0, 0);
+    box-shadow: 2px 1px 2px rgba(0, 0, 0, 0);
     position: fixed;
     top: 0;
     left: -302px;
@@ -131,7 +131,7 @@
 }
 
 #navSidebarContainer.open {
-    box-shadow: 4px 2px 6px rgba(0, 0, 0, 0.6);
+    box-shadow: 2px 1px 2px rgba(0, 0, 0, 0.6);
     transform: translateX(301.5px);
 }
 
@@ -166,7 +166,7 @@
 }
 
 #navSidebarContainer a:hover {
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
 }
 
 #navSidebarContainer a .text {
@@ -195,7 +195,7 @@
 }
 
 footer {
-    box-shadow: 0px -2px 6px rgba(0, 0, 0, 0.6);
+    box-shadow: 0px -1px 2px rgba(0, 0, 0, 0.6);
     height: var(--footerHeight);
     width: calc(100% - 1.6em);
     background-color: var(--color-D);
@@ -236,11 +236,11 @@ footer hr {
 
 #searchBarContainer #searchIcon {
     margin-right: 10px;
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0);
     transition: transform 0.4s ease, text-shadow 0.4s ease;
 }
 #searchBarContainer #searchIcon:hover {
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
     transform: scale(1.1);
 }
 
