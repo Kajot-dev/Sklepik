@@ -2,25 +2,33 @@ import { Product } from './internals.js';
 import Utils from "./utils.js"
 //tutaj będzie "sztuczna" baza danych (przechowywana w cookies) oraz w plikach JSON
 
+let databaseIsReady = false;
+
 const database = {
     products: {}
 }
 
+let awaitingTasks = [];
 
-function init() {
-
-    
-}
-
-export async function loadProducts() {
+export async function init() {
     let products = await fetch("/database/products.json");
     if (!products.ok) throw new Error("Error loading products!");
     products = await products.json();
-    let output = [];
-    for (let p of products) {
-        output.push(Product.safeCreate(p));
+    for (let p of products) new Product(p); //product will automatically register in database
+    databaseIsReady = true;
+    for (let t of awaitingTasks) {
+        t.call(t)
     }
-    return output;
+    awaitingTasks = [];
+}
+
+export function isReady() {
+    return new Promise((resolve, reject) => {
+        if (databaseIsReady) return resolve(true);
+        else {
+            awaitingTasks.push(resolve);
+        }
+    })
 }
 
 export function getAllProducts() {
@@ -46,4 +54,4 @@ export function getProduct(name) {
     return database.products[h];
 }
 
-export default { loadProducts, getAllProducts, hasProductByName, registerProduct, getProduct };
+export default { isReady, getAllProducts, hasProductByName, registerProduct, getProduct, init };

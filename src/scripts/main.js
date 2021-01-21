@@ -1,6 +1,7 @@
 //import UI from "./UI";
 import router from './router.js';
 import { navBarTrigger } from "./UI.js";
+import database from "./database.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   init();
@@ -13,6 +14,7 @@ function init() {
   prapareNavigation();
   preventOutline();
   initSearchBar();
+  database.init();
 }
 
 function preventOutline() {

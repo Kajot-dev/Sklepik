@@ -9,7 +9,8 @@ const routes = {
   },
   "produkty": async function () {
     let cont = document.getElementById("produkty");
-    let products = await database.loadProducts();
+    await database.isReady();
+    let products = database.getAllProducts();
     products = products.map(p => new ProductTile(p));
     cont.appendChild(new ProductTileList(...products));
   }
