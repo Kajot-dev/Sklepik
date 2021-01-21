@@ -16,7 +16,7 @@ export class Product {
         this.name = name;
         this.prices = prices;
         this.imageLink = imageLink;
-        if (dateCreated instanceof String) this.dateCreated = new Date(dateCreated);
+        if (typeof dateCreated === "string") this.dateCreated = new Date(dateCreated);
         else if (dateCreated instanceof Date) this.dateCreated = dateCreated;
         else this.dateCreated = new Date();
         const Aprices = Object.keys(this.prices);
@@ -61,11 +61,14 @@ export class Product {
     }
     updateDate(date) {
         if (date instanceof Date) this.dateCreated = date;
-        else if (date instanceof String) this.dateCreated = new Date(date);
+        else if (typeof date === "string") this.dateCreated = new Date(date);
         else throw new Error("This object is nor a String or a Date!");
     }
     updateCurrency() {
         this.events.emit("priceUpdate"); //this is just for the ProductTile to update the DOM
+    }
+    getID() {
+        return Utils.hash(this.name);
     }
     static safeCreate(prodObj) {
         let { name } = prodObj;

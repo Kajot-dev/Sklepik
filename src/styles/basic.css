@@ -188,6 +188,6 @@ footer .flex-row + .flex-row {
     background-color: var(--color-A);
 }
 /*sections*/
-section:only-of-type {
+body > section:only-of-type {
     min-height: calc(100vh - var(--footerHeight) - var(--navBarHeight) - (var(--footerVerticalPadding) * 2) - 8px);
 }

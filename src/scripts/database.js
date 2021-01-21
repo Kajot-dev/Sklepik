@@ -37,7 +37,8 @@ export function getAllProducts() {
 
 export function getRecentProducts(num = 3) {
     const products = getAllProducts();
-    return Utils.sortByProps(Utils.sortByDate, ["dateCreated"], ...products).slice(0, num);
+    let sorted = Utils.sortByProps(Utils.sortByDate, ["dateCreated"], ...products).reverse();
+    return sorted.slice(0, num);
 }
 
 export function getRandomProducts(num = 1) {
