@@ -24,7 +24,7 @@
     background-repeat: repeat;
     background-size: 150px auto;
     background-image: url(../images/bgs/geometry3-alpha.png);
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
 
 #navBar.floating {
@@ -65,7 +65,7 @@
     background-clip: border-box;
     transform: rotate3d(0, 1, 0, 0deg);
     transform-origin: left center 0px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0);
     background-color: transparent;
     height: 100%;
     padding: 0 0.6em 0 0.6em;
@@ -82,7 +82,7 @@
 }
 #navBar .tile-link:hover {
     background-color: var(--color-B-alpha);
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
 
 #navBar .tile-link:hover .text {
@@ -104,14 +104,14 @@
     color: var(--color-B);
 }
 #navBar div.symbol-container div.symbol {
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0);
     transition: transform 0.4s ease, text-shadow 0.4s ease, filter 0.2s ease;
 }
 #navBar div.symbol-container:active div.symbol {
     filter: brightness(1.5);
 }
 #navBar div.symbol-container:hover div.symbol {
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
     transform: translateX(2px);
 }
 
@@ -172,7 +172,7 @@
 }
 
 #navSidebarContainer a:hover {
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
     filter: none;
 }
 
@@ -222,7 +222,7 @@ footer  {
 
 footer a {
     font-family: "Roboto Condensed", sans-serif;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
 }
 footer .flex-row {
     justify-items: stretch;
@@ -250,11 +250,11 @@ footer hr {
 
 #searchBarContainer #searchIcon {
     margin-right: 10px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0);
     transition: transform 0.4s ease, text-shadow 0.4s ease;
 }
 #searchBarContainer #searchIcon:hover {
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
     transform: scale(1.1);
 }
 

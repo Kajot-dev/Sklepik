@@ -8,6 +8,7 @@ product-list[type="tile-list"] {
 }
 
 product-tile {
+    text-shadow: none;
     display: flex;
     flex-direction: column;
     padding: 10px 20px;
@@ -27,7 +28,7 @@ product-tile:hover {
 
 product-tile .product-name {
     font-weight: bold;
-    font-size: 140%;
+    font-size: 110%;
     text-align: center;
 }
 
@@ -45,13 +46,19 @@ product-tile .image-container .product-image {
 
 product-tile .product-price {
     font-weight: bold;
-    font-size: 150%;
+    font-size: 120%;
     letter-spacing: 2px;
+}
+
+product-tile .date-container {
+    font-family: "Lato Light", sans-serif;
+    font-size: 80%;
 }
 
 product-tile .break-line {
     height: 4px;
     width: 30%;
+    margin: 3px 0px;
 }
 
 product-tile .tile-overlay {
@@ -78,9 +85,9 @@ product-tile .tile-overlay button {
     margin-bottom: 15px;
     padding: 15px 30px;
     font-weight: bold;
-    font-size: 120%;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0);
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    font-size: 100%;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0);
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
     border: none;
     transition: transform 0.4s ease, text-shadow 0.4s ease, filter 0.4s ease;
     border-radius: 0;
@@ -89,7 +96,7 @@ product-tile .tile-overlay button {
 product-tile .tile-overlay button:hover {
     cursor: pointer;
     transform: translateY(4px);
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
     filter: brightness(1.2);
 }
 

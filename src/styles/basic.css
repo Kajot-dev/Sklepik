@@ -13,8 +13,9 @@
 
 body {
     margin: 0;
-    padding-bottom: calc(var(--footerHeight) + (var(--footerVerticalPadding) * 2) + 5px);
+    padding-bottom: calc(var(--footerHeight) + (var(--footerVerticalPadding) * 2));
     font-family: "Lato";
+    font-size: 130%;
 }
 
 /* tile links */
@@ -78,15 +79,18 @@ a:hover {
 }
 
 .text-shadow {
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
 }
 
 .box-shadow {
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
 }
 
 .symbol {
     font-family: "Fontello" !important;
+}
+.title-font {
+    font-family: "Big Shoulders", sans-serif;
 }
 /* title animation */
 .title {
@@ -94,7 +98,6 @@ a:hover {
     letter-spacing: 3px;
     font-size: 44px;
     font-weight: normal;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
 .title-container {
@@ -130,10 +133,16 @@ hr {
 }
 
 .big {
-    font-size: 1.4em;
+    font-size: 1.2em;
 }
 .bigger {
-    font-size: 1.6em;
+    font-size: 1.5em;
+}
+.huge {
+    font-size: 2em;
+}
+.huge-max {
+    font-size: 3em;
 }
 .light {
     font-family: "Lato Light", sans-serif;
@@ -164,6 +173,9 @@ hr {
 }
 .flex-right {
     justify-content: flex-end;
+}
+.flex-evenly {
+    justify-content: space-evenly;
 }
 .flex-baseline {
     align-items: baseline;
@@ -230,6 +242,12 @@ footer .flex-row + .flex-row {
     color: var(--color-E);
     background-color: var(--color-E-alpha);
     background-image: url(../images/bgs/geometry1-alpha.png);
+}
+.white {
+    color: white;
+}
+.black {
+    color: black;
 }
 /*sections*/
 body > section:only-of-type {

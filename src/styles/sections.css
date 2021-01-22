@@ -1,7 +1,6 @@
 section {
     position: relative;
     display: block;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 section[type="hr-title"] {
     padding: 0.5em 1em 0.5em 1em;
@@ -14,7 +13,8 @@ section[type="hr-title"] {
 }
 
 section[type="hr-title"] .title {
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+    font-family: "Big Shoulders", sans-serif;
 }
 
 section[type="hr-title"] hr {
@@ -38,6 +38,22 @@ section[type="text-on-image"] div {
 section[type="text-on-image"] img {
     width: 100%;
     min-height: 100%;
+}
+
+section[type="2column-title"] {
+    width: 10%;
+    letter-spacing: -15px;
+    writing-mode: vertical-lr;
+    text-orientation: upright;
+    text-transform: uppercase;
+    font-family: "Big Shoulders", sans-serif;
+    font-weight: bold;
+    font-stretch: expanded;
+    text-align: center;
+}
+
+section[type="2column-description"] {
+    width: 90%;
 }
 section.theme-A, section.theme-B, section.theme-C, section.theme-D {
     background-repeat: repeat;
