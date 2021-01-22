@@ -208,18 +208,28 @@ footer .flex-row + .flex-row {
 .theme-A {
     color: var(--color-A);
     background-color: var(--color-A-alpha);
+    background-image: url(../images/bgs/geometry3-alpha.png);
 }
 .theme-B {
     color: var(--color-B);
     background-color: var(--color-B-alpha);
+    background-image: url(../images/bgs/geometry4-alpha.png);
 }
 .theme-C {
     color: var(--color-C);
     background-color: var(--color-C-alpha);
+    background-image: url(../images/bgs/geometry0-alpha.png);
 }
 .theme-D {
     color: var(--color-D);
     background-color: var(--color-D-alpha);
+    background-image: url(../images/bgs/geometry2-alpha.png);
+    
+}
+.theme-E {
+    color: var(--color-E);
+    background-color: var(--color-E-alpha);
+    background-image: url(../images/bgs/geometry1-alpha.png);
 }
 /*sections*/
 body > section:only-of-type {

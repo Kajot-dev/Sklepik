@@ -5,9 +5,6 @@ product-list[type="tile-list"] {
     align-content: center;
     align-items: stretch;
     width: 100%;
-    background-image: url(../images/bgs/geometry.png);
-    background-repeat: repeat;
-    background-size: 150px 150px;
 }
 
 product-tile {
@@ -20,6 +17,8 @@ product-tile {
     overflow: hidden;
     position: relative;
     min-width: 125px;
+    background-repeat: repeat;
+    background-size: 150px auto;
 }
 
 product-tile:hover {
@@ -96,6 +95,7 @@ product-tile .tile-overlay button:hover {
 
 product-tile.type-A {
     background-color: var(--color-A-alpha);
+    background-image: url(../images/bgs/geometry0-alpha.png);
 }
 
 product-tile.type-A:hover .image-container {
@@ -109,6 +109,7 @@ product-tile.type-A button {
 
 product-tile.type-B {
     background-color: var(--color-B-alpha);
+    background-image: url(../images/bgs/geometry1-alpha.png);
 }
 
 product-tile.type-B:hover .image-container {
@@ -122,6 +123,7 @@ product-tile.type-B button {
 
 product-tile.type-C {
     background-color: var(--color-C-alpha);
+    background-image: url(../images/bgs/geometry2-alpha.png);
 }
 
 product-tile.type-C:hover .image-container {
@@ -135,6 +137,7 @@ product-tile.type-C button {
 
 product-tile.type-D {
     background-color: var(--color-D-alpha);
+    background-image: url(../images/bgs/geometry3-alpha.png);
 }
 
 product-tile.type-D:hover .image-container {
@@ -148,6 +151,7 @@ product-tile.type-D button {
 
 product-tile.type-E {
     background-color: var(--color-E-alpha);
+    background-image: url(../images/bgs/geometry4-alpha.png);
 }
 
 product-tile.type-E:hover .image-container {
