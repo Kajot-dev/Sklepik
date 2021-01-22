@@ -48,15 +48,21 @@ function prapareNavigation() {
   const navBar = document.getElementById("navBar");
   let outAnim;
   let navBarTick = false;
+  if (window.scrollY >= navBarTrigger) {
+    window.requestAnimationFrame(() => {
+      navBar.classList.add("floating");
+    });
+  }
   document.addEventListener("scroll", _ => {
-    const scrollPos = window.scrollY;
     if (navBarTick) return;
+    const scrollPos = window.scrollY;
     navBarTick = true;
     window.requestAnimationFrame(() => {
       if (scrollPos >= navBarTrigger) {
         if (!navBar.classList.contains("floating") || typeof outAnim === "number") {
           navBar.style.animation = "";
           clearTimeout(outAnim);
+          outAnim = null;
           navBar.classList.add("floating");
         }
       } else if (navBar.classList.contains("floating") && typeof outAnim !== "number") {

@@ -105,14 +105,16 @@
 }
 #navBar div.symbol-container div.symbol {
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0);
-    transition: transform 0.4s ease, text-shadow 0.4s ease, filter 0.2s ease;
+    transition: transform 0.2s ease, text-shadow 0.4s ease, filter 0.4s ease;
 }
-#navBar div.symbol-container:active div.symbol {
-    filter: brightness(1.5);
-}
+
 #navBar div.symbol-container:hover div.symbol {
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
-    transform: translateX(2px);
+    transform: translateX(2px) scale(1);
+}
+
+#navBar div.symbol-container:active div.symbol {
+    transform: translateX(2px) scale(0.8);
 }
 
 #navSidebarContainer {
