@@ -1,6 +1,6 @@
 
 const routes = {
-  "szukaj.html": function () {
+  "szukaj": function () {
     const query = new URLSearchParams(window.location.search);
     let searchquery = query.get("q");
     if (!searchquery) redirectToMain();
@@ -19,7 +19,7 @@ export function redirectToMain() {
 }
 
 export function redirect(url) {
-  window.location.reaplace(new URL(url, window.location.origin).href);
+  window.location.replace(new URL(url, window.location.origin).href);
 }
 
 export function goto(url) {

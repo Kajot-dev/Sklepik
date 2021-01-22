@@ -5,6 +5,9 @@ product-list[type="tile-list"] {
     align-content: center;
     align-items: stretch;
     width: 100%;
+    background-image: url(../images/bgs/geometry.png);
+    background-repeat: repeat;
+    background-size: 150px 150px;
 }
 
 product-tile {
@@ -12,7 +15,7 @@ product-tile {
     flex-direction: column;
     padding: 10px 20px;
     flex-basis: auto;
-    width: calc(33.3% - 40px);
+    width: calc((100% / 3) - 40px);
     justify-content: space-around;
     overflow: hidden;
     position: relative;
@@ -78,7 +81,7 @@ product-tile .tile-overlay button {
     font-weight: bold;
     font-size: 120%;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0);
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
     border: none;
     transition: transform 0.4s ease, text-shadow 0.4s ease, filter 0.4s ease;
     border-radius: 0;
@@ -87,7 +90,7 @@ product-tile .tile-overlay button {
 product-tile .tile-overlay button:hover {
     cursor: pointer;
     transform: translateY(4px);
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
     filter: brightness(1.2);
 }
 

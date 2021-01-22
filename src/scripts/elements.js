@@ -2,6 +2,7 @@ import database from "./database.js";
 import {
     ProductTileList
 } from "./UI.js";
+import Utils from "./utils.js";
 
 export function processAll() {
     processProductsSections();
@@ -12,12 +13,13 @@ export async function processProductsSections() {
     let sections = document.querySelectorAll(`section[type="product-tile-list"]`);
     for (let section of sections) {
         let opts = {};
-        let products;
+        let products = database.getAllProducts();
         if (section.hasAttribute("quantity")) {
             let quantity = parseInt(section.getAttribute("quantity"));
+            //TODO filters here
             switch (section.getAttribute("which")) {
                 case "recent":
-                    products = database.getRecentProducts(quantity);
+                    products = Utils.sortByProps(Utils.sortByDate, ["dateCreated"], ...products).reverse().slice(0, quantity);
                     break;
                 case "random":
                     products = database.getRandomProducts(quantity);

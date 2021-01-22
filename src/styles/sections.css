@@ -1,3 +1,7 @@
+section {
+    position: relative;
+    display: block;
+}
 section[type="hr-title"] {
     padding: 0.5em 1em 0.5em 1em;
     font-size: 150%;
@@ -9,7 +13,7 @@ section[type="hr-title"] {
 }
 
 section[type="hr-title"] .title {
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
 section[type="hr-title"] hr {
@@ -17,4 +21,26 @@ section[type="hr-title"] hr {
     max-width: -webkit-fill-available;
     max-width: fill-available;
     width: 10vw;
+}
+section[type="text-on-image"].high {
+    height: 500px;
+}
+section[type="text-on-image"] div {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+}  
+
+section[type="text-on-image"] img {
+    width: 100%;
+    min-height: 100%;
+}
+section.theme-A, section.theme-B, section.theme-C, section.theme-D {
+    background-image: url(../images/bgs/geometry-alpha.png);
+    background-repeat: repeat;
+    background-size: 150px 150px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }

@@ -84,6 +84,18 @@ export function createEntries(prop, ...objects) {
     return objects;
 }
 
+export function shuffleArray(array) {
+    let index = array.length;
+    while (index !== 0) {
+      let randomIndex = ~~(Math.random() * index);
+      index--;
+      let temp = array[index];
+      array[index] = array[randomIndex];
+      array[randomIndex] = temp;
+    }
+    return array;
+  }
+
 export function createPropEntries(props, ...objects) {
     let output = [];
     for (let o of objects) {
@@ -189,6 +201,7 @@ export default {
     hash,
     randomInt,
     EventEmitter,
-    colorGenerator: fieldGenerator,
+    fieldGenerator,
+    shuffleArray,
     pricesVal
 };

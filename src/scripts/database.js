@@ -72,4 +72,4 @@ export function getProduct(name) {
     return database.products[h];
 }
 
-export default { isReady, getAllProducts, hasProductByName, registerProduct, getProduct, init, getRecentProducts };
+export default { isReady, getAllProducts, hasProductByName, registerProduct, getProduct, init, getRecentProducts, getRandomProducts };
