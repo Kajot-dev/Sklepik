@@ -259,3 +259,11 @@ body > section:only-of-type {
     height: 450px;
     width: 600px;
 }
+@keyframes appear {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
