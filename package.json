@@ -28,8 +28,8 @@
   },
   "dependencies": {
     "colors": "^1.4.0",
+    "cookie-session": "^1.4.0",
     "express": "^4.17.1",
-    "express-session": "^1.17.1",
     "lowdb": "^1.0.0",
     "node-html-parser": "^2.0.1",
     "nodemailer": "^6.4.17"

@@ -1,5 +1,5 @@
 const express = require("express");
-const session = require("express-session");
+const session = require("cookie-session");
 const bodyParser = require("body-parser");
 const routes = require("./routes");
 const os = require("os");
@@ -8,7 +8,7 @@ const colors = require("colors");
 const {
     config
 } = require("./database");
-const httpPort = process.env.PORT;
+const httpPort = process.env.PORT || 8000;
 
 if (cluster.isMaster) {
     for (let i = 0; i < os.cpus().length; i++) {
@@ -19,10 +19,14 @@ if (cluster.isMaster) {
 
 
     app.use(session({
-        secret: config.get('sessionSecret').value(),
-        resave: true,
-        saveUninitialized: true
-    }));
+        secret: config.get("sessionSecret").value(),
+        saveUninitialized: true,
+        resave: false,
+        maxAge: 1000 * 60 * 15,
+        cookie:{
+            secure: true
+               }
+        }));
     app.use(bodyParser.urlencoded({
         extended: true
     }));
