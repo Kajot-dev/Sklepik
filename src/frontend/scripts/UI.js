@@ -181,7 +181,7 @@ export class ProductTile extends HTMLElement {
             router.goto(dest);
         });
         //dodajemy element do drzewa DOM
-        
+
     }
     viewProductInfo(product) {
         if (!(product instanceof Product) && this.product instanceof Product) product = this.product;
@@ -197,14 +197,19 @@ export class ProductTile extends HTMLElement {
     }
     viewImage(imageLink) {
         this.image.src = imageLink;
+        LazyLoad.processSingle(this.image);
     }
     viewName(name) {
         this.productNameElement.innerText = name
     }
     viewDateCreated(date) {
-        const formatter = new Intl.DateTimeFormat("pl-PL", { month: "long", day: "numeric", year: "numeric" });
+        const formatter = new Intl.DateTimeFormat("pl-PL", {
+            month: "long",
+            day: "numeric",
+            year: "numeric"
+        });
         let formatted = formatter.format(date);
-        this.dateContainer.innerText = "("+formatted+")";
+        this.dateContainer.innerText = "(" + formatted + ")";
     }
     changeType(type) {
         if (this.type) this.classList.remove(this.type);
@@ -214,6 +219,41 @@ export class ProductTile extends HTMLElement {
     static lastColor = null;
 }
 
+export class LazyLoad {
+    static processSingle(img) {
+        if (img.complete || img.hasAttribute("lazy-load-ignore") || img.hasAttribute("ll-done")) return;
+        img.setAttribute("ll-done", "");
+        img.style.opacity = 0;
+        img.addEventListener(
+            "load",
+            e => {
+                img.style.animation = "appear 0.4s ease";
+                img.style.opacity = "";
+                setTimeout(() => {
+                    requestAnimationFrame(() => {
+                        img.style.animation = "";
+                    });
+                }, 400);
+            }, {
+                once: true,
+            }
+        );
+        img.addEventListener(
+            "error",
+            e => {
+                img.style.opacity = "";
+            }, {
+                once: true,
+            }
+        );
+    }
+    static process(elem) {
+        let nodes = elem.querySelectorAll("img");
+        for (let img of nodes) {
+            LazyLoad.processSingle(img);
+        }
+    }
+}
 
 window.customElements.define("product-list", ProductTileList);
 window.customElements.define("product-tile", ProductTile);
@@ -221,5 +261,6 @@ window.customElements.define("product-tile", ProductTile);
 export default {
     ProductTile,
     ProductTileList,
+    LazyLoad,
     navBarTrigger
 }

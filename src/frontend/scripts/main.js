@@ -1,4 +1,4 @@
-//import UI from "./UI";
+import { LazyLoad } from "./UI.js";
 import router from './router.js';
 import {
   navBarTrigger
@@ -18,6 +18,7 @@ function init() {
   preventOutline();
   initSearchBar();
   database.init();
+  LazyLoad.process(document.body);
   elements.processAll();
 }
 

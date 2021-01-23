@@ -5,9 +5,8 @@
   "main": "index.html",
   "scripts": {
     "open": "delay 1 && open-cli \"http://localhost:8000\"",
-    "server": "ws --port 8000",
     "start": "node src/backend/index.js",
-    "start-local": "run-p server open",
+    "start-local": "run-p start open",
     "nav-sync": "node build/scripts/nav-sync.js"
   },
   "repository": {
