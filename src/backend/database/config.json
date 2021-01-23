@@ -1,0 +1,5 @@
+{
+  "sessionSecret": "xyz",
+  "httpPort": 8000,
+  "httpsPort": 8001
+}

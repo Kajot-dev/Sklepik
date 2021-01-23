@@ -9,7 +9,7 @@ async function start() {
     const head = templateRoot.querySelector("head").innerHTML;
     const header = templateRoot.querySelector("header").innerHTML;
     const footer = templateRoot.querySelector("footer").innerHTML;
-    const targets = await findHTML(path.join(__dirname,"../../src"));
+    const targets = await findHTML(path.join(__dirname,"../../src/frontend"));
 
     for (let t of targets) {
         let content = await fsPromises.readFile(t, { encoding: "utf8" });
