@@ -8,8 +8,7 @@ const colors = require("colors");
 const {
     config
 } = require("./database");
-const httpPort = config.get('httpPort').value();
-const httpsPort = config.get('httpsPort').value();
+const httpPort = process.env.PORT;
 
 if (cluster.isMaster) {
     for (let i = 0; i < os.cpus().length; i++) {

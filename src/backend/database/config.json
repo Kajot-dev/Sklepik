@@ -1,4 +1,3 @@
 {
-  "sessionSecret": "xyz",
-  "httpPort": 80
+  "sessionSecret": "xyz"
 }
