@@ -221,8 +221,7 @@ export class ProductTile extends HTMLElement {
 
 export class LazyLoad {
     static processSingle(img) {
-        if (img.complete || img.hasAttribute("lazy-load-ignore") || img.hasAttribute("ll-done")) return;
-        img.setAttribute("ll-done", "");
+        if (img.complete || img.hasAttribute("lazy-load-ignore")) return;
         img.style.opacity = 0;
         img.addEventListener(
             "load",
