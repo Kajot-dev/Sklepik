@@ -15,7 +15,13 @@ const httpPort = process.env.PORT || 8000;
 if (cluster.isMaster) {
     const app = express();
 
-    app.use(helmet());
+    app.use(helmet({
+        contentSecurityPolicy: {
+          directives: Object.assign(helmet.contentSecurityPolicy.getDefaultDirectives(), {
+            frameSrc: ["'self'", "https://www.google.com/"],
+          })
+        }
+      }));
     app.use(session({
         secret: config.get("sessionSecret").value(),
         saveUninitialized: true,
@@ -38,7 +44,7 @@ if (cluster.isMaster) {
 
     app.listen(httpPort);
     console.log(colors.magenta("HTTP")+" server is listening on port: "+colors.green(httpPort));
-    
+
     cluster.fork();
 } else {
     console.log("Worker is starting!");

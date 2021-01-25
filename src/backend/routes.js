@@ -36,7 +36,9 @@ function init(app) {
             res.sendFile(processedPath, function(err) {
                 if (!err) res.end();
                 else if (err.code === "ENOENT") res.sendStatus(404);
-                else res.sendStatus(500);
+                else if (err.code !== "ECONNABORTED"){
+                    res.sendStatus(500);
+                }
             });
         } else {
             res.status(403);
