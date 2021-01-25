@@ -5,6 +5,7 @@ const routes = require("./routes");
 const os = require("os");
 const cluster = require("cluster");
 const colors = require("colors");
+const worker = require("./worker");
 const {
     config
 } = require("./database");
@@ -14,6 +15,7 @@ if (cluster.isMaster) {
     for (let i = 0; i < os.cpus().length; i++) {
         cluster.fork({ id: i+1 });
     }
+    worker.init();
 } else {
     const app = express();
 
@@ -22,10 +24,13 @@ if (cluster.isMaster) {
         secret: config.get("sessionSecret").value(),
         saveUninitialized: true,
         resave: false,
-        maxAge: 1000 * 60 * 15,
-        cookie:{
-            secure: true
-               }
+        cookie: {
+            secure: true,
+            httpOnly: true,
+            sameSite: true,
+            maxAge: 1000 * 60 * 45,
+            signed: true
+        }
         }));
     app.use(bodyParser.urlencoded({
         extended: true
