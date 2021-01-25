@@ -67,13 +67,7 @@ const routes = {
             });
           });
         } else {
-          fetch("/api/users", {
-            method: "POST",
-            body: formQuery
-          }).then(res2 => {
-            if (!res2.ok) throw new Error("Critical error while creating an account!");
-            goto("/activation/status");
-          }).catch(err => console.log(err));
+          goto("/activation/status");
         }
       }).catch(() => {
         submitBtn.disabled = false;

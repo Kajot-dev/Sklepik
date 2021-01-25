@@ -134,6 +134,9 @@ function defineAuth(app) {
                     password,
                     username
                 });
+                //instant login
+                const newToken = databaseHelpers.createToken(userID);
+                req.session.token = newToken;
                 res.status(201);
                 res.end();
             }
