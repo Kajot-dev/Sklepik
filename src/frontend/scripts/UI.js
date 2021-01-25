@@ -106,7 +106,7 @@ export class ProductTileList extends HTMLElement {
     static valuables = {
         "date": "dateCreated",
         "name": "name",
-        "price": ["prices", localData.currentCurrency]
+        "price": ["prices", localData.currentCurrency()]
     }
     static defColors = ["type-A", "type-B", "type-C", "type-D", "type-E"];
 }
@@ -192,7 +192,7 @@ export class ProductTile extends HTMLElement {
         if (product.prices) this.viewPrice(product.prices);
     }
     viewPrice(pricesObj) {
-        const currency = localData.currentCurrency;
+        const currency = localData.currentCurrency();
         if (currency in pricesObj) this.priceContainer.innerText = pricesObj[currency] + " " + currency;
     }
     viewImage(imageLink) {

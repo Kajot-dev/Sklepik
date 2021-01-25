@@ -1,7 +1,7 @@
 const database = require("./database");
 const utils = require("./utils");
 const unique = require("unique-token");
-const e = require("unique-token");
+const mailHelpers = require("./mailHelpers");
 
 function removeExpiredTokens() {
     const now = Date.now();
@@ -12,6 +12,17 @@ function removeExpiredTokens() {
         if (token.expires <= now) dataTokens = dataTokens.unset(key);
     }
     if (tokens.length > 0) dataTokens.write();
+}
+
+function removeExpiredActivations() {
+    const now = Date.now();
+    let dataMails = database.mailActivations;
+    const mails = Object.entries(dataMails.value())
+    for (const [key, token] of mails) {
+
+        if (token.expires <= now) dataMails = dataMails.unset(key);
+    }
+    if (mails.length > 0) dataMails.write();
 }
 
 function removeNonActivatedUsers() {
@@ -58,9 +69,18 @@ function removeUserTokens(ID) {
     dataTokens.write();
 }
 
+function removeUserActivations(ID) {
+    let dataMails = database.mailActivations;
+    for (const [key, token] of Object.entries(dataMails.value())) {
+        if (token.userID === ID) dataMails = dataMails.unset(key);
+    }
+    dataMails.write();
+}
+
 function removeUser(ID) {
     database.users.unset(ID).write();
     removeUserTokens(ID);
+    removeUserActivations(ID);
 }
 
 function createUser(userID, {
@@ -77,9 +97,16 @@ function createUser(userID, {
         .set(userID + ".dateCreated", dateCreated)
         .set(userID + ".lastLogged", dateCreated)
         .set(userID + ".activated", false)
-        .set(userID + ".emailSent", dateCreated)
         .set(userID + ".favourites", [])
         .write();
+    const activationToken = createActivationToken(userID)
+    mailHelpers.sendActivationMail({
+        mail: email,
+        activationlink: "/api/activate/"+activationToken,
+        username: username
+    }).then(() => {
+        database.users.set(userID + ".emailSent", Date.now()).write();
+    }).catch(e => console.error(e));
 }
 
 function isUser(ID) {
@@ -149,7 +176,16 @@ function updateUser(userID, {
         const newID = utils.hash(email);
         changeUserID(userID, newID);
         transferTokens(userID, newID);
+        transferActivations(userID, newID);
     }
+}
+
+function transferActivations(oldID, targetID) {
+    let dataMails = database.mailActivations;
+    for (const [key, token] of Object.entries(dataMails.value())) {
+        if (token.userID === oldID) dataMails = dataMails.set(key + ".userID", targetID);
+    }
+    dataMails.write();
 }
 
 function transferTokens(oldID, targetID) {
@@ -170,6 +206,15 @@ function createToken(userID) {
     const newToken = unique.token();
     database.tokens.set(newToken, {
         expires: utils.addMinutes(new Date(), 30).getTime(),
+        userID: userID
+    }).write();
+    return newToken;
+}
+
+function createActivationToken(userID) {
+    const newToken = unique.token();
+    database.mailActivations.set(newToken, {
+        expires: utils.addDays(new Date(), 2).getTime(),
         userID: userID
     }).write();
     return newToken;
@@ -209,6 +254,16 @@ function getCheapestProducts(num) {
     return database.products.sortBy(p => p.prices.PLN).slice(0, num);
 }
 
+function activateUser(token) {
+    const t = database.mailActivations.get(token).value();
+    if (t && t.userID) {
+        database.users.set(t.userID + ".activated", true).write();
+        database.mailActivations.unset(token).write();
+        return true;
+    }
+    return false;
+}
+
 module.exports = {
     removeExpiredTokens,
     removeNonActivatedUsers,
@@ -235,5 +290,10 @@ module.exports = {
     getRandomProducts,
     getRecentProducts,
     getCheapestProducts,
-    prodMeta
+    prodMeta,
+    removeExpiredActivations,
+    createActivationToken,
+    removeUserActivations,
+    transferActivations,
+    activateUser
 }

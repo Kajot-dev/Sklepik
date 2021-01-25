@@ -1,4 +1,5 @@
 import { LazyLoad } from "./UI.js";
+import localData from "./localData.js";
 import router from './router.js';
 import {
   navBarTrigger
@@ -16,6 +17,7 @@ function init() {
   prapareNavigation();
   preventOutline();
   initSearchBar();
+  prepareUserData();
   LazyLoad.process(document.body);
   elements.processAll();
 }
@@ -40,6 +42,14 @@ function preventOutline() {
       }
     );
   });
+}
+
+async function prepareUserData() {
+  const loginButton = document.getElementById("loginText");
+  let username = await localData.getUserName();
+  if (username) {
+    loginButton.innerText = username;
+  }
 }
 
 function prapareNavigation() {

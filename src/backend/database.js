@@ -36,12 +36,15 @@ tokens.defaults({}).write();
 const products = low(new FileSync(path.join(databasePath, "products.json")));
 products.defaults([]).write();
 
-
+//emailActivations
+const mailActivations = low(new FileSync(path.join(databasePath, "emailActivations.json")));
+mailActivations.defaults({}).write();
 
 
 module.exports = {
     config,
     users,
     tokens,
-    products
+    products,
+    mailActivations
 };

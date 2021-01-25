@@ -35,9 +35,6 @@
                     <a class="tile-link" href="/oNas">
                         <span class="text">O Nas</span>
                     </a>
-                    <a class="tile-link" href="/produkty/promocje">
-                        <span class="text">Promocje</span>
-                    </a>
                 </div>
                 
                 <div class="flex-row flex-left flex-inline full-height right">
@@ -69,15 +66,28 @@
                 <a href="/profil/ulubione" class="navElem">
                     <span class="text">Moje ulubione</span>
                 </a>
-                <a href="/produkty/kategorie" class="navElem">
-                    <span class="text">Kategorie</span>
-                </a>
                 <a href="/kontakt" class="navElem">
                     <span class="text">Kontakt</span>
                 </a>
             </div>
         </div>
     </header>
+
+    <section type="bg" class="theme-A flex-column align-center flex-center">
+        <div class="title-font bold huge mrg-bottom">Zaloguj się</div>
+        <section type="form" class="theme-C flex-column align-center">
+            <form id="login" action="/api/users" method="POST">
+                <label for="email" class="mrg-bottom">E-mail</label>
+                <input type="email" name="email" class="mrg-bottom" required>
+                <label for="password" class="mrg-bottom">Hasło</label>
+                <input type="password" name="password" class="mrg-bottom" required>
+                <button type="submit" class="theme-B">Zaloguj się</button>
+                <span class="smaller black">Nie masz konta? <a href="/rejstracja">Utwórz konto</a></span>
+            </form>
+            <div class="abs-down err-down invisible" id="error"></div>
+        </section>
+    </section>
+
     <footer id="footer">
         <div class="flex-row flex-around">
             <div class="self-centered">

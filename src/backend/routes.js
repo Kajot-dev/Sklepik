@@ -13,7 +13,7 @@ function init(app) {
     });
 
     defineProducts(app);
-    //defineAuth(app);
+    defineAuth(app);
 
     app.get("*", async (req, res) => {
         const reqpath = decodeURI(req.path);
@@ -272,7 +272,14 @@ function defineAuth(app) {
                 delete user.hashedPassword;
                 res.send(user);
             } else res.sendStatus(401);
-        } else res.sendStatus(401);
+        } else res.sendStatus(204);
+    });
+
+    app.get("/api/activate/:token", (req, res) => {
+        const token = req.params.token;
+        const isSucces = databaseHelpers.activateUser(token);
+        if (isSucces) res.sendStatus(200);
+        else res.sendStatus(404);
     });
 }
 
