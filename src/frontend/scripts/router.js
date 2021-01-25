@@ -1,3 +1,5 @@
+import localData from "./localData.js";
+
 
 const routes = {
   "szukaj": function () {
@@ -42,6 +44,7 @@ const routes = {
     })
   },
   "rejstracja": function () {
+    localData.logOut();
     const loginForm = document.getElementById("login");
     const errorBox = document.getElementById("error");
     const submitBtn = loginForm.querySelector(`button[type="submit"]`);
@@ -64,10 +67,13 @@ const routes = {
             });
           });
         } else {
-          const windowQuery = new URLSearchParams(window.location.search);
-          const cont = windowQuery.get("continue");
-          if (cont) goto(cont);
-          else goto("/");
+          fetch("/api/users", {
+            method: "POST",
+            body: formQuery
+          }).then(res2 => {
+            if (!res2.ok) throw new Error("Critical error while creating an account!");
+            goto("/activation/status");
+          }).catch(err => console.log(err));
         }
       }).catch(() => {
         submitBtn.disabled = false;
@@ -75,6 +81,19 @@ const routes = {
       e.preventDefault();
       return false;
     })
+  },
+  "activation/status": async function () {
+    const statusBox = document.getElementById("actStatus");
+    if (await localData.isLoggedIn()) {
+      fetch("/api/activationstatus").then(res => res.json()).then(data => {
+        if (data.status === 1) {
+          statusBox.innerText = "Email został wysłany. Sprawdź swoją skrzynkę odbiorczą.";
+        } else if (data.status === 2) {
+          statusBox.innerText = "Konto zostało aktywowane pomyślnie.";
+        } else redirectToMain();
+        statusBox.classList.remove("invisible");
+      });
+    } else redirect("/logowanie");
   }
 };
 

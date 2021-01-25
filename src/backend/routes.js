@@ -278,8 +278,39 @@ function defineAuth(app) {
     app.get("/api/activate/:token", (req, res) => {
         const token = req.params.token;
         const isSucces = databaseHelpers.activateUser(token);
-        if (isSucces) res.sendStatus(200);
+        if (isSucces) res.redirect("/activation/status");
         else res.sendStatus(404);
+    });
+    app.get("/api/islogged", (req, res) => {
+        const token = req.session.token;
+        if (databaseHelpers.verifyToken(token)) {
+            res.send({ status: true});
+        } else {
+            res.send({ status: false});
+        }
+    });
+    app.post("/api/logout", (req, res) => {
+        const token = req.session.token;
+        const userID = databaseHelpers.verifyToken(token);
+        if (token) databaseHelpers.removeUserTokens(userID);
+        delete req.session.token;
+        res.sendStatus(200);
+    });
+    app.get("/api/activationstatus", (req, res) => {
+        const token = req.session.token;
+        const userID = databaseHelpers.verifyToken(token);
+        res.status(200);
+        if (userID) {
+            if (databaseHelpers.isUserAwaitingActivation(userID)) {
+                res.send({ status: 1});
+            } else if (databaseHelpers.getUser(userID).activated) {
+                res.send({ status: 2});
+            } else {
+                const user = databaseHelpers.getUser(userID);
+                databaseHelpers.sendActivationMail({ email: user.email, username: user.username, userID});
+                res.send({ status: 1});
+            }
+        } else res.sendStatus(404);   
     });
 }
 

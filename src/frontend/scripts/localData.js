@@ -17,6 +17,11 @@ export function getUserName() {
     });
 }
 
+export function isLoggedIn() {
+    return new Promise(function(resolve, reject) {
+        fetch("/api/islogged").then(res => res.json()).then(data => resolve(data.status));
+    });
+}
 
 export function currentCurrency() {
     let currency = localStorage.getItem("currency");
@@ -27,7 +32,14 @@ export function currentCurrency() {
 }
 
 export function logOut() {
+    fetch("/api/logout", {
+        method: "POST",
+    }).then(() => {
+        //user logged out
+    }).catch(err => {
+        console.error(err);
+    });
     sessionStorage.clear();
 }
 
-export default { currentCurrency, getUserName, logOut };
+export default { currentCurrency, getUserName, logOut, isLoggedIn };

@@ -73,21 +73,9 @@
         </div>
     </header>
 
-    <section type="bg" class="theme-E flex-column align-center flex-center">
-        <div class="title-font bold huge mrg-bottom">Utwórz konto</div>
-        <section type="form" class="theme-D flex-column align-center">
-            <form id="login" action="/api/users" method="POST">
-                <label for="username" class="mrg-bottom">Nazwa użytkownika</label>
-                <input type="text" name="username" class="mrg-bottom" required autocomplete="off">
-                <label for="email" class="mrg-bottom">E-mail</label>
-                <input type="email" name="email" class="mrg-bottom" required>
-                <label for="password" class="mrg-bottom">Hasło</label>
-                <input type="password" name="password" class="mrg-bottom" required>
-                <button type="submit" class="theme-B">Utwórz konto</button>
-                <span class="smaller black">Masz już konto? <a href="/logowanie">Utwórz konto</a></span>
-            </form>
-            <div class="abs-down err-down invisible" id="error"></div>
-        </section>
+    <section type="bg" class="theme-D flex-column align-center flex-center">
+        <div class="title-font bold huge mrg-bottom fading invisible mrg-bottom" id="actStatus"></div>
+        <a href="/">Wróc na stronę główną</a>
     </section>
 
     <footer id="footer">

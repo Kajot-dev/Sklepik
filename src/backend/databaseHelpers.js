@@ -99,6 +99,10 @@ function createUser(userID, {
         .set(userID + ".activated", false)
         .set(userID + ".favourites", [])
         .write();
+        sendActivationMail({ email, username, userID });
+}
+
+function sendActivationMail({ email, username, userID }) {
     const activationToken = createActivationToken(userID)
     mailHelpers.sendActivationMail({
         mail: email,
@@ -258,12 +262,17 @@ function activateUser(token) {
     const t = database.mailActivations.get(token).value();
     if (t && t.userID) {
         database.users.set(t.userID + ".activated", true).write();
-        database.mailActivations.unset(token).write();
+        removeUserActivations(t.userID);
         return true;
     }
     return false;
 }
 
+function isUserAwaitingActivation(userID) {
+    const check = database.mailActivations.find(p => p.userID === userID).value();
+    if (check) return true;
+    return false;
+}
 module.exports = {
     removeExpiredTokens,
     removeNonActivatedUsers,
@@ -295,5 +304,7 @@ module.exports = {
     createActivationToken,
     removeUserActivations,
     transferActivations,
-    activateUser
+    activateUser,
+    isUserAwaitingActivation,
+    sendActivationMail
 }

@@ -306,3 +306,6 @@ body > section:only-of-type {
 .smaller {
     font-size: 70%;
 }
+.fading {
+    transition: opacity 0.4s ease;
+}

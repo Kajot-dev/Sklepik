@@ -17,12 +17,12 @@ const databasePath = path.join(__dirname, 'database');
 //config
 const config = low(new FileSync(path.join(databasePath, "config.json")));
 config.defaults({}).write();
-const configData = config.value();
+/*const configData = config.value();
 configData.sessionSecret = configData.sessionSecret || unique.random(uniqueOpts);
 configData.sessionName = configData.sessionName || unique.random(uniqueOpts);
 configData.hashingSecret = configData.hashingSecret || random(1, 100);
 configData.passSecret = configData.passSecret || unique.random(uniqueOpts);
-config.set(configData).write();
+config.set(configData).write();*/
 
 //users
 const users = low(new FileSync(path.join(databasePath, "users.json")));

@@ -9,6 +9,7 @@ import elements from "./elements.js";
 document.addEventListener("DOMContentLoaded", () => {
   init();
   router.runCurrentRoute();
+  prepareUserData();
 });
 
 
@@ -17,7 +18,6 @@ function init() {
   prapareNavigation();
   preventOutline();
   initSearchBar();
-  prepareUserData();
   LazyLoad.process(document.body);
   elements.processAll();
 }
