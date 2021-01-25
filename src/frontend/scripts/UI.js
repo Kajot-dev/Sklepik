@@ -193,6 +193,7 @@ export class ProductTile extends HTMLElement {
     }
     viewPrice(pricesObj) {
         const currency = localData.currentCurrency();
+        console.log(currency, currency in pricesObj, pricesObj);
         if (currency in pricesObj) this.priceContainer.innerText = pricesObj[currency] + " " + currency;
     }
     viewImage(imageLink) {

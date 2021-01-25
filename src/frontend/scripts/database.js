@@ -22,7 +22,8 @@ export function getProduct(name) {
 export function processProdObjs(prods) {
     let out = [];
     for (const prodObj of prods) {
-        out.push(Product.safeCreate(prodObj));
+        let prod = Product.safeCreate(prodObj);
+        out.push(prod);
     }
     return out;
 }

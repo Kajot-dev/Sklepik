@@ -14,7 +14,7 @@ product-tile {
     padding: 10px 20px;
     flex-basis: auto;
     width: calc((100% / 3) - 40px);
-    justify-content: space-around;
+    justify-content: center;
     overflow: hidden;
     position: relative;
     min-width: 125px;

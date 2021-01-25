@@ -28,7 +28,7 @@ export function currentCurrency() {
     if (!currency) {
         localStorage.setItem("currency", "PLN");
         return "PLN";
-    }
+    } else return currency;
 }
 
 export function logOut() {
