@@ -16,7 +16,7 @@ export const navBarTrigger = 70;
 export class ProductTileList extends HTMLElement {
     tagName = "product-list";
     allElems = [];
-    constructor(products, options) {
+    constructor(products, options, listopts = {}) {
         super();
         this.setAttribute("type", "tile-list");
         for (let product of products) {
@@ -29,7 +29,8 @@ export class ProductTileList extends HTMLElement {
                 throw new TypeError(`${products.indexOf(product)}(th) argument is a(n) ${typename}, but should be a Product or ProductTile instance`);
             }
         }
-        if (products.length > 1) {
+        if (listopts.sorted) this.curSort = listopts.sorted;
+        if (products.length > 1 && !listopts.sorted) {
             this.sort();
         } else {
             this.retype(this.getFiltered());
@@ -101,12 +102,11 @@ export class ProductTileList extends HTMLElement {
     static isSortAvailable(name) {
         return ProductTileList.valuables.hasOwnProperty(name);
     }
-    static defSort = "Data"
+    static defSort = "date"
     static valuables = {
-        "Data": "dateCreated",
-        "Nazwa": "name",
-        "Marka": "brand",
-        "Cena": ["prices", localData.currentCurrency]
+        "date": "dateCreated",
+        "name": "name",
+        "price": ["prices", localData.currentCurrency]
     }
     static defColors = ["type-A", "type-B", "type-C", "type-D", "type-E"];
 }

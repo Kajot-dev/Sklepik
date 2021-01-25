@@ -3,7 +3,6 @@ import router from './router.js';
 import {
   navBarTrigger
 } from "./UI.js";
-import database from "./database.js";
 import elements from "./elements.js";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -17,7 +16,6 @@ function init() {
   prapareNavigation();
   preventOutline();
   initSearchBar();
-  database.init();
   LazyLoad.process(document.body);
   elements.processAll();
 }

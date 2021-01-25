@@ -1,6 +1,7 @@
 const database = require("./database");
 const utils = require("./utils");
 const unique = require("unique-token");
+const e = require("unique-token");
 
 function removeExpiredTokens() {
     const now = Date.now();
@@ -62,7 +63,11 @@ function removeUser(ID) {
     removeUserTokens(ID);
 }
 
-function createUser(userID, { email, password, username }) {
+function createUser(userID, {
+    email,
+    password,
+    username
+}) {
     const hashedPassword = utils.passHash(password);
     const dateCreated = new Date().getTime();
     database.users.set(userID)
@@ -73,6 +78,7 @@ function createUser(userID, { email, password, username }) {
         .set(userID + ".lastLogged", dateCreated)
         .set(userID + ".activated", false)
         .set(userID + ".emailSent", dateCreated)
+        .set(userID + ".favourites", [])
         .write();
 }
 
@@ -87,13 +93,13 @@ function refreshToken(token) {
     if (database.tokens.has(token).value()) {
         const newTime = utils.addMinutes(new Date(), 30).getTime();
         database.tokens.set(token + ".expires", newTime).write();
-        updateUserLoginDate(database.tokens.get(token+".userID").value());
+        updateUserLoginDate(database.tokens.get(token + ".userID").value());
     } else return false; //token is invalid/expired
     return true;
 }
 
 function updateUserLoginDate(userID) {
-    database.users.set(userID+".lastLogged", Date.now()).write();
+    database.users.set(userID + ".lastLogged", Date.now()).write();
 }
 
 function removeToken(token) {
@@ -111,22 +117,28 @@ function hasUserID(ID) {
 function hasUserEmail(email) {
     return hasUserID(utils.hash(email));
 }
+
 function getHashedPass(ID) {
-    return database.users.get(ID+".hashedPassword").value();
+    return database.users.get(ID + ".hashedPassword").value();
 }
 
 function getUserCopy(ID) {
     return Object.assign({}, getUser(ID));
 }
+
 function verifyToken(token) {
     if (database.tokens.has(token).value()) {
-        return database.tokens.get(token+".userID").value();
+        return database.tokens.get(token + ".userID").value();
     } else return false;
 }
 
-function updateUser(userID, { email, password, username }) {
+function updateUser(userID, {
+    email,
+    password,
+    username
+}) {
     if (password) password = utils.passHash(password);
-    let activated = ((!email || database.users.get(userID+".email").value() === email) && database.users.get(userID+".activated").value());
+    let activated = ((!email || database.users.get(userID + ".email").value() === email) && database.users.get(userID + ".activated").value());
     let oldMail = email || null;
     const dataUsers = database.users;
     dataUsers.update(userID + ".email", utils.produceUpdater(email))
@@ -143,7 +155,7 @@ function updateUser(userID, { email, password, username }) {
 function transferTokens(oldID, targetID) {
     let dataTokens = database.tokens;
     for (const [key, token] of Object.entries(dataTokens.value())) {
-        if (token.userID === oldID) dataTokens = dataTokens.set(key+".userID", targetID);
+        if (token.userID === oldID) dataTokens = dataTokens.set(key + ".userID", targetID);
     }
     dataTokens.write();
 }
@@ -161,6 +173,40 @@ function createToken(userID) {
         userID: userID
     }).write();
     return newToken;
+}
+
+function prodMeta() {
+    database.products.map(prod => {
+        const validID = utils.hash(prod.name);
+        if (typeof prod.ID !== "string" || prod.ID !== validID) {
+            prod.ID = validID;
+        }
+        prod.prices = utils.completePrices(prod.prices);
+        if (typeof prod.dateCreated === "string") {
+            prod.dateCreated = new Date(prod.dateCreated).getTime();
+        } else if (typeof prod.dateCreated === "undefined") {
+            prod.dateCreated = Date.now();
+        }
+        if (typeof prod.watched !== "number") prod.watched = 0;
+        if (typeof prod.buyed !== "number") prod.buyed = 0;
+        return prod;
+    }).write();
+}
+
+function getAllProducts() {
+    return database.products;
+}
+
+function getRandomProducts(num) {
+     return getAllProducts().shuffle().slice(0, num);
+}
+
+function getRecentProducts(num) {
+    return database.products.sortBy(["dateCreated"]).reverse().slice(0, num).reverse();
+}
+
+function getCheapestProducts(num) {
+    return database.products.sortBy(p => p.prices.PLN).slice(0, num);
 }
 
 module.exports = {
@@ -184,5 +230,10 @@ module.exports = {
     changeUserID,
     transferTokens,
     hasUserEmail,
-    getUserCopy
+    getUserCopy,
+    getAllProducts,
+    getRandomProducts,
+    getRecentProducts,
+    getCheapestProducts,
+    prodMeta
 }

@@ -3,7 +3,7 @@ const utils = require("./utils");
 const frontEndpath = path.join(__dirname, "../frontend");
 const indexPath = path.join(frontEndpath, "index.html");
 const databaseHelpers = require("./databaseHelpers");
-
+const assert = require('assert').strict;
 function init(app) {
     app.get("/", (req, res) => {
         if (!databaseHelpers.refreshToken(req.session.token)) {
@@ -12,6 +12,7 @@ function init(app) {
         res.sendFile(indexPath);
     });
 
+    defineProducts(app);
     //defineAuth(app);
 
     app.get("*", async (req, res) => {
@@ -46,7 +47,7 @@ function init(app) {
 
 function defineAuth(app) {
     //logowanie
-    app.post("/users", (req, res) => {
+    app.post("/api/users", (req, res) => {
         let {
             email,
             password
@@ -89,7 +90,7 @@ function defineAuth(app) {
         }
     });
     //rejstracja
-    app.put('/users', (req, res) => {
+    app.put('/api/users', (req, res) => {
         let {
             email,
             password,
@@ -142,7 +143,7 @@ function defineAuth(app) {
         }
     });
 
-    app.delete("/users", (req, res) => {
+    app.delete("/api/users", (req, res) => {
         let {
             email,
             password
@@ -184,7 +185,7 @@ function defineAuth(app) {
         }
     });
 
-    app.patch('/users', (req, res) => {
+    app.patch('/api/users', (req, res) => {
         let {
             email,
             password,
@@ -263,7 +264,7 @@ function defineAuth(app) {
         }
     });
 
-    app.get("/users", (req, res) => {
+    app.get("/api/users", (req, res) => {
         if (typeof req.session.token == "string") {
             const userID = databaseHelpers.verifyToken(req.session.token.trim());
             if (userID) {
@@ -275,7 +276,73 @@ function defineAuth(app) {
     });
 }
 
-
+function defineProducts(app) {
+    app.get("/api/products/:type", (req, res) => {
+        const type = req.params.type;
+        let quantity = req.query.quantity;
+        let sort = req.query.sort;
+        let desc = req.query.desc;
+        try {
+            quantity = parseInt(quantity);
+            assert.ok(quantity > 0);
+        } catch (e) {
+            quantity = undefined;
+        }
+        let products;
+        switch(type) {
+            case "all":
+                products = databaseHelpers.getAllProducts();
+                break;
+            case "random":
+                if (!quantity) {
+                    res.status(400);
+                    res.end("Wymagana ilość!");
+                    return;
+                }
+                products = databaseHelpers.getRandomProducts(quantity);
+                break;
+            case "recent":
+                if (!quantity) {
+                    res.status(400);
+                    res.end("Wymagana ilość!");
+                    return;
+                }
+                products = databaseHelpers.getRecentProducts(quantity);
+                break;
+            case "cheapest":
+                if (!quantity) {
+                    res.status(400);
+                    res.end("Wymagana ilość!");
+                    return;
+                }
+                products = databaseHelpers.getCheapestProducts(quantity);
+                break;
+            default:
+                res.sendStatus(404);
+                return;
+        }
+        switch(sort) {
+            case "date":
+                products = products.sortBy(["dateCreated"]);
+                if (desc == "true") products = products.reverse();
+                res.send(products.value());
+                break;
+            case "price":
+                products = products.sortBy(p => p.prices.PLN);
+                if (desc == "true") products = products.reverse();
+                res.send(products.value());
+                break;
+            case "name":
+                products = products.sortBy(["name"])
+                if (desc == "true") products = products.reverse();
+                res.send(products.value());
+                break;
+            default:
+                res.send(products.value());
+                return;
+        }
+    });
+}
 module.exports = {
     init
 };

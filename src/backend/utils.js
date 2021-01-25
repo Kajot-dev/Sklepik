@@ -3,13 +3,39 @@ const fs = require('fs');
 const fsPromises = require("fs").promises;
 const crypto = require('crypto');
 const database = require("./database");
-const { config } = database;
+const {
+    config
+} = database;
 
 //Constants
 const chars = /[0-9]/;
 const special = /[!@#$%^&*\?]/;
 
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+const pricesVal = {
+    "PLN": 1,
+    "EUR": 0.22,
+    "USD": 0.27
+}
+
+function convertPrice(source, target, ammount) {
+    if (!pricesVal.hasOwnProperty(source) || !pricesVal.hasOwnProperty(target)) throw new Error(`Either ${source} or ${target} currency is unsupported!`);
+    const total = (pricesVal[target] / pricesVal[source]) * ammount;
+    return ~~(total * 100) / 100;
+}
+
+function completePrices(pricesObj) {
+    let main = Object.keys(pricesObj).find(p => p in pricesVal);
+    if (main) {
+        for (let p of Object.keys(pricesVal)) {
+            if (!(p in pricesObj)) {
+                pricesObj[p] = convertPrice(main, p, pricesObj[main]);
+            }
+        }
+    }
+    return pricesObj;
+}
 
 function hasExtension(filePath) {
     return path.extname(filePath) !== "";
@@ -82,23 +108,27 @@ function passHash(str) {
     let h = crypto.createHmac("sha256", config.get("passSecret").value()).update(str).digest("hex");
     return h;
 }
+
 function addMinutes(date, minutes) {
     if (typeof date == "number") date = new Date(date);
     date.setMinutes(date.getMinutes() + minutes);
     return date;
 }
+
 function addYears(date, years) {
     if (typeof date == "number") date = new Date(date);
     date.setFullYear(date.getFullYear() + years);
     return date;
 }
+
 function addDays(date, days) {
     if (typeof date == "number") date = new Date(date);
-    date.setDate(date.getDate()+days);
+    date.setDate(date.getDate() + days);
     return date;
 }
+
 function produceUpdater(newVal) {
-    return function(val) {
+    return function (val) {
         if (typeof newVal === "undefined" || newVal === null) newVal = val;
         return newVal;
     }
@@ -115,5 +145,7 @@ module.exports = {
     isEmail,
     addYears,
     addDays,
-    produceUpdater
+    produceUpdater,
+    completePrices,
+    convertPrice
 };

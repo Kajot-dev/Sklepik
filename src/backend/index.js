@@ -6,6 +6,7 @@ const os = require("os");
 const cluster = require("cluster");
 const colors = require("colors");
 const worker = require("./worker");
+const helmet = require("helmet");
 const {
     config
 } = require("./database");
@@ -19,11 +20,12 @@ if (cluster.isMaster) {
 } else {
     const app = express();
 
-
+    app.use(helmet());
     app.use(session({
         secret: config.get("sessionSecret").value(),
         saveUninitialized: true,
         resave: false,
+        name: config.get("sessionName").value(),
         cookie: {
             secure: true,
             httpOnly: true,
