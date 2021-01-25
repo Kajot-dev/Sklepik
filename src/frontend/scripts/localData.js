@@ -1,19 +1,19 @@
 
 
 
-export function getUserName() {
+export function getnick() {
     return new Promise(function(resolve, reject) {
-        let username = sessionStorage.getItem("tempUserName");
-        if (!username) {
+        let nick = sessionStorage.getItem("tempnick");
+        if (!nick) {
             fetch("/api/users").then(res => {
                 if (res.status === 200) {
                     res.json().then(data => {
-                        sessionStorage.setItem("tempUserName", data.username);
-                        resolve(data.username);
+                        sessionStorage.setItem("tempnick", data.nick);
+                        resolve(data.nick);
                     });
                 } else resolve(null);
             }).catch(() => {});
-        } else resolve(username);
+        } else resolve(nick);
     });
 }
 
@@ -42,4 +42,4 @@ export function logOut() {
     sessionStorage.clear();
 }
 
-export default { currentCurrency, getUserName, logOut, isLoggedIn };
+export default { currentCurrency, getnick, logOut, isLoggedIn };

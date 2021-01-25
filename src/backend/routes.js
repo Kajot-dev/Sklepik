@@ -94,9 +94,9 @@ function defineAuth(app) {
         let {
             email,
             password,
-            username
+            nick
         } = req.body;
-        if (typeof email === "string" && typeof password === "string" && typeof username === "string") {
+        if (typeof email === "string" && typeof password === "string" && typeof nick === "string") {
             databaseHelpers.removeToken(req.session.token);
             email = email.trim();
             if (!utils.isEmail(email)) {
@@ -115,8 +115,8 @@ function defineAuth(app) {
                 res.end("Błędny format hasła!");
                 return;
             }
-            username = username.trim();
-            if (!utils.stringHelper(username, {
+            nick = nick.trim();
+            if (!utils.stringHelper(nick, {
                     minL: 2,
                     maxL: 20,
                 })) {
@@ -132,7 +132,7 @@ function defineAuth(app) {
                 databaseHelpers.createUser(userID, {
                     email,
                     password,
-                    username
+                    nick
                 });
                 //instant login
                 const newToken = databaseHelpers.createToken(userID);
@@ -192,10 +192,10 @@ function defineAuth(app) {
         let {
             email,
             password,
-            username,
+            nick,
             oldPassword
         } = req.body;
-        if (typeof email === "string" || (typeof password === "string" && typeof oldPassword === "string") || typeof username === "string") {
+        if (typeof email === "string" || (typeof password === "string" && typeof oldPassword === "string") || typeof nick === "string") {
             const token = req.session.token;
 
             if (email) email = email.trim();
@@ -223,12 +223,12 @@ function defineAuth(app) {
                 oldPassword = undefined;
             }
 
-            if (username) username = username.trim();
-            if (!utils.stringHelper(username, {
+            if (nick) nick = nick.trim();
+            if (!utils.stringHelper(nick, {
                     minL: 2,
                     maxL: 20,
                 })) {
-                username = undefined
+                nick = undefined
             }
 
             if (typeof token == "string") {
@@ -255,7 +255,7 @@ function defineAuth(app) {
                     databaseHelpers.updateUser(userID, {
                         email,
                         password,
-                        username
+                        nick
                     });
                     res.sendStatus(200);
 
@@ -310,7 +310,7 @@ function defineAuth(app) {
                 res.send({ status: 2});
             } else {
                 const user = databaseHelpers.getUser(userID);
-                databaseHelpers.sendActivationMail({ email: user.email, username: user.username, userID});
+                databaseHelpers.sendActivationMail({ email: user.email, nick: user.nick, userID});
                 res.send({ status: 1});
             }
         } else res.sendStatus(404);   

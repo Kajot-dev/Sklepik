@@ -86,28 +86,28 @@ function removeUser(ID) {
 function createUser(userID, {
     email,
     password,
-    username
+    nick
 }) {
     const hashedPassword = utils.passHash(password);
     const dateCreated = new Date().getTime();
     database.users.set(userID)
         .set(userID + ".email", email)
         .set(userID + ".hashedPassword", hashedPassword)
-        .set(userID + ".username", username)
+        .set(userID + ".nick", nick)
         .set(userID + ".dateCreated", dateCreated)
         .set(userID + ".lastLogged", dateCreated)
         .set(userID + ".activated", false)
         .set(userID + ".favourites", [])
         .write();
-        sendActivationMail({ email, username, userID });
+        sendActivationMail({ email, nick, userID });
 }
 
-function sendActivationMail({ email, username, userID }) {
+function sendActivationMail({ email, nick, userID }) {
     const activationToken = createActivationToken(userID)
     mailHelpers.sendActivationMail({
         mail: email,
         activationlink: "/api/activate/"+activationToken,
-        username: username
+        nick: nick
     }).then(() => {
         database.users.set(userID + ".emailSent", Date.now()).write();
     }).catch(e => console.error(e));
@@ -166,7 +166,7 @@ function verifyToken(token) {
 function updateUser(userID, {
     email,
     password,
-    username
+    nick
 }) {
     if (password) password = utils.passHash(password);
     let activated = ((!email || database.users.get(userID + ".email").value() === email) && database.users.get(userID + ".activated").value());
@@ -174,7 +174,7 @@ function updateUser(userID, {
     const dataUsers = database.users;
     dataUsers.update(userID + ".email", utils.produceUpdater(email))
         .update(userID + ".hashedPassword", utils.produceUpdater(password))
-        .update(userID + ".username", utils.produceUpdater(username))
+        .update(userID + ".nick", utils.produceUpdater(nick))
         .update(userID + ".activated", activated).write();
     if (oldMail) {
         const newID = utils.hash(email);
