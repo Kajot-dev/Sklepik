@@ -13,11 +13,6 @@ const {
 const httpPort = process.env.PORT || 8000;
 
 if (cluster.isMaster) {
-    for (let i = 0; i < os.cpus().length; i++) {
-        cluster.fork({ id: i+1 });
-    }
-    worker.init();
-} else {
     const app = express();
 
     app.use(helmet());
@@ -42,5 +37,10 @@ if (cluster.isMaster) {
     routes.init(app);
 
     app.listen(httpPort);
-    console.log(colors.magenta("HTTP")+" server thread "+colors.blue(process.env.id)+" is listening on port: "+colors.green(httpPort));
+    console.log(colors.magenta("HTTP")+" server is listening on port: "+colors.green(httpPort));
+    
+    cluster.fork();
+} else {
+    console.log("Worker is starting!");
+    worker.init();
 }
