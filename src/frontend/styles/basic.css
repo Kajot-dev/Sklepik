@@ -14,7 +14,7 @@
 
 body {
     margin: 0;
-    padding-bottom: calc(var(--footerHeight) + (var(--footerVerticalPadding) * 2));
+    /*padding-bottom: calc(var(--footerHeight) + (var(--footerVerticalPadding) * 2));*/
     font-family: "Lato";
     font-size: 130%;
 }
