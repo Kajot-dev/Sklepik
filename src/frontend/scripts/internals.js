@@ -8,13 +8,14 @@ export class Product {
     dateCreated;
     imageLink;
     events = new EventEmitter();
-    constructor({ name, prices, imageLink, dateCreated }) {
+    constructor({ name, prices, imageLink, dateCreated, ID}) {
         if (!name) throw new Error("Name is required!");
         //we don't fire events in constructor
         this.name = name;
         this.prices = prices;
         this.imageLink = imageLink;
         this.dateCreated = dateCreated;
+        this.ID = ID;
         database.registerProduct(this);
     }
     updateInfo({ prices, imageLink , dateCreated}) {

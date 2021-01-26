@@ -84,8 +84,8 @@ function stringHelper(stringsArray, opts) {
     return true;
 }
 
-function hash(str) {
-    const seed = config.get("hashingSecret").value();
+async function hash(str) {
+    const seed = (await config).get("hashingSecret").value();
     let h1 = 0xdeadbeef ^ seed,
         h2 = 0x41c6ce57 ^ seed;
     for (let i = 0, ch; i < str.length; i++) {
@@ -103,9 +103,9 @@ function random(min, max) {
     return ~~(Math.random() * (max - min + 1) + min);
 }
 
-function passHash(str) {
+async function passHash(str) {
     if (typeof str != "string" || str.length == 0) return false;
-    let h = crypto.createHmac("sha256", config.get("passSecret").value()).update(str).digest("hex");
+    let h = crypto.createHmac("sha256", (await config).get("passSecret").value()).update(str).digest("hex");
     return h;
 }
 

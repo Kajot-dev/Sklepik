@@ -3,31 +3,33 @@ const utils = require("./utils");
 const unique = require("unique-token");
 const mailHelpers = require("./mailHelpers");
 
-function removeExpiredTokens() {
+async function removeExpiredTokens() {
     const now = Date.now();
-    let dataTokens = database.tokens;
+    let dataTokens = (await database.tokens);
     const tokens = Object.entries(dataTokens.value())
     for (const [key, token] of tokens) {
 
         if (token.expires <= now) dataTokens = dataTokens.unset(key);
     }
-    if (tokens.length > 0) dataTokens.write();
+    if (tokens.length > 0) await dataTokens.write();
+    return;
 }
 
-function removeExpiredActivations() {
+async function removeExpiredActivations() {
     const now = Date.now();
-    let dataMails = database.mailActivations;
+    let dataMails = (await database.mailActivations);
     const mails = Object.entries(dataMails.value())
     for (const [key, token] of mails) {
 
         if (token.expires <= now) dataMails = dataMails.unset(key);
     }
-    if (mails.length > 0) dataMails.write();
+    if (mails.length > 0) await dataMails.write();
+    return;
 }
 
-function removeNonActivatedUsers() {
+async function removeNonActivatedUsers() {
     const lastReqDate = utils.addDays(Date.now(), -7).getTime();
-    let dataUsers = database.users;
+    let dataUsers = (await database.users);
     let removedUserIDs = [];
     for (const [key, user] of Object.entries(dataUsers.value())) {
         if (!user.activated && user.dateCreated <= lastReqDate) {
@@ -36,15 +38,16 @@ function removeNonActivatedUsers() {
         }
     }
     if (removedUserIDs.length > 0) {
-        dataUsers.write();
-        removeUsersTokens(removedUserIDs);
-        removeUsersActivations(removedUserIDs);
+        await dataUsers.write();
+        await removeUsersTokens(removedUserIDs);
+        await removeUsersActivations(removedUserIDs);
     }
+    return;
 }
 
-function removeInactiveUsers() {
+async function removeInactiveUsers() {
     const lastReqDate = utils.addYears(Date.now(), -1).getTime();
-    let dataUsers = database.users;
+    let dataUsers = (await database.users);
     let removedUserIDs = [];
     for (const [key, user] of Object.entries(dataUsers.value())) {
         if (user.lastLogged <= lastReqDate) {
@@ -53,58 +56,62 @@ function removeInactiveUsers() {
         }
     }
     if (removedUserIDs.length > 0) {
-        dataUsers.write();
-        removeUsersTokens(removedUserIDs);
-        removeUsersActivations(removedUserIDs);
+        await dataUsers.write();
+        await removeUsersTokens(removedUserIDs);
+        await removeUsersActivations(removedUserIDs);
     }
+    return
 }
 
-function removeUsersTokens(IDs) {
-    let dataTokens = database.tokens;
+async function removeUsersTokens(IDs) {
+    let dataTokens = (await database.tokens);
     for (const [key, token] of Object.entries(dataTokens.value())) {
         if (IDs.includes(token.userID)) dataTokens = dataTokens.unset(key);
     }
-    dataTokens.write();
+    await dataTokens.write();
 }
 
-function removeUserTokens(ID) {
-    let dataTokens = database.tokens;
+async function removeUserTokens(ID) {
+    let dataTokens = (await database.tokens);
     for (const [key, token] of Object.entries(dataTokens.value())) {
         if (token.userID === ID) dataTokens = dataTokens.unset(key);
     }
-    dataTokens.write();
+    await dataTokens.write();
 }
 
-function removeUserActivations(ID) {
-    let dataMails = database.mailActivations;
+async function removeUserActivations(ID) {
+    let dataMails = (await database.mailActivations);
     for (const [key, token] of Object.entries(dataMails.value())) {
-        if (token.userID === ID) dataMails = dataMails.unset(key);
+        console.log(key, token);
+        if (token.userID === ID) {
+            dataMails = dataMails.unset(key);
+        }
     }
-    dataMails.write();
+    await dataMails.write();
 }
 
-function removeUsersActivations(IDs) {
-    let dataActivations = database.mailActivations;
+async function removeUsersActivations(IDs) {
+    let dataActivations = (await database.mailActivations);
     for (const [key, activationToken] of Object.entries(dataActivations.value())) {
         if (IDs.includes(activationToken.userID)) dataActivations = dataActivations.unset(key);
     }
-    dataActivations.write();
+    await dataActivations.write();
 }
 
-function removeUser(ID) {
-    database.users.unset(ID).write();
-    removeUserTokens(ID);
-    removeUserActivations(ID);
+async function removeUser(ID) {
+    (await database.users).unset(ID).write();
+    await removeUserTokens(ID);
+    await removeUserActivations(ID);
 }
 
-function createUser(userID, {
+async function createUser(userID, {
     email,
     password,
     nick
 }) {
-    const hashedPassword = utils.passHash(password);
+    const hashedPassword = await utils.passHash(password);
     const dateCreated = new Date().getTime();
-    database.users.set(userID)
+    await (await database.users).set(userID)
         .set(userID + ".email", email)
         .set(userID + ".hashedPassword", hashedPassword)
         .set(userID + ".nick", nick)
@@ -113,134 +120,133 @@ function createUser(userID, {
         .set(userID + ".activated", false)
         .set(userID + ".favourites", [])
         .write();
-        sendActivationMail({ email, nick, userID });
+        await sendActivationMail({ email, nick, userID });
 }
 
-function sendActivationMail({ email, nick, userID }) {
-    const activationToken = createActivationToken(userID)
-    mailHelpers.sendActivationMail({
+async function sendActivationMail({ email, nick, userID }) {
+    const activationToken = await createActivationToken(userID)
+    await mailHelpers.sendActivationMail({
         mail: email,
         activationlink: "/api/activate/"+activationToken,
         nick: nick
-    }).then(() => {
-        database.users.set(userID + ".emailSent", Date.now()).write();
-    }).catch(e => console.error(e));
+    });
+    await (await database.users).set(userID + ".emailSent", Date.now()).write();
 }
 
-function isUser(ID) {
-    return database.users.has(ID).value();
+async function isUser(ID) {
+    return (await database.users).has(ID).value();
 }
 
-function refreshToken(token) {
+async function refreshToken(token) {
     if (typeof token === "undefined") return true; //token does not exists
     if (typeof token !== "string") return false; //wrong token
     token = token.trim();
-    if (database.tokens.has(token).value()) {
+    if ((await database.tokens).has(token).value()) {
         const newTime = utils.addMinutes(new Date(), 30).getTime();
-        database.tokens.set(token + ".expires", newTime).write();
-        updateUserLoginDate(database.tokens.get(token + ".userID").value());
+        await (await database.tokens).set(token + ".expires", newTime).write();
+        await updateUserLoginDate((await database.tokens).get(token + ".userID").value());
     } else return false; //token is invalid/expired
     return true;
 }
 
-function updateUserLoginDate(userID) {
-    database.users.set(userID + ".lastLogged", Date.now()).write();
+async function updateUserLoginDate(userID) {
+    await (await database.users).set(userID + ".lastLogged", Date.now()).write();
 }
 
-function removeToken(token) {
-    database.tokens.unset(token).write();
+async function removeToken(token) {
+    await (await database.tokens).unset(token).write();
 }
 
-function getUser(ID) {
-    return database.users.get(ID).value();
+async function getUser(ID) {
+    return (await database.users).get(ID).value();
 }
 
-function hasUserID(ID) {
-    return database.users.has(ID).value();
+async function hasUserID(ID) {
+    return (await database.users).has(ID).value();
 }
 
-function hasUserEmail(email) {
-    return hasUserID(utils.hash(email));
+async function hasUserEmail(email) {
+    return await hasUserID(await utils.hash(email));
 }
 
-function getHashedPass(ID) {
-    return database.users.get(ID + ".hashedPassword").value();
+async function getHashedPass(ID) {
+    return (await database.users).get(ID + ".hashedPassword").value();
 }
 
-function getUserCopy(ID) {
-    return Object.assign({}, getUser(ID));
+async function getUserCopy(ID) {
+    return Object.assign({}, await getUser(ID));
 }
 
-function verifyToken(token) {
-    if (database.tokens.has(token).value()) {
-        return database.tokens.get(token + ".userID").value();
+async function verifyToken(token) {
+    if ((await database.tokens).has(token).value()) {
+        return (await database.tokens).get(token + ".userID").value();
     } else return false;
 }
 
-function updateUser(userID, {
+async function updateUser(userID, {
     email,
     password,
     nick
 }) {
-    if (password) password = utils.passHash(password);
-    let activated = ((!email || database.users.get(userID + ".email").value() === email) && database.users.get(userID + ".activated").value());
+    if (password) password = await utils.passHash(password);
+    let activated = ((!email || (await database.users).get(userID + ".email").value() === email) && (await database.users).get(userID + ".activated").value());
     let oldMail = email || null;
-    const dataUsers = database.users;
-    dataUsers.update(userID + ".email", utils.produceUpdater(email))
+    const dataUsers = (await database.users);
+    await dataUsers.update(userID + ".email", utils.produceUpdater(email))
         .update(userID + ".hashedPassword", utils.produceUpdater(password))
         .update(userID + ".nick", utils.produceUpdater(nick))
         .update(userID + ".activated", activated).write();
     if (oldMail) {
-        const newID = utils.hash(email);
-        changeUserID(userID, newID);
-        transferTokens(userID, newID);
-        transferActivations(userID, newID);
+        const newID = await utils.hash(email);
+        await changeUserID(userID, newID);
+        await transferTokens(userID, newID);
+        await transferActivations(userID, newID);
     }
 }
 
-function transferActivations(oldID, targetID) {
-    let dataMails = database.mailActivations;
+async function transferActivations(oldID, targetID) {
+    let dataMails = (await database.mailActivations);
     for (const [key, token] of Object.entries(dataMails.value())) {
         if (token.userID === oldID) dataMails = dataMails.set(key + ".userID", targetID);
     }
-    dataMails.write();
+    await dataMails.write();
 }
 
-function transferTokens(oldID, targetID) {
-    let dataTokens = database.tokens;
+async function transferTokens(oldID, targetID) {
+    let dataTokens = (await database.tokens);
     for (const [key, token] of Object.entries(dataTokens.value())) {
         if (token.userID === oldID) dataTokens = dataTokens.set(key + ".userID", targetID);
     }
-    dataTokens.write();
+    await dataTokens.write();
 }
 
-function changeUserID(oldID, newID) {
-    const user = getUser(oldID);
-    database.users.unset(oldID).write();
-    database.users.set(newID, user).write();
+async function changeUserID(oldID, newID) {
+    const user = await getUser(oldID);
+    (await database.users).unset(oldID).write();
+    (await database.users).set(newID, user).write();
 }
 
-function createToken(userID) {
+async function createToken(userID) {
     const newToken = unique.token();
-    database.tokens.set(newToken, {
+    await (await database.tokens).set(newToken, {
         expires: utils.addMinutes(new Date(), 30).getTime(),
         userID: userID
     }).write();
     return newToken;
 }
 
-function createActivationToken(userID) {
+async function createActivationToken(userID) {
     const newToken = unique.token();
-    database.mailActivations.set(newToken, {
+    await (await database.mailActivations).set(newToken, {
         expires: utils.addDays(new Date(), 2).getTime(),
         userID: userID
     }).write();
     return newToken;
 }
 
-function prodMeta() {
-    database.products.map(prod => {
-        const validID = utils.hash(prod.name);
+async function prodMeta() {
+    await (await database.products).map(async prod => {
+        const validID = await utils.hash(prod.name);
         if (typeof prod.ID !== "string" || prod.ID !== validID) {
             prod.ID = validID;
         }
@@ -256,35 +262,34 @@ function prodMeta() {
     }).write();
 }
 
-function getAllProducts() {
-    return database.products;
+async function getAllProducts() {
+    return (await database.products);
 }
 
-function getRandomProducts(num) {
-     return getAllProducts().shuffle().slice(0, num);
+async function getRandomProducts(num) {
+     return await getAllProducts().shuffle().slice(0, num);
 }
 
-function getRecentProducts(num) {
-    return database.products.sortBy(["dateCreated"]).reverse().slice(0, num).reverse();
+async function getRecentProducts(num) {
+    return (await database.products).sortBy(["dateCreated"]).reverse().slice(0, num).reverse();
 }
 
-function getCheapestProducts(num) {
-    return database.products.sortBy(p => p.prices.PLN).slice(0, num);
+async function getCheapestProducts(num) {
+    return (await database.products).sortBy(p => p.prices.PLN).slice(0, num);
 }
 
-function activateUser(token) {
-    const t = database.mailActivations.get(token).value();
-    console.log(t);
+async function activateUser(token) {
+    const t = (await database.mailActivations).get(token).value();
     if (t && t.userID) {
-        database.users.set(t.userID + ".activated", true).write();
-        removeUserActivations(t.userID);
+        await (await database.users).set(t.userID + ".activated", true).write();
+        await removeUserActivations(t.userID);
         return true;
     }
     return false;
 }
 
-function isUserAwaitingActivation(userID) {
-    const check = database.mailActivations.find(p => p.userID === userID).value();
+async function isUserAwaitingActivation(userID) {
+    const check = (await database.mailActivations).find(p => p.userID === userID).value();
     if (check) return true;
     return false;
 }

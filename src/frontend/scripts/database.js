@@ -1,5 +1,5 @@
 import { Product } from './internals.js';
-import Utils from "./utils.js"
+
 //tutaj będzie "sztuczna" baza danych (przechowywana w cookies) oraz w plikach JSON
 
 let databaseIsReady = false;
@@ -15,8 +15,7 @@ export function registerProduct(pr) {
 }
 
 export function getProduct(name) {
-    let h = Utils.hash(name);
-    return products.find(p => p.name === h);
+    return products.find(p => p.name === name);
 }
 
 export function processProdObjs(prods) {

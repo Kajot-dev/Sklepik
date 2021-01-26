@@ -1,5 +1,5 @@
 const low = require('lowdb');
-const FileSync = require('lowdb/adapters/FileSync');
+const FileAsync = require('lowdb/adapters/FileAsync');
 const path = require('path');
 const unique = require('unique-token');
 const uniqueOpts = {
@@ -15,8 +15,8 @@ const databasePath = path.join(__dirname, 'database');
 
 
 //config
-const config = low(new FileSync(path.join(databasePath, "config.json")));
-config.defaults({}).write();
+const config = low(new FileAsync(path.join(databasePath, "config.json")));
+
 /*const configData = config.value();
 configData.sessionSecret = configData.sessionSecret || unique.random(uniqueOpts);
 configData.sessionName = configData.sessionName || unique.random(uniqueOpts);
@@ -25,22 +25,30 @@ configData.passSecret = configData.passSecret || unique.random(uniqueOpts);
 config.set(configData).write();*/
 
 //users
-const users = low(new FileSync(path.join(databasePath, "users.json")));
-users.defaults({}).write();
+const users = low(new FileAsync(path.join(databasePath, "users.json")));
+
 
 //tokens
-const tokens = low(new FileSync(path.join(databasePath, "tokens.json")));
-tokens.defaults({}).write();
+const tokens = low(new FileAsync(path.join(databasePath, "tokens.json")));
+
 
 //products
-const products = low(new FileSync(path.join(databasePath, "products.json")));
-products.defaults([]).write();
+const products = low(new FileAsync(path.join(databasePath, "products.json")));
+
 
 //emailActivations
-const mailActivations = low(new FileSync(path.join(databasePath, "emailActivations.json")));
-mailActivations.defaults({}).write();
+const mailActivations = low(new FileAsync(path.join(databasePath, "emailActivations.json")));
 
 
+
+async function defs() {
+    (await users).defaults({}).write();
+    (await tokens).defaults({}).write();
+    (await products).defaults([]).write();
+    (await mailActivations).defaults({}).write();
+}
+
+defs();
 module.exports = {
     config,
     users,

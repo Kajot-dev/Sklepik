@@ -5,8 +5,8 @@ const indexPath = path.join(frontEndpath, "index.html");
 const databaseHelpers = require("./databaseHelpers");
 const assert = require('assert').strict;
 function init(app) {
-    app.get("/", (req, res) => {
-        if (!databaseHelpers.refreshToken(req.session.token)) {
+    app.get("/", async (req, res) => {
+        if (!await databaseHelpers.refreshToken(req.session.token)) {
             req.session.token = undefined; //delete invalid token
         }
         res.sendFile(indexPath);
@@ -29,7 +29,7 @@ function init(app) {
                 }
             }
             if (processedPath.endsWith(".html")) {
-                if (!databaseHelpers.refreshToken(req.session.token)) {
+                if (!await databaseHelpers.refreshToken(req.session.token)) {
                     req.session.token = undefined; //delete invalid token
                 }
             }
@@ -49,13 +49,13 @@ function init(app) {
 
 function defineAuth(app) {
     //logowanie
-    app.post("/api/users", (req, res) => {
+    app.post("/api/users", async (req, res) => {
         let {
             email,
             password
         } = req.body;
         if (typeof email === "string" && typeof password === "string") {
-            databaseHelpers.removeToken(req.session.token);
+            await databaseHelpers.removeToken(req.session.token);
             email = email.trim();
             if (!utils.isEmail(email)) {
                 res.status(400);
@@ -71,10 +71,10 @@ function defineAuth(app) {
                 res.end("Błędny format hasła!");
                 return;
             }
-            const userID = utils.hash(email);
-            if (databaseHelpers.isUser(userID)) {
-                if (databaseHelpers.getHashedPass(userID) === utils.passHash(password)) {
-                    const newToken = databaseHelpers.createToken(userID);
+            const userID = await utils.hash(email);
+            if (await databaseHelpers.isUser(userID)) {
+                if (await databaseHelpers.getHashedPass(userID) === await utils.passHash(password)) {
+                    const newToken = await databaseHelpers.createToken(userID);
                     req.session.token = newToken;
                     res.status(200);
                     res.end();
@@ -92,14 +92,14 @@ function defineAuth(app) {
         }
     });
     //rejstracja
-    app.put('/api/users', (req, res) => {
+    app.put('/api/users', async (req, res) => {
         let {
             email,
             password,
             nick
         } = req.body;
         if (typeof email === "string" && typeof password === "string" && typeof nick === "string") {
-            databaseHelpers.removeToken(req.session.token);
+            await databaseHelpers.removeToken(req.session.token);
             email = email.trim();
             if (!utils.isEmail(email)) {
                 res.status(400);
@@ -126,18 +126,18 @@ function defineAuth(app) {
                 res.end("Błędna nazwa użytkownika!");
                 return;
             }
-            const userID = utils.hash(email);
-            if (databaseHelpers.isUser(userID)) {
+            const userID = await utils.hash(email);
+            if (await databaseHelpers.isUser(userID)) {
                 res.status(400);
                 res.end("Ten użytkownik już istnieje!");
             } else {
-                databaseHelpers.createUser(userID, {
+                await databaseHelpers.createUser(userID, {
                     email,
                     password,
                     nick
                 });
                 //instant login
-                const newToken = databaseHelpers.createToken(userID);
+                const newToken = await databaseHelpers.createToken(userID);
                 req.session.token = newToken;
                 res.status(201);
                 res.end();
@@ -148,13 +148,13 @@ function defineAuth(app) {
         }
     });
 
-    app.delete("/api/users", (req, res) => {
+    app.delete("/api/users", async (req, res) => {
         let {
             email,
             password
         } = req.body;
         if (typeof email === "string" && typeof password === "string") {
-            databaseHelpers.removeToken(req.session.token);
+            await databaseHelpers.removeToken(req.session.token);
             email = email.trim();
             if (!utils.isEmail(email)) {
                 res.status(400);
@@ -170,10 +170,10 @@ function defineAuth(app) {
                 res.end("Błędny format hasła!");
                 return;
             }
-            const userID = utils.hash(email);
-            if (databaseHelpers.isUser(userID)) {
-                if (databaseHelpers.getHashedPass(userID) === utils.passHash(password)) {
-                    databaseHelpers.removeUser(userID);
+            const userID = await utils.hash(email);
+            if (await databaseHelpers.isUser(userID)) {
+                if (await databaseHelpers.getHashedPass(userID) === await utils.passHash(password)) {
+                    await databaseHelpers.removeUser(userID);
                     res.status(200);
                     res.end();
                 } else {
@@ -190,7 +190,7 @@ function defineAuth(app) {
         }
     });
 
-    app.patch('/api/users', (req, res) => {
+    app.patch('/api/users', async (req, res) => {
         let {
             email,
             password,
@@ -234,17 +234,17 @@ function defineAuth(app) {
             }
 
             if (typeof token == "string") {
-                const userID = databaseHelpers.verifyToken(token);
+                const userID = await databaseHelpers.verifyToken(token);
                 if (userID) {
-                    if (email && databaseHelpers.hasUserEmail(email)) {
+                    if (email && await databaseHelpers.hasUserEmail(email)) {
                         res.status(403);
                         res.end("Taki użytkownik już istnieje!");
                         return;
                     }
                     if (password || oldPassword) {
                         if (password && oldPassword) {
-                            const hashedP = utils.passHash(oldPassword);
-                            if (hashedP !== databaseHelpers.getHashedPass(userID)) {
+                            const hashedP = await utils.passHash(oldPassword);
+                            if (hashedP !== await databaseHelpers.getHashedPass(userID)) {
                                 res.sendStatus(401);
                                 return;
                             }
@@ -254,7 +254,7 @@ function defineAuth(app) {
                         }
 
                     } else password = undefined;
-                    databaseHelpers.updateUser(userID, {
+                    await databaseHelpers.updateUser(userID, {
                         email,
                         password,
                         nick
@@ -269,50 +269,51 @@ function defineAuth(app) {
         }
     });
 
-    app.get("/api/users", (req, res) => {
+    app.get("/api/users", async (req, res) => {
         if (typeof req.session.token == "string") {
-            const userID = databaseHelpers.verifyToken(req.session.token.trim());
+            const userID = await databaseHelpers.verifyToken(req.session.token.trim());
             if (userID) {
-                const user = databaseHelpers.getUserCopy(userID);
+                const user = await databaseHelpers.getUserCopy(userID);
                 delete user.hashedPassword;
                 res.send(user);
             } else res.sendStatus(401);
         } else res.sendStatus(204);
     });
 
-    app.get("/api/activate/:token", (req, res) => {
+    app.get("/api/activate/:token", async (req, res) => {
         const token = req.params.token;
-        const isSucces = databaseHelpers.activateUser(token);
+        const isSucces = await databaseHelpers.activateUser(token);
         if (isSucces) res.redirect("/activation/status");
         else res.sendStatus(404);
     });
-    app.get("/api/islogged", (req, res) => {
+    app.get("/api/islogged", async (req, res) => {
         const token = req.session.token;
-        if (databaseHelpers.verifyToken(token)) {
+        if (await databaseHelpers.verifyToken(token)) {
             res.send({ status: true});
         } else {
             res.send({ status: false});
         }
     });
-    app.post("/api/logout", (req, res) => {
+    app.post("/api/logout", async (req, res) => {
         const token = req.session.token;
-        const userID = databaseHelpers.verifyToken(token);
-        if (token) databaseHelpers.removeUserTokens(userID);
+        const userID = await databaseHelpers.verifyToken(token);
+        if (token) await databaseHelpers.removeUserTokens(userID);
         delete req.session.token;
         res.sendStatus(200);
     });
-    app.get("/api/activationstatus", (req, res) => {
+    app.get("/api/activationstatus", async (req, res) => {
         const token = req.session.token;
-        const userID = databaseHelpers.verifyToken(token);
+        const userID = await databaseHelpers.verifyToken(token);
         res.status(200);
         if (userID) {
-            if (databaseHelpers.isUserAwaitingActivation(userID)) {
+
+            if (await databaseHelpers.isUserAwaitingActivation(userID)) {
                 res.send({ status: 1});
-            } else if (databaseHelpers.getUser(userID).activated) {
+            } else if ((await databaseHelpers.getUser(userID)).activated) {
                 res.send({ status: 2});
             } else {
-                const user = databaseHelpers.getUser(userID);
-                databaseHelpers.sendActivationMail({ email: user.email, nick: user.nick, userID});
+                const user = await databaseHelpers.getUser(userID);
+                await databaseHelpers.sendActivationMail({ email: user.email, nick: user.nick, userID});
                 res.send({ status: 1});
             }
         } else res.sendStatus(404);   
@@ -320,7 +321,7 @@ function defineAuth(app) {
 }
 
 function defineProducts(app) {
-    app.get("/api/products/:type", (req, res) => {
+    app.get("/api/products/:type", async (req, res) => {
         const type = req.params.type;
         let quantity = req.query.quantity;
         let sort = req.query.sort;
@@ -334,7 +335,7 @@ function defineProducts(app) {
         let products;
         switch(type) {
             case "all":
-                products = databaseHelpers.getAllProducts();
+                products = await databaseHelpers.getAllProducts();
                 break;
             case "random":
                 if (!quantity) {
@@ -342,7 +343,7 @@ function defineProducts(app) {
                     res.end("Wymagana ilość!");
                     return;
                 }
-                products = databaseHelpers.getRandomProducts(quantity);
+                products = await databaseHelpers.getRandomProducts(quantity);
                 break;
             case "recent":
                 if (!quantity) {
@@ -350,7 +351,7 @@ function defineProducts(app) {
                     res.end("Wymagana ilość!");
                     return;
                 }
-                products = databaseHelpers.getRecentProducts(quantity);
+                products = await databaseHelpers.getRecentProducts(quantity);
                 break;
             case "cheapest":
                 if (!quantity) {
@@ -358,7 +359,7 @@ function defineProducts(app) {
                     res.end("Wymagana ilość!");
                     return;
                 }
-                products = databaseHelpers.getCheapestProducts(quantity);
+                products = await databaseHelpers.getCheapestProducts(quantity);
                 break;
             default:
                 res.sendStatus(404);

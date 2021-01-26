@@ -1,1 +1,12 @@
-{}
+{
+  "4240965252329032550": {
+    "email": "kuba10j@gmail.com",
+    "hashedPassword": "aef9586e02e8f74fca6faac0f049ae038b2def05339367b77f4dea46ee6899a9",
+    "nick": "Kajot",
+    "dateCreated": 1611650063945,
+    "lastLogged": 1611650891851,
+    "activated": true,
+    "favourites": [],
+    "emailSent": 1611650613928
+  }
+}
