@@ -139,3 +139,6 @@ section[type="form"] button:focus:not(:hover) {
 section[type="form"] *:last-child {
     margin-top: 20px;
 }
+section[type="content"] {
+    padding: 2%;
+}
