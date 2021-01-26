@@ -138,7 +138,6 @@ function defineAuth(app) {
                 });
                 //instant login
                 const newToken = await databaseHelpers.createToken(userID);
-                console.log("NOWY TOKEN", newToken);
                 req.session.token = newToken;
                 res.status(201);
                 res.end();
@@ -271,6 +270,7 @@ function defineAuth(app) {
     });
 
     app.get("/api/users", async (req, res) => {
+        console.log(req.session.token);
         if (typeof req.session.token == "string") {
             const userID = await databaseHelpers.verifyToken(req.session.token.trim());
             if (userID) {

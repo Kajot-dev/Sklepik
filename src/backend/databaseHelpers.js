@@ -232,6 +232,7 @@ async function createToken(userID) {
         expires: utils.addMinutes(new Date(), 30).getTime(),
         userID: userID
     }).write();
+    console.log("NOWY TOKEN", newToken);
     return newToken;
 }
 
