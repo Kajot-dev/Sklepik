@@ -274,6 +274,7 @@ function getCheapestProducts(num) {
 
 function activateUser(token) {
     const t = database.mailActivations.get(token).value();
+    console.log(t);
     if (t && t.userID) {
         database.users.set(t.userID + ".activated", true).write();
         removeUserActivations(t.userID);
