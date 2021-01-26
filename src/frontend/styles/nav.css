@@ -281,3 +281,6 @@ footer hr {
     color: var(--color-B);
     font-family: "Lato Light", sans-serif;
 }
+header + footer {
+    margin-top: calc(100vh - var(--footerHeight) - var(--navBarHeight) - (var(--footerVerticalPadding) * 2));
+}
