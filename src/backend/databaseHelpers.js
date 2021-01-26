@@ -35,8 +35,11 @@ function removeNonActivatedUsers() {
             removedUserIDs.push(key);
         }
     }
-    dataUsers.write();
-    removeUsersTokens(removedUserIDs);
+    if (removedUserIDs.length > 0) {
+        dataUsers.write();
+        removeUsersTokens(removedUserIDs);
+        removeUsersActivations(removedUserIDs);
+    }
 }
 
 function removeInactiveUsers() {
@@ -49,8 +52,11 @@ function removeInactiveUsers() {
             removedUserIDs.push(key);
         }
     }
-    dataUsers.write();
-    removeUsersTokens(removedUserIDs);
+    if (removedUserIDs.length > 0) {
+        dataUsers.write();
+        removeUsersTokens(removedUserIDs);
+        removeUsersActivations(removedUserIDs);
+    }
 }
 
 function removeUsersTokens(IDs) {
@@ -75,6 +81,14 @@ function removeUserActivations(ID) {
         if (token.userID === ID) dataMails = dataMails.unset(key);
     }
     dataMails.write();
+}
+
+function removeUsersActivations(IDs) {
+    let dataActivations = database.mailActivations;
+    for (const [key, activationToken] of Object.entries(dataActivations.value())) {
+        if (IDs.includes(activationToken.userID)) dataActivations = dataActivations.unset(key);
+    }
+    dataActivations.write();
 }
 
 function removeUser(ID) {
@@ -303,6 +317,7 @@ module.exports = {
     removeExpiredActivations,
     createActivationToken,
     removeUserActivations,
+    removeUsersActivations,
     transferActivations,
     activateUser,
     isUserAwaitingActivation,

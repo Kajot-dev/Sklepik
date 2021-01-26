@@ -12,7 +12,7 @@ function init() {
         databaseHelpers.removeNonActivatedUsers();
         databaseHelpers.removeInactiveUsers();
         databaseHelpers.prodMeta();
-    }, 1000 * 60 * 60); //co godzinę
+    }, 1000 * 60 * 60); //co minutę
 }
 
 
