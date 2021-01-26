@@ -76,6 +76,7 @@ function defineAuth(app) {
                 if (await databaseHelpers.getHashedPass(userID) === await utils.passHash(password)) {
                     const newToken = await databaseHelpers.createToken(userID);
                     req.session.token = newToken;
+                    console.log("Logowanie", newToken, req.session);
                     res.status(200);
                     res.end();
                 } else {
