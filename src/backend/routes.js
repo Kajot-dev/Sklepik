@@ -76,7 +76,7 @@ function defineAuth(app) {
                 if (await databaseHelpers.getHashedPass(userID) === await utils.passHash(password)) {
                     const newToken = await databaseHelpers.createToken(userID);
                     req.session.token = newToken;
-                    console.log("Logowanie", newToken, req.session);
+                    console.log("Logowanie", newToken, Object.entries(req.session));
                     res.status(200);
                     res.end();
                 } else {
@@ -271,7 +271,7 @@ function defineAuth(app) {
     });
 
     app.get("/api/users", async (req, res) => {
-        console.log(req.session.token);
+        console.log(Object.entries(req.session));
         if (typeof req.session.token == "string") {
             const userID = await databaseHelpers.verifyToken(req.session.token.trim());
             if (userID) {
