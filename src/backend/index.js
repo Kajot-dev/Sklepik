@@ -36,10 +36,9 @@ async function init() {
         app.use(session({
             secret: (await config).get("sessionSecret").value(),
             saveUninitialized: true,
-            resave: false,
+            resave: true,
             name: (await config).get("sessionName").value(),
             cookie: {
-                secure: true,
                 httpOnly: true,
                 sameSite: true,
                 maxAge: 1000 * 60 * 45,
