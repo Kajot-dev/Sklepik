@@ -24,7 +24,7 @@ section[type="hr-title"] hr {
     width: 10vw;
 }
 section[type="text-on-image"].high {
-    height: 700px;
+    height: 77vh;
    
 }
 section[type="text-on-image"] div {
@@ -145,7 +145,27 @@ section[type="content"] {
 }
 .guzik {
     position: absolute;
-    top: 70%;
-    left: 50%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
+    top: 85%;
+    left: 15%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    margin: 8px;
+    color:rgba(0, 0, 0, 0.8);
+    border-color: #ffffff;
+    position: relative;
+    display: inline-block;
+    padding: 14px 28px;
+    line-height: normal;
+    border: 1px solid transparent;
+    border-radius: 0;
+    text-transform: uppercase;
+    font-family: "Lato Light", sans-serif;
+    font-size: 80%;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 0.2em;
+    background-color:#F8F8FF;
+    -webkit-tap-highlight-color: initial;
+    
+}
+ 
