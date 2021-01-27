@@ -16,18 +16,23 @@ const httpPort = process.env.PORT || 8000;
 
 async function init() {
     if (cluster.isMaster) {
+        console.log("Running in " + process.env.NODE_ENV + " environment!");
+
         const app = express();
 
-        app.use(helmet({
-            contentSecurityPolicy: {
-                directives: Object.assign(helmet.contentSecurityPolicy.getDefaultDirectives(), {
-                    frameSrc: ["'self'", "https://www.google.com/"],
-                })
-            }
-        }));
+        if (process.env.NODE_ENV !== "testing") {
+            
+            app.use(helmet({
+                contentSecurityPolicy: {
+                    directives: Object.assign(helmet.contentSecurityPolicy.getDefaultDirectives(), {
+                        frameSrc: ["'self'", "https://www.google.com/"],
+                    })
+                }
+            }));
+        }
+        
         const sessionSecret = (await config).get("sessionSecret").value();
         const sessionName = (await config).get("sessionName").value();
-        console.log(sessionName, sessionSecret);
         app.use(session({
             secret: sessionSecret,
             saveUninitialized: true,
