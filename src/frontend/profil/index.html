@@ -80,6 +80,46 @@
             </div>
         </div>
     </header>
+    <section type="bg">
+        <section type="selection-layout" role="profile-data">
+            <div class="selection-column">
+                <div class="selection-option" data-option="userdata" selected>Moje dane</div>
+                <div class="selection-option" data-option="favourites">Moje ulubione</div>
+                <div class="selection-option" data-option="cart">Koszyk</div>
+            </div>
+            <div class="data-column flex-column">
+                <div class="selection-data" data-content="userdata">
+                    <form id="userdata">
+                        <div class="flex-row">
+                            <label for="nick">Twój nick: </label>
+                            <input type="text" name="nick" disabled>
+                            <button name="changeNick" disabled>Zmień nick</button>
+                        </div>
+                        <hr/>
+                        <div class="flex-row">
+                            <label for="email">Twój email: </label>
+                            <input type="email" name="email" disabled>
+                            <button name="changeEmail" disabled>Zmień email</button>
+                        </div>
+                        <hr/>
+                        <div class="flex-row">
+                            <label for="oldpassword">Stare hasło: </label>
+                            <input type="text" name="oldpassword" disabled>
+                            <label for="password">Nowe hasło: </label>
+                            <input type="text" name="password" disabled>
+                            <button name="changeEmail" disabled>Zmień hasło</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="selection-data" data-content="favourites">
+                    <section type="favourites"></section>
+                </div>
+                <div class="selection-data" data-content="cart">
+                    <section type="cart"></section>
+                </div>
+            </div>
+        </section>
+    </section>
     <footer id="footer">
         <div class="flex-row flex-around">
             <div class="self-centered">
