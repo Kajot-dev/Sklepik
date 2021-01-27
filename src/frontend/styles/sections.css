@@ -143,20 +143,15 @@ section[type="form"] *:last-child {
 section[type="content"] {
     padding: 2%;
 }
-.guzik {
+section[type="text-on-image"] button.guzik {
     position: absolute;
-    top: 85%;
-    left: 15%;
-    transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    margin: 8px;
+    top: 75%;
+    left: 10%;
     color:rgba(0, 0, 0, 0.8);
     border-color: #ffffff;
-    position: relative;
-    display: inline-block;
-    padding: 14px 28px;
-    line-height: normal;
-    border: 1px solid transparent;
+    display: block;
+    padding: 20px 34px;
+    border: 0;
     border-radius: 0;
     text-transform: uppercase;
     font-family: "Lato Light", sans-serif;
@@ -166,6 +161,12 @@ section[type="content"] {
     letter-spacing: 0.2em;
     background-color:#F8F8FF;
     -webkit-tap-highlight-color: initial;
-    
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
- 
+
+section[type="text-on-image"] button.guzik:hover {
+    transform: translateX(5px);
+    box-shadow: 4px 4px 13px rgba(0, 0, 0, 0.9);
+    cursor: pointer;
+}

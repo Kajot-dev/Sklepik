@@ -230,7 +230,7 @@ async function createToken(userID) {
     await (await database.tokens).set(newToken, {
         expires: utils.addMinutes(new Date(), 30).getTime(),
         userID: userID
-    }).write();;
+    }).write();
     return newToken;
 }
 
@@ -245,7 +245,7 @@ async function createActivationToken(userID) {
 
 async function prodMeta() {
     await (await database.products).map(async prod => {
-        const validID = await utils.hash(prod.name);
+        const validID = await utils.hashProd(prod.name);
         if (typeof prod.ID !== "string" || prod.ID !== validID) {
             prod.ID = validID;
         }
@@ -292,6 +292,15 @@ async function isUserAwaitingActivation(userID) {
     if (check) return true;
     return false;
 }
+
+async function getProduct(id) {
+    return (await database.products).find(p => p.ID = id).value();
+}
+
+async function getProductByName(name) {
+    const id = utils.hashProd(name);
+    return await getProduct(id);
+}
 module.exports = {
     removeExpiredTokens,
     removeNonActivatedUsers,
@@ -326,5 +335,7 @@ module.exports = {
     transferActivations,
     activateUser,
     isUserAwaitingActivation,
-    sendActivationMail
+    sendActivationMail,
+    getProduct,
+    getProductByName
 }
