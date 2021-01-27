@@ -24,7 +24,8 @@ section[type="hr-title"] hr {
     width: 10vw;
 }
 section[type="text-on-image"].high {
-    height: 500px;
+    height: 700px;
+   
 }
 section[type="text-on-image"] div {
     position: absolute;
@@ -142,3 +143,9 @@ section[type="form"] *:last-child {
 section[type="content"] {
     padding: 2%;
 }
+.guzik {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
