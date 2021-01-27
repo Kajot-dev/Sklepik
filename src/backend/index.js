@@ -2,7 +2,6 @@ const express = require("express");
 const session = require("cookie-session");
 const bodyParser = require("body-parser");
 const routes = require("./routes");
-const os = require("os");
 const cluster = require("cluster");
 const colors = require("colors");
 const worker = require("./worker");
@@ -34,16 +33,16 @@ async function init() {
         const sessionSecret = (await config).get("sessionSecret").value();
         const sessionName = (await config).get("sessionName").value();
         app.use(session({
+            name: sessionName,
             secret: sessionSecret,
             saveUninitialized: true,
             resave: false,
-            name: sessionName,
             cookie: {
+                secure: true,
                 httpOnly: true,
                 sameSite: true,
                 maxAge: 1000 * 60 * 45,
-                signed: true,
-                secure: true
+                signed: true
             }
         }));
         app.use(bodyParser.urlencoded({

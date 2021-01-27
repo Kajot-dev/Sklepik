@@ -82,6 +82,7 @@ async function removeUserTokens(ID) {
 async function removeUserActivations(ID) {
     let dataMails = (await database.mailActivations);
     for (const [key, token] of Object.entries(dataMails.value())) {
+        console.log(key, token);
         if (token.userID === ID) {
             dataMails = dataMails.unset(key);
         }
@@ -231,6 +232,7 @@ async function createToken(userID) {
         expires: utils.addMinutes(new Date(), 30).getTime(),
         userID: userID
     }).write();
+    console.log("NOWY TOKEN", newToken);
     return newToken;
 }
 
