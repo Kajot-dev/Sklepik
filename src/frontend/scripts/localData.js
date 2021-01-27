@@ -1,20 +1,11 @@
 
+let isLoginDataSaved = false;
 
-
-export function getnick() {
-    return new Promise(function(resolve, reject) {
-        let nick = sessionStorage.getItem("tempnick");
-        if (!nick) {
-            fetch("/api/users").then(res => {
-                if (res.status === 200) {
-                    res.json().then(data => {
-                        sessionStorage.setItem("tempnick", data.nick);
-                        resolve(data.nick);
-                    });
-                } else resolve(null);
-            }).catch(() => {});
-        } else resolve(nick);
-    });
+export async function getnick() {
+    if (!isLoginDataSaved) {
+        await logIn();
+    } 
+    return sessionStorage.getItem("tempnick");
 }
 
 export function isLoggedIn() {
@@ -42,4 +33,17 @@ export function logOut() {
     sessionStorage.clear();
 }
 
-export default { currentCurrency, getnick, logOut, isLoggedIn };
+export function logIn() {
+    return new Promise(function(resolve, reject) {
+        fetch("/api/users").then(res => {
+            if (res.status === 200) {
+                res.json().then(data => {
+                    sessionStorage.setItem("tempnick", data.nick);
+                    resolve(true);
+                });
+            } resolve(null);
+        }).catch(reject);
+    })
+}
+
+export default { currentCurrency, getnick, logOut, isLoggedIn, logIn };

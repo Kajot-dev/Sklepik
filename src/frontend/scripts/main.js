@@ -49,7 +49,7 @@ async function prepareUserData() {
   let nick = await localData.getnick();
   if (nick) {
     loginButton.innerText = nick;
-  }
+  } else loginButton.innerText = "Zaloguj się";
 }
 
 function prapareNavigation() {
