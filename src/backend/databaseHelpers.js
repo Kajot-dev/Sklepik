@@ -230,7 +230,7 @@ async function createToken(userID) {
     await (await database.tokens).set(newToken, {
         expires: utils.addMinutes(new Date(), 30).getTime(),
         userID: userID
-    }).write();
+    }).write();;
     return newToken;
 }
 

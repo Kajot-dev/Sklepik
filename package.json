@@ -5,8 +5,9 @@
   "main": "index.html",
   "scripts": {
     "open": "delay 1 && open-cli \"http://localhost:8000\"",
-    "start": "node src/backend/index.js",
-    "start-local": "run-p start open",
+    "start": "cross-env NODE_ENV=production node src/backend/index.js",
+    "start-test": "cross-env NODE_ENV=testing node src/backend/index.js",
+    "start-local": "run-p start-test open",
     "nav-sync": "node build/scripts/nav-sync.js"
   },
   "repository": {
@@ -28,6 +29,7 @@
   "dependencies": {
     "colors": "^1.4.0",
     "cookie-session": "^1.4.0",
+    "cross-env": "^7.0.3",
     "express": "^4.17.1",
     "helmet": "^4.4.1",
     "lowdb": "^1.0.0",

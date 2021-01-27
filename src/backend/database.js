@@ -17,12 +17,7 @@ const databasePath = path.join(__dirname, 'database');
 //config
 const config = low(new FileAsync(path.join(databasePath, "config.json")));
 
-/*const configData = config.value();
-configData.sessionSecret = configData.sessionSecret || unique.random(uniqueOpts);
-configData.sessionName = configData.sessionName || unique.random(uniqueOpts);
-configData.hashingSecret = configData.hashingSecret || random(1, 100);
-configData.passSecret = configData.passSecret || unique.random(uniqueOpts);
-config.set(configData).write();*/
+
 
 //users
 const users = low(new FileAsync(path.join(databasePath, "users.json")));
@@ -46,6 +41,12 @@ async function defs() {
     (await tokens).defaults({}).write();
     (await products).defaults([]).write();
     (await mailActivations).defaults({}).write();
+    const configData = (await config).value();
+    configData.sessionSecret = configData.sessionSecret || unique.random(uniqueOpts);
+    configData.sessionName = configData.sessionName || unique.random(uniqueOpts);
+    configData.hashingSecret = configData.hashingSecret || random(1, 100);
+    configData.passSecret = configData.passSecret || unique.random(uniqueOpts);
+    await (await config).set(configData).write();
 }
 
 defs();

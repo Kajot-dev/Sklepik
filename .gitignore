@@ -1,1 +1,4 @@
 /node_modules
+/src/backend/database/emailActivations.json
+/src/backend/database/tokens.json
+/src/backend/database/users.json
