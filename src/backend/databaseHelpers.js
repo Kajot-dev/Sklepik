@@ -119,7 +119,7 @@ async function createUser(userID, {
         .set(userID + ".activated", false)
         .set(userID + ".favourites", [])
         .write();
-        await sendActivationMail({ email, nick, userID });
+    await sendActivationMail({ email, nick, userID });
 }
 
 async function sendActivationMail({ email, nick, userID }) {

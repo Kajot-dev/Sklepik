@@ -12,7 +12,13 @@ function init(app) {
         if (!await databaseHelpers.refreshToken(req.session.token)) {
             req.session.token = undefined; //delete invalid token
         }
-        res.sendFile(indexPath);
+        res.status(200);
+        try {
+            res.sendFile(indexPath);
+        } catch (e) {
+            if (e.code === "ENOENT") res.sendStatus(404);
+            else if (e.code !== "ECONNABORTED") res.sendStatus(500);
+        }
     });
 
     defineProducts(app);
@@ -36,16 +42,15 @@ function init(app) {
                     req.session.token = undefined; //delete invalid token
                 }
             }
-            res.sendFile(processedPath, function(err) {
-                if (!err) res.end();
-                else if (err.code === "ENOENT") res.sendStatus(404);
-                else if (err.code !== "ECONNABORTED"){
-                    res.sendStatus(500);
-                }
-            });
+            try {
+                res.sendFile(processedPath);
+            } catch (e) {
+                if (e.code === "ENOENT") res.sendStatus(404);
+                else if (e.code !== "ECONNABORTED") res.sendStatus(500);
+            }
         } else {
-            res.status(403);
-            res.end();
+            await res.status(403);
+            await res.end();
         }
     });
 }

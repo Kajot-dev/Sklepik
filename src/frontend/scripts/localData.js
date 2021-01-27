@@ -14,6 +14,14 @@ export function isLoggedIn() {
     });
 }
 
+export function getUserData() {
+    return new Promise(function(resolve, reject) {
+        fetch("/api/users").then(res => {
+            res.json().then(data => resolve(data));
+        }).catch(resolve(null));
+    });
+}
+
 export function currentCurrency() {
     let currency = localStorage.getItem("currency");
     if (!currency) {
@@ -46,4 +54,4 @@ export function logIn() {
     })
 }
 
-export default { currentCurrency, getnick, logOut, isLoggedIn, logIn };
+export default { currentCurrency, getnick, logOut, isLoggedIn, logIn, getUserData };

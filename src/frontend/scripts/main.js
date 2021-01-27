@@ -46,9 +46,11 @@ function preventOutline() {
 
 async function prepareUserData() {
   const loginButton = document.getElementById("loginText");
+  const loginLink = document.getElementById("loginLink");
   let nick = await localData.getnick();
   if (nick) {
     loginButton.innerText = nick;
+    loginLink.href = "/profil";
   } else loginButton.innerText = "Zaloguj się";
 }
 

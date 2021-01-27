@@ -89,6 +89,16 @@ export async function activationStatus() {
         });
     } else redirect("/logowanie");
 }
+
+export async function profil() {
+    const user = await localData.getUserData();
+    if (user) {
+        const userData = document.getElementById("userdata");
+        const nickInput = userData.querySelector(`input[name="nick"]`);
+        const emailInput = userData.querySelector(`input[name="email"]`);
+        //TODO
+    } else redirect("/logowanie");
+}
 export default {
     logowanie,
     rejstracja,

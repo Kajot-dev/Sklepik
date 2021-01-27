@@ -1,5 +1,6 @@
 const databaseHelpers = require("../databaseHelpers");
 const utils = require("../utils");
+const assert = require("assert").strict;
 
 function defineProducts(app) {
     app.get("/api/products/:type", async (req, res) => {
