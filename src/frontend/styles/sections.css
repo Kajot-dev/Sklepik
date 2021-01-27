@@ -170,3 +170,11 @@ section[type="text-on-image"] button.guzik:hover {
     box-shadow: 4px 4px 13px rgba(0, 0, 0, 0.9);
     cursor: pointer;
 }
+
+section[type="selection-layout"] {
+    width: 90%;
+    height: 80%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    flex-grow: 1;
+}

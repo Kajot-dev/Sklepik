@@ -15,7 +15,7 @@ const httpPort = process.env.PORT || 8000;
 
 async function init() {
     if (cluster.isMaster) {
-        console.log("Running in " + process.env.NODE_ENV + " environment!");
+        console.log("Running in " + colors.yellow(process.env.NODE_ENV) + " environment!");
 
         const app = express();
 

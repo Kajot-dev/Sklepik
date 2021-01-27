@@ -7,8 +7,8 @@ export function processAll() {
     processProductsSections();
 }
 
-export function processProductsSections() {
-    let sections = document.querySelectorAll(`section[type="product-tile-list"]`);
+export function processProductsSections(context = document) {
+    let sections = context.querySelectorAll(`section[type="product-tile-list"]`);
     for (let section of sections) {
         let opts = {};
         let nowUrl = new URL(window.location.origin);
