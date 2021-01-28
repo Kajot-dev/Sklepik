@@ -27,12 +27,14 @@ class realAsync {
                     reject(new Error("Error reading the file!"));
                 })
             }).catch(() => {
-                fsPromises.writeFile(this.source, this.defaultValue, {
+                fsPromises.writeFile(this.source, this.serialize(this.defaultValue), {
                     encoding: "utf8"
                 }).then(() => {
                     resolve(this.defaultValue);
-                }).catch(() => {
-                    reject(new Error("Error creationg file!"));
+                }).catch((err) => {
+                    console.error(err);
+                    alert(err.code);
+                    reject(new Error("Error creating file!"));
                 })
             });
         });
