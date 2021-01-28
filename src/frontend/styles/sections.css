@@ -24,7 +24,7 @@ section[type="hr-title"] hr {
     width: 10vw;
 }
 section[type="text-on-image"].high {
-    height: 77vh;
+    height: calc(100vh - var(--navBarHeight));
    
 }
 section[type="text-on-image"] div {

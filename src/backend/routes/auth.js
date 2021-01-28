@@ -230,6 +230,7 @@ function defineAuth(app) {
             if (userID) {
                 const user = await databaseHelpers.getUserCopy(userID);
                 delete user.hashedPassword;
+                res.status(200);
                 res.send(user);
             } else res.sendStatus(401);
         } else res.sendStatus(204);

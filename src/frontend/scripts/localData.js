@@ -3,7 +3,9 @@ let isLoginDataSaved = false;
 
 export async function getnick() {
     if (!isLoginDataSaved) {
-        await logIn();
+        let data = await logIn();
+        if (data) data = data.nick;
+        return data;
     } 
     return sessionStorage.getItem("tempnick");
 }
@@ -47,9 +49,10 @@ export function logIn() {
             if (res.status === 200) {
                 res.json().then(data => {
                     sessionStorage.setItem("tempnick", data.nick);
-                    resolve(true);
+                    isLoginDataSaved = true;
+                    resolve(data);
                 });
-            } resolve(null);
+            } else resolve(null);
         }).catch(reject);
     })
 }

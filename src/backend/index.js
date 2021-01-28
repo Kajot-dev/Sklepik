@@ -6,7 +6,7 @@ const cluster = require("cluster");
 const colors = require("colors");
 const worker = require("./worker");
 const helmet = require("helmet");
-const path = require("path");
+const os = require("os");
 const {
     config
 } = require("./database");
@@ -17,6 +17,13 @@ async function init() {
     if (cluster.isMaster) {
         console.log("Running in " + colors.yellow(process.env.NODE_ENV) + " environment!");
 
+        for (let i = 0; i < os.cpus().length; i++) {
+            cluster.fork({ threadID: i+1 });
+        }
+        
+        console.log("Worker is starting!");
+        worker.init();
+    } else {
         const app = express();
 
         if (process.env.NODE_ENV !== "testing") {
@@ -53,16 +60,7 @@ async function init() {
         routes.init(app);
 
         app.listen(httpPort);
-        console.log(colors.magenta("HTTP") + " server is listening on port: " + colors.green(httpPort));
-        cluster.fork();
-    } else {
-        console.log("Worker is starting!");
-        worker.init();
+        console.log(colors.magenta("HTTP") + " server thread " + colors.yellow(process.env.threadID) + " is listening on port: " + colors.green(httpPort));
     }
-
-
-
-
-
 }
 init();

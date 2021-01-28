@@ -1,7 +1,8 @@
 const low = require('lowdb');
-const FileAsync = require('lowdb/adapters/FileAsync');
+const FileAsync = require('./realAsyncAdapter');
 const path = require('path');
 const unique = require('unique-token');
+const cluster = require('cluster');
 const uniqueOpts = {
     length: 15
 };
@@ -49,7 +50,8 @@ async function defs() {
     await (await config).set(configData).write();
 }
 
-defs();
+if (cluster.isMaster) defs();
+
 module.exports = {
     config,
     users,
