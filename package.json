@@ -8,6 +8,7 @@
     "start": "cross-env NODE_ENV=production node src/backend/index.js",
     "start-test": "cross-env NODE_ENV=testing node src/backend/index.js",
     "start-local": "run-p start-test open",
+    "logs": "heroku logs --source app --tail",
     "nav-sync": "node build/scripts/nav-sync.js"
   },
   "repository": {

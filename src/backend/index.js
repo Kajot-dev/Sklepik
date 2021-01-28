@@ -17,9 +17,12 @@ async function init() {
     if (cluster.isMaster) {
         console.log("Running in " + colors.yellow(process.env.NODE_ENV) + " environment!");
 
-        for (let i = 0; i < os.cpus().length; i++) {
-            cluster.fork({ threadID: i+1 });
-        }
+        if (process.env.NODE_ENV !== "testing") {
+            for (let i = 0; i < os.cpus().length; i++) {
+                cluster.fork({ threadID: i+1 });
+            }
+        } cluster.fork({ threadID: 1});
+        
         
         console.log("Worker is starting!");
         worker.init();
@@ -43,7 +46,7 @@ async function init() {
             name: sessionName,
             secret: sessionSecret,
             saveUninitialized: true,
-            resave: false,
+            resave: true,
             cookie: {
                 secure: true,
                 httpOnly: true,
