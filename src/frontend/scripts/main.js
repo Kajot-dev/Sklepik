@@ -45,7 +45,6 @@ function preventOutline() {
 }
 
 async function prepareUserData() {
-  console.log("PREPARING");
   const loginButton = document.getElementById("loginText");
   const loginLink = document.getElementById("loginLink");
   let nick = await localData.getnick();

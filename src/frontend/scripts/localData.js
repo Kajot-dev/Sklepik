@@ -6,8 +6,12 @@ export async function getnick() {
         let data = await logIn();
         if (data) data = data.nick;
         return data;
-    } 
+    }
     return sessionStorage.getItem("tempnick");
+}
+
+export function updateNick(nick) {
+    sessionStorage.setItem("tempnick", nick);
 }
 
 export function isLoggedIn() {
@@ -19,8 +23,13 @@ export function isLoggedIn() {
 export function getUserData() {
     return new Promise(function(resolve, reject) {
         fetch("/api/users").then(res => {
-            res.json().then(data => resolve(data));
-        }).catch(resolve(null));
+
+            if (res.ok) res.json().then(data => resolve(data));
+            else resolve(null);
+        }).catch((err) => {
+            console.log(err);
+            resolve(null);
+        });
     });
 }
 
@@ -57,4 +66,4 @@ export function logIn() {
     })
 }
 
-export default { currentCurrency, getnick, logOut, isLoggedIn, logIn, getUserData };
+export default { currentCurrency, getnick, logOut, isLoggedIn, logIn, getUserData, updateNick };

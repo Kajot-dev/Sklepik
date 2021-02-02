@@ -6,7 +6,7 @@ import localData from "./localData.js";
 import {
     fieldGenerator
 } from "./utils.js";
-import router from "./router.js";
+import routingUtils from "./routingUtils.js";
 
 
 
@@ -178,7 +178,7 @@ export class ProductTile extends HTMLElement {
         this.addEventListener("click", () => {
             let dest = new URL("/produkty/pokaż.html", window.location.origin);
             dest.searchParams.set("p", this.product.getID());
-            router.goto(dest);
+            routingUtils.goto(dest);
         });
         //dodajemy element do drzewa DOM
 

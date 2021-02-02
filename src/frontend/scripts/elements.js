@@ -5,6 +5,7 @@ import {
 
 export function processAll() {
     processProductsSections();
+    processSectionLayouts();
 }
 
 export function processProductsSections(context = document) {
@@ -42,4 +43,36 @@ export function processProductsSections(context = document) {
     }
 }
 
-export default { processAll, processProductsSections }
+export function processSectionLayouts(context = document) {
+    console.log("data-layout");
+    const sections = context.querySelectorAll(`section[type="selection-layout"]`);
+    console.log(sections);
+    for (const sec of sections) {
+        const selColum = sec.querySelector(".selection-column");
+        const dataColumn = sec.querySelector(".data-column");
+        if (!selColum || !dataColumn) break;
+        const selectables = [...selColum.querySelectorAll(".selection-option")];
+        const dataFields = dataColumn.querySelectorAll(".selection-data");
+        for (const opt of selectables) {
+            opt.addEventListener("click", e => {
+                if (opt.hasAttribute("selected")) return;
+                const sel = selectables.find(s => s.hasAttribute("selected"));
+                if (sel) sel.removeAttribute("selected");
+                const target = opt.getAttribute("data-option");
+                for (const field of dataFields) {
+                    if (field.getAttribute("data-content") === target) {
+                        field.classList.remove("hidden");
+                    } else field.classList.add("hidden");
+                }
+                opt.setAttribute("selected", "");
+            });
+        }
+        let selected = selectables.find(s => s.hasAttribute("selected"));
+        selected = selected ? selected : selectables[0];
+        selected.removeAttribute("selected");
+        selected.click();
+   }
+}
+
+
+export default { processAll, processProductsSections, processSectionLayouts }

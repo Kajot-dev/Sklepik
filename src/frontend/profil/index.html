@@ -83,24 +83,22 @@
     <section type="bg" class="theme-A flex-column align-center flex-center">
         <div class="huge-max blod title-font">Twoje dane</div>
         <section type="selection-layout" role="profile-data" class="flex-row flex-center">
-            <div class="selection-column">
+            <div class="selection-column theme-D black">
                 <div class="selection-option" data-option="userdata" selected>Moje dane</div>
                 <div class="selection-option" data-option="favourites">Moje ulubione</div>
                 <div class="selection-option" data-option="cart">Koszyk</div>
             </div>
-            <div class="data-column flex-column">
+            <div class="data-column flex-column theme-C black">
                 <div class="selection-data" data-content="userdata">
                     <form id="userdata">
                         <div class="flex-row">
                             <label for="nick">Twój nick: </label>
                             <input type="text" name="nick" disabled>
-                            <button name="changeNick" disabled>Zmień nick</button>
                         </div>
                         <hr>
                         <div class="flex-row">
                             <label for="email">Twój email: </label>
                             <input type="email" name="email" disabled>
-                            <button name="changeEmail" disabled>Zmień email</button>
                         </div>
                         <hr>
                         <div class="flex-row">
@@ -108,10 +106,10 @@
                             <input type="text" name="oldpassword" disabled>
                             <label for="password">Nowe hasło: </label>
                             <input type="text" name="password" disabled>
-                            <button name="changeEmail" disabled>Zmień hasło</button>
                         </div>
-                        <button type="submit">Zmień wszystkie</button>
+                        <button type="submit">Zapisz zmiany</button>
                     </form>
+                    <div class="abs-down err-down invisible" id="profile-error"></div>
                 </div>
                 <div class="selection-data" data-content="favourites">
                     <section type="favourites"></section>

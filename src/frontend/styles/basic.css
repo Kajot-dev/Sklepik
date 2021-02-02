@@ -316,7 +316,6 @@ body > section:only-of-type {
 .selection-column {
     width: calc(20% - 20px);
     padding: 10px;
-    height: calc(100% - 20px);
     flex-shrink: 1;
 }
 
@@ -339,9 +338,12 @@ body > section:only-of-type {
     
 }
 
+.selection-data.hidden {
+    display: none !important;
+}
+
 .data-column {
     width: calc(80% - 20px);
     padding: 10px;
-    height: calc(100% - 20px);
     flex-grow: 2;
 }

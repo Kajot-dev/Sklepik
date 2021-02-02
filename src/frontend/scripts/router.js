@@ -2,7 +2,8 @@
 import {
   logowanie,
   rejstracja,
-  activationStatus
+  activationStatus,
+  profil
 } from "./routes/user.js";
 import {
   redirectToMain
@@ -17,7 +18,8 @@ const routes = {
   },
   "logowanie": logowanie,
   "rejstracja": rejstracja,
-  "activation/status": activationStatus
+  "activation/status": activationStatus,
+  "profil": profil
 };
 
 export function runCurrentRoute() {

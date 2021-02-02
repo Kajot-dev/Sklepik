@@ -160,24 +160,30 @@ function defineAuth(app) {
                 email = undefined;
             }
 
-            if (password) password = password.trim();
-            if (!utils.stringHelper(password, {
-                    minL: 8,
-                    maxL: 30,
-                    reqNumbers: true,
-                    reqSpecialChars: true
-                })) {
-                password = undefined;
+            if (password) {
+                password = password.trim();
+                if (!utils.stringHelper(password, {
+                        minL: 8,
+                        maxL: 30,
+                        reqNumbers: true,
+                        reqSpecialChars: true
+                    })) {
+                    res.status(400);
+                    return res.end("Nieprawidłowy format nowego hasła!");
+                }
             }
 
-            if (oldPassword) oldPassword = oldPassword.trim();
-            if (!utils.stringHelper(oldPassword, {
-                    minL: 8,
-                    maxL: 30,
-                    reqNumbers: true,
-                    reqSpecialChars: true
-                })) {
-                oldPassword = undefined;
+            if (oldPassword) {
+                oldPassword = oldPassword.trim();
+                if (!utils.stringHelper(oldPassword, {
+                        minL: 8,
+                        maxL: 30,
+                        reqNumbers: true,
+                        reqSpecialChars: true
+                    })) {
+                    res.status(400);
+                    return res.end("Nieprawidłowy format starego hasła!")
+                }
             }
 
             if (nick) nick = nick.trim();
@@ -191,29 +197,34 @@ function defineAuth(app) {
             if (typeof token == "string") {
                 const userID = await databaseHelpers.verifyToken(token);
                 if (userID) {
+                    const userObj = await databaseHelpers.getUser(userID);
+                    if (userObj.nick === nick) nick = undefined;
+                    if (userObj.email === email) email = undefined;
                     if (email && await databaseHelpers.hasUserEmail(email)) {
                         res.status(403);
                         res.end("Taki użytkownik już istnieje!");
                         return;
                     }
-                    if (password || oldPassword) {
-                        if (password && oldPassword) {
-                            const hashedP = await utils.passHash(oldPassword);
-                            if (hashedP !== await databaseHelpers.getHashedPass(userID)) {
-                                res.sendStatus(401);
-                                return;
-                            }
-                        } else {
+                    if (password && oldPassword) {
+                        const hashedP = await utils.passHash(oldPassword);
+                        if (password === oldPassword) {
                             res.status(400);
-                            res.end("Jedno z haseł ma nieprawidłowy format");
+                            res.end("Hasła nie mogą być takie same!");
+                            return;
                         }
-
-                    } else password = undefined;
-                    await databaseHelpers.updateUser(userID, {
-                        email,
-                        password,
-                        nick
-                    });
+                        if (hashedP !== await databaseHelpers.getHashedPass(userID)) {
+                            res.status(401);
+                            res.end("Błędne hasło")
+                            return;
+                        }
+                    }
+                    if (password || nick || email) {
+                        await databaseHelpers.updateUser(userID, {
+                            email,
+                            password,
+                            nick
+                        });
+                    }
                     res.sendStatus(200);
 
                 } else res.sendStatus(401);
@@ -233,7 +244,7 @@ function defineAuth(app) {
                 res.status(200);
                 res.send(user);
             } else res.sendStatus(401);
-        } else res.sendStatus(204);
+        } else res.sendStatus(401);
     });
 
     app.get("/api/activate/:token", async (req, res) => {
@@ -245,9 +256,13 @@ function defineAuth(app) {
     app.get("/api/islogged", async (req, res) => {
         const token = req.session.token;
         if (await databaseHelpers.verifyToken(token)) {
-            res.send({ status: true});
+            res.send({
+                status: true
+            });
         } else {
-            res.send({ status: false});
+            res.send({
+                status: false
+            });
         }
     });
     app.post("/api/logout", async (req, res) => {
@@ -264,15 +279,25 @@ function defineAuth(app) {
         if (userID) {
 
             if (await databaseHelpers.isUserAwaitingActivation(userID)) {
-                res.send({ status: 1});
+                res.send({
+                    status: 1
+                });
             } else if ((await databaseHelpers.getUser(userID)).activated) {
-                res.send({ status: 2});
+                res.send({
+                    status: 2
+                });
             } else {
                 const user = await databaseHelpers.getUser(userID);
-                await databaseHelpers.sendActivationMail({ email: user.email, nick: user.nick, userID});
-                res.send({ status: 1});
+                databaseHelpers.sendActivationMail({
+                    email: user.email,
+                    nick: user.nick,
+                    userID
+                });
+                res.send({
+                    status: 0
+                });
             }
-        } else res.sendStatus(404);   
+        } else res.sendStatus(404);
     });
 }
 

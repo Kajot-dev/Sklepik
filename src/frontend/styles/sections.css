@@ -177,6 +177,7 @@ section[type="selection-layout"] {
     margin-top: 30px;
     margin-bottom: 30px;
     flex-grow: 1;
+    overflow: hidden;
 }
 div.napis{
     position: relative;   
