@@ -28,6 +28,7 @@ export function logowanie() {
                     });
                 });
             } else {
+                localData.clearData();
                 const windowQuery = new URLSearchParams(window.location.search);
                 const cont = windowQuery.get("continue");
                 if (cont) goto(cont);

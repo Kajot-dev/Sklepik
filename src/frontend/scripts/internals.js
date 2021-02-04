@@ -1,4 +1,5 @@
 import Utils from "./utils.js";
+import localData from "./localData.js";
 import database from "./database.js";
 const { EventEmitter } = Utils;
 
@@ -42,6 +43,9 @@ export class Product {
     }
     getID() {
         return Utils.hash(this.name);
+    }
+    addToCart(quantity = 1) {
+        localData.addToCart(this, quantity);
     }
     static safeCreate(prodObj) {
         let { name } = prodObj;

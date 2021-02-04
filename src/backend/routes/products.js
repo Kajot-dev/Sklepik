@@ -90,6 +90,17 @@ function defineProducts(app) {
             } else res.sendStatus(404);
         } else res.sendStatus(400);
     });
+
+    app.post("/api/products/some", async (req, res) => {
+        const IDs = req.body.IDs;
+        if (IDs instanceof Array && IDs.length > 0) {
+            const prods = await databaseHelpers.getProducts(IDs);
+            if (prods.length > 0) {
+                res.status(200);
+                res.send(prods);
+            } else res.sendStatus(404);
+        } else res.sendStatus(400);
+    })
 }
 
 module.exports = defineProducts;

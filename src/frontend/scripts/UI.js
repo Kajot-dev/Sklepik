@@ -155,9 +155,21 @@ export class ProductTile extends HTMLElement {
             //elementy do kupna
             this.buyButton.innerText = "Kup teraz";
             this.buyButton.classList.add("buy-button");
+            this.buyButton.addEventListener("click", e => {
+                e.stopPropagation();
+                this.product.addToCart();
+                routingUtils.goto("koszyk");
+            }, {
+                once: true
+            });
             //dodaj do koszyka
             this.addToCartButton.innerText = "Dodaj do koszyka";
             this.addToCartButton.classList.add("add-to-cart-button");
+            this.addToCartButton.addEventListener("click", e => {
+                e.stopPropagation();
+                this.product.addToCart();
+                alert("Dodano do koszyka!"); //TODO
+            });
             //TODO EVENTY DLA PRZYCISKU
             this.overlay.appendChild(this.buyButton);
             this.overlay.appendChild(this.addToCartButton);
@@ -254,12 +266,260 @@ export class LazyLoad {
     }
 }
 
+export class ProdShow extends HTMLElement {
+    image = document.createElement("img");
+    imageContainer = document.createElement("div");
+    productNameElement = document.createElement("span");
+    priceContainer = document.createElement("div");
+    priceElem = document.createElement("div");
+    buyButton = document.createElement("button");
+    addToCartButton = document.createElement("button");
+    dateContainer = document.createElement("div");
+    breakLine1 = document.createElement("hr");
+    breakLine2 = document.createElement("hr");
+    col1 = document.createElement("div");
+    col2 = document.createElement("div");
+    btnContainer = document.createElement("div");
+    product;
+    constructor(product) {
+        super();
+        //sprawdzamy czy to product
+        if (!(product instanceof Product)) throw new Error("Product is required!");
+        //zapisujemy produkt
+        this.product = product;
+        //tworzymy wszystkie potrzebne elementy
+        this.classList.add("flex-row", "flex-center", "align-center");
+        //kolumna 1
+        this.col1.classList.add("half-col");
+        //zdjęcie produktu
+        this.imageContainer.classList.add("image-container");
+        this.image.classList.add("product-image");
+        this.image.setAttribute("alt", "Zdjęcie produktu");
+        this.imageContainer.appendChild(this.image);
+        this.col1.appendChild(this.imageContainer);
+        //kolumna2
+        this.col2.classList.add("half-col");
+        //nazwa produktu
+        this.productNameElement.classList.add("product-name");
+        this.col2.appendChild(this.productNameElement);
+        //linia1
+        this.breakLine1.classList.add("break-line");
+        this.col2.appendChild(this.breakLine1);
+        //cena
+        this.priceElem.classList.add("product-price");
+        this.priceContainer.classList.add("price-container")
+        this.priceContainer.appendChild(this.priceElem);
+        this.col2.appendChild(this.priceContainer);
+        //przyciski
+        this.btnContainer.classList.add("btnContainer");
+        this.buyButton.innerText = "Kup teraz";
+        this.buyButton.setAttribute("data-role", "buy");
+        this.addToCartButton.innerText = "Dodaj do koszyka";
+        this.addToCartButton.setAttribute("data-role", "addToCart");
+        this.btnContainer.appendChild(this.addToCartButton);
+        this.btnContainer.appendChild(this.buyButton)
+        this.col2.appendChild(this.btnContainer);
+        //linia2
+        this.breakLine2.classList.add("break-line");
+        this.col2.appendChild(this.breakLine2);
+        //data
+        this.dateContainer.classList.add("date-container");
+        this.col2.append(this.dateContainer);
+        //wypełniamy elementy
+        this.viewProductInfo(product);
+        //zakładamy eventy
+        this.product.events.on("priceUpdate", this.viewPrice);
+        this.product.events.on("imageUpdate", this.viewImage);
+        this.addEventListener("click", () => {
+            let dest = new URL("/produkty/pokaż.html", window.location.origin);
+            dest.searchParams.set("p", this.product.getID());
+            routingUtils.goto(dest);
+        });
+        //dodajemy element do drzewa DOM
+        this.append(this.col1, this.col2);
+
+    }
+    viewProductInfo(product) {
+        if (!(product instanceof Product) && this.product instanceof Product) product = this.product;
+        else if (product instanceof Product) this.product = product;
+        if (product.name) this.viewName(product.name);
+        if (product.dateCreated) this.viewDateCreated(product.dateCreated)
+        if (product.imageLink) this.viewImage(product.imageLink);
+        if (product.prices) this.viewPrice(product.prices);
+    }
+    viewPrice(pricesObj) {
+        const currency = localData.currentCurrency();
+        if (currency in pricesObj) this.priceElem.innerText = pricesObj[currency] + " " + currency;
+    }
+    viewImage(imageLink) {
+        this.image.src = imageLink;
+        LazyLoad.processSingle(this.image);
+    }
+    viewName(name) {
+        this.productNameElement.innerText = name
+    }
+    viewDateCreated(date) {
+        const formatter = new Intl.DateTimeFormat("pl-PL", {
+            month: "long",
+            day: "numeric",
+            year: "numeric"
+        });
+        let formatted = formatter.format(date);
+        this.dateContainer.innerText = formatted;
+    }
+}
+export class CartView extends HTMLElement {
+    constructor() {
+        super();
+        this.classList.add("flex-column", "flex-start", "align-center");
+        const cart = localData.getCart()
+        const prods = Object.keys(cart);
+        if (prods.length == 0) {
+            this.classList.add("padding");
+            this.innerText = "Koszyk jest pusty";
+            return;
+        }
+        fetch("/api/products/some", {
+            method: "POST", 
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                IDs: prods
+            })
+        }).then(res => {
+            if (res.ok) {
+                res.json().then(prodObjs => {
+                    for (const p of prodObjs) {
+                        this.appendChild(new CartElement(Product.safeCreate(p), cart[p.ID].quantity));
+                    }
+                });
+            } else {
+                console.log(res);
+            }
+        }).catch(err => {
+            console.error(err);
+        })
+    }
+}
+
+export class CartElement extends HTMLElement {
+    image = document.createElement("img");
+    imageContainer = document.createElement("div");
+    productNameElement = document.createElement("span");
+    priceContainer = document.createElement("div");
+    priceElem = document.createElement("div");
+    breakLine1 = document.createElement("hr");
+    quanElem = document.createElement("input");
+    col1 = document.createElement("div");
+    col2 = document.createElement("div");
+    col3 = document.createElement("div");
+    remBtn = document.createElement("button")
+    product;
+    constructor(product, quantity = 1) {
+        super();
+        //sprawdzamy czy to product
+        if (!(product instanceof Product)) throw new Error("Product is required!");
+        //zapisujemy produkt
+        this.product = product;
+        //tworzymy wszystkie potrzebne elementy
+        this.classList.add("flex-row", "flex-center", "align-center");
+        //kolumna 1
+        this.col1.classList.add("col-1", "flex-center", "align-center");
+        //zdjęcie produktu
+        this.imageContainer.classList.add("image-container");
+        this.image.classList.add("product-image");
+        this.image.setAttribute("alt", "Zdjęcie produktu");
+        this.imageContainer.appendChild(this.image);
+        this.col1.appendChild(this.imageContainer);
+        //kolumna 2
+        this.col2.classList.add("col-2", "flex-column", "align-center");
+        //nazwa produktu
+        this.productNameElement.classList.add("product-name");
+        this.col2.appendChild(this.productNameElement);
+        //linia1
+        this.breakLine1.classList.add("break-line");
+        this.col2.appendChild(this.breakLine1);
+        //cena
+        this.priceElem.classList.add("product-price");
+        this.priceContainer.classList.add("price-container")
+        this.priceContainer.appendChild(this.priceElem);
+        this.col2.appendChild(this.priceContainer);
+        //kolumna 3
+        this.col3.classList.add("col-3", "flex-row", "align-center");
+        //ilość
+        this.quanElem.setAttribute("type", "number");
+        this.quanElem.setAttribute("min", 1);
+        this.quanElem.setAttribute("step", 1);
+        this.quanElem.value = quantity;
+        this.col3.appendChild(this.quanElem);
+        //przycisk do usuwania
+        this.remBtn.innerText = "Usuń";
+        this.col3.appendChild(this.remBtn);
+        //wypełniamy elementy
+        this.viewProductInfo(product);
+        //zakładamy eventy
+        this.product.events.on("priceUpdate", this.viewPrice);
+        this.product.events.on("imageUpdate", this.viewImage);
+        this.imageContainer.addEventListener("click", () => {
+            let dest = new URL("/produkty/pokaż.html", window.location.origin);
+            dest.searchParams.set("p", this.product.getID());
+            routingUtils.goto(dest);
+        });
+        this.productNameElement.addEventListener("click", () => {
+            let dest = new URL("/produkty/pokaż.html", window.location.origin);
+            dest.searchParams.set("p", this.product.getID());
+            routingUtils.goto(dest);
+        });
+        //zmiana ilości
+        this.quanElem.addEventListener("change", e => {
+            quantity = this.quanElem.value;
+            localData.setCartProduct(this.product, quantity);
+        });
+        //usuwanie z koszyka
+        this.remBtn.addEventListener("click", e => {
+            e.stopPropagation();
+            localData.removeFromCart(this.product);
+            this.remove();
+        }, {
+            once: true
+        });
+        //dodajemy elementy do drzewa DOM
+        this.append(this.col1, this.col2, this.col3);
+
+    }
+    viewProductInfo(product) {
+        if (!(product instanceof Product) && this.product instanceof Product) product = this.product;
+        else if (product instanceof Product) this.product = product;
+        if (product.name) this.viewName(product.name);
+        if (product.imageLink) this.viewImage(product.imageLink);
+        if (product.prices) this.viewPrice(product.prices);
+    }
+    viewPrice(pricesObj) {
+        const currency = localData.currentCurrency();
+        if (currency in pricesObj) this.priceElem.innerText = pricesObj[currency] + " " + currency;
+    }
+    viewImage(imageLink) {
+        this.image.src = imageLink;
+        LazyLoad.processSingle(this.image);
+    }
+    viewName(name) {
+        this.productNameElement.innerText = name
+    }
+}
+
 window.customElements.define("product-list", ProductTileList);
 window.customElements.define("product-tile", ProductTile);
+window.customElements.define("product-show", ProdShow);
+window.customElements.define("cart-view", CartView);
+window.customElements.define("cart-element", CartElement);
 
 export default {
     ProductTile,
     ProductTileList,
     LazyLoad,
+    ProdShow,
+    CartView,
+    CartElement,
     navBarTrigger
 }

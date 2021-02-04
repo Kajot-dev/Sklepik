@@ -49,21 +49,80 @@ export function logOut() {
     }).catch(err => {
         console.error(err);
     });
-    sessionStorage.clear();
+    clearData();
+}
+
+function clearData() {
+    localStorage.removeItem("tempCart");
+    sessionStorage.removeItem("tempnick");
 }
 
 export function logIn() {
     return new Promise(function(resolve, reject) {
-        fetch("/api/users").then(res => {
-            if (res.status === 200) {
-                res.json().then(data => {
-                    sessionStorage.setItem("tempnick", data.nick);
-                    isLoginDataSaved = true;
-                    resolve(data);
-                });
+        fetch("/api/islogged").then(res => res.json()).then(data => {
+            if (data.status) {
+                fetch("/api/users").then(res => {
+                    if (res.status === 200) {
+                        res.json().then(userObj => {
+                            sessionStorage.setItem("tempnick", userObj.nick);
+                            isLoginDataSaved = true;
+                            resolve(userObj);
+                        });
+                    } else resolve(null);
+                }).catch(reject);
             } else resolve(null);
-        }).catch(reject);
-    })
+        });
+    });
 }
 
-export default { currentCurrency, getnick, logOut, isLoggedIn, logIn, getUserData, updateNick };
+export function getCart() {
+    let c = localStorage.getItem("tempCart");
+    try {
+        c = JSON.parse(c);
+    } catch (e) {
+        return {};
+    }
+    return c ? c : {};
+}
+
+export function addToCart(product, quantity = 1) {
+    const cart = getCart();
+    const id = product.getID();
+    if (id in cart) {
+        cart[id].quantity += quantity;
+    } else {
+        cart[id] = { 
+            quantity: 1
+        }
+    }
+    setCart(cart);
+}
+
+export function subtractFromCart(product, quantity = 1) {
+    const cart = getCart();
+    const id = product.getID();
+    if (id in cart) { 
+        if (cart[id].quantity > quantity) cart[id].quantity -= quantity;
+        else delete cart[id];
+        setCart(cart);
+    }
+}
+export function setCartProduct(product, quantity = 1) {
+    const cart = getCart();
+    const id = product.getID();
+    cart[id] = {
+        quantity: quantity
+    }
+    setCart(cart);
+}
+export function removeFromCart(product) {
+    const cart = getCart();
+    const id = product.getID();
+    delete cart[id];
+    setCart(cart);
+}
+
+export function setCart(cartObj) {
+    localStorage.setItem("tempCart", JSON.stringify(cartObj));
+}
+export default { currentCurrency, getnick, logOut, isLoggedIn, logIn, getUserData, updateNick, getCart, addToCart, subtractFromCart, clearData, setCartProduct, removeFromCart };

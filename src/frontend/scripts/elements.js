@@ -1,11 +1,13 @@
 import database from "./database.js";
 import {
-    ProductTileList
+    ProductTileList,
+    CartView
 } from "./UI.js";
 
 export function processAll() {
     processProductsSections();
     processSectionLayouts();
+    processCartSections();
 }
 
 export function processProductsSections(context = document) {
@@ -44,9 +46,8 @@ export function processProductsSections(context = document) {
 }
 
 export function processSectionLayouts(context = document) {
-    console.log("data-layout");
     const sections = context.querySelectorAll(`section[type="selection-layout"]`);
-    console.log(sections);
+
     for (const sec of sections) {
         const selColum = sec.querySelector(".selection-column");
         const dataColumn = sec.querySelector(".data-column");
@@ -74,5 +75,11 @@ export function processSectionLayouts(context = document) {
    }
 }
 
+export function processCartSections(context = document) {
+    const allCarts = context.querySelectorAll(`section[type="cart"]`);
+    for (const cartCont of allCarts) {
+        cartCont.appendChild(new CartView());
+    }
+}
 
-export default { processAll, processProductsSections, processSectionLayouts }
+export default { processAll, processProductsSections, processSectionLayouts, processCartSections }

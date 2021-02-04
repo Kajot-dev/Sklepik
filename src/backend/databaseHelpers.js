@@ -293,12 +293,16 @@ async function isUserAwaitingActivation(userID) {
 }
 
 async function getProduct(id) {
-    return (await database.products).find(p => p.ID = id).value();
+    return (await database.products).find(p => p.ID === id).value();
 }
 
 async function getProductByName(name) {
     const id = utils.hashProd(name);
     return await getProduct(id);
+}
+
+async function getProducts(IDs) {
+    return (await database.products).filter(p => IDs.includes(p.ID)).value();
 }
 module.exports = {
     removeExpiredTokens,
@@ -336,5 +340,6 @@ module.exports = {
     isUserAwaitingActivation,
     sendActivationMail,
     getProduct,
-    getProductByName
+    getProductByName,
+    getProducts
 }
