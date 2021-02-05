@@ -169,6 +169,9 @@ hr {
 .flex-around {
     justify-content: space-around;
 }
+.flex-between {
+    justify-content: space-between;
+}
 .flex-left {
     justify-content: flex-start;
 }
@@ -203,6 +206,10 @@ hr {
 }
 .half-w {
     width: 50%;
+}
+.side-padding {
+    padding-left: 2%;
+    padding-right: 2%;
 }
 img.darker {
     filter: brightness(0.6);

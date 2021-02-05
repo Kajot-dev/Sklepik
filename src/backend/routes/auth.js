@@ -104,45 +104,18 @@ function defineAuth(app) {
     });
 
     app.delete("/api/users", async (req, res) => {
-        let {
-            email,
-            password
-        } = req.body;
-        if (typeof email === "string" && typeof password === "string") {
-            await databaseHelpers.removeToken(req.session.token);
-            email = email.trim();
-            if (!utils.isEmail(email)) {
-                res.status(400);
-                res.end("Błędny login!");
-                return;
-            }
-            password = password.trim();
-            if (!utils.stringHelper(password, {
-                    minL: 8,
-                    maxL: 30
-                })) {
-                res.status(400);
-                res.end("Błędny format hasła!");
-                return;
-            }
-            const userID = await utils.hash(email);
+        const token = req.session.token;
+        if (typeof token === "string") {
+            const userID = await databaseHelpers.verifyToken(token);
             if (await databaseHelpers.isUser(userID)) {
-                if (await databaseHelpers.getHashedPass(userID) === await utils.passHash(password)) {
-                    await databaseHelpers.removeUser(userID);
-                    res.status(200);
-                    res.end();
-                } else {
-                    res.status(400);
-                    res.end("Błędne hasło!");
-                }
+                await databaseHelpers.removeUser(userID);
+                req.session.token = undefined;
+                res.sendStatus(200);
             } else {
-                res.status(404);
-                res.end("Błędny login!");
+                req.session.token = undefined;
+                res.sendStatus(404);
             }
-        } else {
-            res.status(400);
-            res.end("Brakuje danych!");
-        }
+        } else res.sendStatus(401);
     });
 
     app.patch('/api/users', async (req, res) => {

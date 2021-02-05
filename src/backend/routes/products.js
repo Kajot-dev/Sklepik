@@ -8,6 +8,7 @@ function defineProducts(app) {
         let quantity = req.query.quantity;
         let sort = req.query.sort;
         let desc = req.query.desc;
+        let question = req.query.q;
         try {
             quantity = parseInt(quantity);
             assert.ok(quantity > 0);
@@ -42,6 +43,21 @@ function defineProducts(app) {
                     return;
                 }
                 products = await databaseHelpers.getCheapestProducts(quantity);
+                break;
+            case "favourites":
+                const token = req.session.token;
+                if (typeof token === "string") {
+                    const userID = await databaseHelpers.verifyToken(token);
+                    if (userID) {
+                        products = await databaseHelpers.getFavourites(userID);
+                    } else return res.sendStatus(404);
+                } else return res.sendStatus(401);
+                break;
+            case "query":
+                if (typeof question === "string") {
+                    const q = utils.insensitiveName(question);
+                    products = await databaseHelpers.queryProducts(q);
+                } else return res.sendStatus(400);
                 break;
             default:
                 res.sendStatus(404);
@@ -100,7 +116,27 @@ function defineProducts(app) {
                 res.send(prods);
             } else res.sendStatus(404);
         } else res.sendStatus(400);
-    })
+    });
+    app.post("/api/favourites/:id", async (req, res) => {
+        const id = req.params.id;
+        const token = req.session.token;
+        if (typeof token === "string" && typeof id === "string") {
+            const userID = await databaseHelpers.verifyToken(token);
+            if (userID) {
+                await databaseHelpers.addFavourite(userID, id);
+                res.sendStatus(200);
+            } else res.sendStatus(404);
+        } else res.sendStatus(401);
+    });
+    app.delete("/api/favourites/:id", async (req, res) => {
+        const id = req.params.id;
+        const token = req.session.token;
+        if (typeof token === "string" && typeof id === "string") {
+            const userID = await databaseHelpers.verifyToken(token);
+            await databaseHelpers.removeFavourite(userID, id);
+            res.sendStatus(200);
+        } else res.sendStatus(401);
+    });
 }
 
 module.exports = defineProducts;

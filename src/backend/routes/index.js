@@ -42,12 +42,12 @@ function init(app) {
                     req.session.token = undefined; //delete invalid token
                 }
             }
-            try {
-                res.sendFile(processedPath);
-            } catch (e) {
-                if (e.code === "ENOENT") res.sendStatus(404);
-                else if (e.code !== "ECONNABORTED") res.sendStatus(500);
-            }
+            res.sendFile(processedPath, e => {
+                if (e) {
+                    if (e.code === "ENOENT") res.sendStatus(404);
+                    else if (e.code !== "ECONNABORTED") res.sendStatus(500);
+                }
+            });
         } else {
             await res.status(403);
             await res.end();

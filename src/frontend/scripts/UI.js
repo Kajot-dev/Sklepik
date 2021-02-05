@@ -33,6 +33,7 @@ export class ProductTileList extends HTMLElement {
         if (products.length > 1 && !listopts.sorted) {
             this.sort();
         } else {
+            console.log("retyping");
             this.retype(this.getFiltered());
             this.reshow();
         }
@@ -73,7 +74,7 @@ export class ProductTileList extends HTMLElement {
     }
     getFiltered(products) {
         //TODO
-        return products;
+        return this.allElems;
     }
     applyFilter() {
         //this will apply filter to children
@@ -330,11 +331,6 @@ export class ProdShow extends HTMLElement {
         //zakładamy eventy
         this.product.events.on("priceUpdate", this.viewPrice);
         this.product.events.on("imageUpdate", this.viewImage);
-        this.addEventListener("click", () => {
-            let dest = new URL("/produkty/pokaż.html", window.location.origin);
-            dest.searchParams.set("p", this.product.getID());
-            routingUtils.goto(dest);
-        });
         //dodajemy element do drzewa DOM
         this.append(this.col1, this.col2);
 
@@ -409,7 +405,6 @@ export class CartElement extends HTMLElement {
     productNameElement = document.createElement("span");
     priceContainer = document.createElement("div");
     priceElem = document.createElement("div");
-    breakLine1 = document.createElement("hr");
     quanElem = document.createElement("input");
     col1 = document.createElement("div");
     col2 = document.createElement("div");
@@ -420,12 +415,14 @@ export class CartElement extends HTMLElement {
         super();
         //sprawdzamy czy to product
         if (!(product instanceof Product)) throw new Error("Product is required!");
+        //ilość
+        this.quantity = quantity;
         //zapisujemy produkt
         this.product = product;
         //tworzymy wszystkie potrzebne elementy
         this.classList.add("flex-row", "flex-center", "align-center");
         //kolumna 1
-        this.col1.classList.add("col-1", "flex-center", "align-center");
+        this.col1.classList.add("col-1", "flex-center", "align-center", "flex-column");
         //zdjęcie produktu
         this.imageContainer.classList.add("image-container");
         this.image.classList.add("product-image");
@@ -433,25 +430,22 @@ export class CartElement extends HTMLElement {
         this.imageContainer.appendChild(this.image);
         this.col1.appendChild(this.imageContainer);
         //kolumna 2
-        this.col2.classList.add("col-2", "flex-column", "align-center");
+        this.col2.classList.add("col-2", "flex-row", "align-center", "flex-between", "side-padding");
         //nazwa produktu
         this.productNameElement.classList.add("product-name");
         this.col2.appendChild(this.productNameElement);
-        //linia1
-        this.breakLine1.classList.add("break-line");
-        this.col2.appendChild(this.breakLine1);
         //cena
         this.priceElem.classList.add("product-price");
         this.priceContainer.classList.add("price-container")
         this.priceContainer.appendChild(this.priceElem);
         this.col2.appendChild(this.priceContainer);
         //kolumna 3
-        this.col3.classList.add("col-3", "flex-row", "align-center");
+        this.col3.classList.add("col-3", "flex-row", "align-center", "flex-around");
         //ilość
         this.quanElem.setAttribute("type", "number");
         this.quanElem.setAttribute("min", 1);
         this.quanElem.setAttribute("step", 1);
-        this.quanElem.value = quantity;
+        this.quanElem.value = this.quantity;
         this.col3.appendChild(this.quanElem);
         //przycisk do usuwania
         this.remBtn.innerText = "Usuń";
@@ -473,8 +467,9 @@ export class CartElement extends HTMLElement {
         });
         //zmiana ilości
         this.quanElem.addEventListener("change", e => {
-            quantity = this.quanElem.value;
-            localData.setCartProduct(this.product, quantity);
+            this.quantity = this.quanElem.value;
+            localData.setCartProduct(this.product, this.quantity);
+            this.viewPrice(this.product.prices);
         });
         //usuwanie z koszyka
         this.remBtn.addEventListener("click", e => {
@@ -497,7 +492,7 @@ export class CartElement extends HTMLElement {
     }
     viewPrice(pricesObj) {
         const currency = localData.currentCurrency();
-        if (currency in pricesObj) this.priceElem.innerText = pricesObj[currency] + " " + currency;
+        if (currency in pricesObj) this.priceElem.innerText = pricesObj[currency] * this.quantity + " " + currency;
     }
     viewImage(imageLink) {
         this.image.src = imageLink;

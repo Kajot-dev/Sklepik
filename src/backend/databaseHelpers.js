@@ -98,7 +98,7 @@ async function removeUsersActivations(IDs) {
 }
 
 async function removeUser(ID) {
-    (await database.users).unset(ID).write();
+    await (await database.users).unset(ID).write();
     await removeUserTokens(ID);
     await removeUserActivations(ID);
 }
@@ -304,6 +304,32 @@ async function getProductByName(name) {
 async function getProducts(IDs) {
     return (await database.products).filter(p => IDs.includes(p.ID)).value();
 }
+
+async function addFavourite(userID, ID) {
+    if (await getProduct(ID)) {
+        const favs = (await getUser(userID)).favourites;
+        if (!favs.includes(ID)) favs.push(ID);
+        (await database.users).set(userID + ".favourites", favs).write();
+    }
+    return;
+}
+async function removeFavourite(userID, ID) {
+    const newFavs = await (await database.users).find(u => u.ID === userID).get("favourites").filter(i => i !== ID).value();
+    await (await database.users).set(userID + ".favourites", newFavs).write();
+    return;
+}
+async function getFavourites(userID) {
+    if (!userID) return [];
+    const favs = (await database.users).find(u => u.ID === userID).get("favourites").value();
+    return (await database.products).filter(p => favs.includes(p.ID));
+}
+
+async function queryProducts(query) {
+    return (await database.products).filter(p => {
+        const n = utils.insensitiveName(p.name);
+        return query.includes(n) || n.includes(query);
+    });
+}
 module.exports = {
     removeExpiredTokens,
     removeNonActivatedUsers,
@@ -341,5 +367,9 @@ module.exports = {
     sendActivationMail,
     getProduct,
     getProductByName,
-    getProducts
+    getProducts,
+    addFavourite,
+    removeFavourite,
+    getFavourites,
+    queryProducts
 }

@@ -101,34 +101,38 @@ function initSearchBar() {
   //stałe
   const placeholders = ["Szukaj...", "Wpisz coś...", "Szukaj produktów..."];
   //elements
-  const searchInput = document.getElementById("searchInput");
-  const searchButton = document.getElementById("searchIcon");
+  const searchButton = document.querySelectorAll(".searchIcon");
   //searchFunc
-  const search = function () {
-    let value = searchInput.value.trim();
+  const search = function (searchInp) {
+    let value = searchInp.value.trim();
     if (value.length == 0) {
-      searchInput.value = searchInput.value.trim();
-      let currentPlaceholder = placeholders.indexOf(searchInput.placeholder);
+      searchInp.value = searchInp.value.trim();
+      let currentPlaceholder = placeholders.indexOf(searchInp.placeholder);
       if (currentPlaceholder >= 0 && currentPlaceholder < placeholders.length - 1) currentPlaceholder++;
       else currentPlaceholder = 0;
-      searchInput.placeholder = placeholders[currentPlaceholder];
+      searchInp.placeholder = placeholders[currentPlaceholder];
     } else {
       const wrongChars = /[^\w\s\.,;]/g;
       let match = value.match(wrongChars);
       if (match && match.length > 0) {
-        searchInput.value = "";
+        searchInp.value = "";
         match = [...new Set(match)];
-        searchInput.placeholder = "Nie używaj: " + match.join(", ");
+        searchInp.placeholder = "Nie używaj: " + match.join(", ");
       } else {
-        let destination = new URL("szukaj.html", window.location.origin);
+        let destination = new URL("/szukaj", window.location.origin);
         destination.searchParams.set("q", value);
         window.location.assign(destination.toString());
       }
     }
   }
-  searchInput.addEventListener("keydown", e => {
-    if (e && e.key.toLowerCase() !== "enter") return;
-    search();
-  });
-  searchButton.addEventListener("click", search);
+  for (const s of searchButton) {
+    const inp = s.nextElementSibling;
+    s.addEventListener("click", e => {
+      search(inp);
+    });
+    inp.addEventListener("keydown", e => {
+      if (e && e.key.toLowerCase() !== "enter") return;
+      search(inp);
+    });
+  }
 }

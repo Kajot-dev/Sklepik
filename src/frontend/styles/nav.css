@@ -236,7 +236,7 @@ footer hr {
     font-family: "Lato Light", sans-serif;
 }
 
-#searchBarContainer {
+.searchBarContainer {
     display: flex !important;
     position: relative;
     border-bottom: 3px solid transparent;
@@ -244,21 +244,21 @@ footer hr {
     transition: border-bottom 0.4s ease;
 }
 
-#searchBarContainer:focus-within {
+.searchBarContainer:focus-within {
     border-bottom: 3px solid var(--color-B);
 }
 
-#searchBarContainer #searchIcon {
+.searchBarContainer .searchIcon {
     margin-right: 10px;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0);
     transition: transform 0.4s ease, text-shadow 0.4s ease;
 }
-#searchBarContainer #searchIcon:hover {
+.searchBarContainer .searchIcon:hover {
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
     transform: scale(1.1);
 }
 
-#searchInput {
+.searchInput {
     width: -moz-available;
     width: -webkit-fill-available;
     width: fill-available;
@@ -271,12 +271,13 @@ footer hr {
     font-family: "Roboto Condensed", sans-serif;
     transition: filter 0.4s ease;
 }
-#searchInput:hover {
+.searchInput:hover {
     filter: brightness(1.4);
-}#searchInput:focus:hover {
+}
+.searchInput:focus:hover {
     filter: unset;
 }
-#searchInput::placeholder {
+.searchInput::placeholder {
     opacity: 0.5;
     color: var(--color-B);
     font-family: "Lato Light", sans-serif;

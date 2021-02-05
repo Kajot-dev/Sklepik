@@ -8,15 +8,28 @@ import {
 import {
   redirectToMain
 } from "./routingUtils.js";
-import { ProdShow } from "./UI.js";
+import { ProdShow, ProductTileList } from "./UI.js";
 import { Product } from "./internals.js";
+import database from "./database.js";
 
 const routes = {
   "szukaj": function () {
     const query = new URLSearchParams(window.location.search);
     let searchquery = query.get("q");
     if (!searchquery) redirectToMain();
-
+    let url = new URL("/api/products/query", window.location.origin);
+    url.searchParams.set("q", searchquery);
+    fetch(url.href).then(res => {
+      if (res.ok) {
+        res.json().then(prodObjs => {
+          const products = database.processProdObjs(prodObjs);
+          const sec = document.querySelector(`section[type="main"]`);
+          sec.appendChild(new ProductTileList(products));
+        });
+      } else redirectToMain();
+    }).catch(e => {
+      console.error(e);
+    })
   },
   "logowanie": logowanie,
   "rejstracja": rejstracja,

@@ -44,7 +44,12 @@
                 
                 <div class="flex-row flex-left flex-inline full-height right">
                     
-                    <a class="tile-link" href="koszyk">
+                    <div class="flex-row flex-baseline searchBarContainer">
+                        <div class="symbol clickable searchIcon" tabindex="0">&#xe800;</div>
+                        <input class="searchInput" type="text" placeholder="Szukaj...">
+                    </div>
+
+                    <a class="tile-link" href="/koszyk">
                         <span class="text symbol big bold">&#xe801;</span>
                     </a>
 
@@ -60,22 +65,19 @@
         <div id="navSidebarContainer">
             <div id="navSidebar">
                 <div class="flex-row pad-bottom flex-center bg-focus navElem">
-                    <div id="searchBarContainer" class="flex-row flex-baseline">
-                        <div id="searchIcon" class="symbol clickable" tabindex="0">&#xe800;</div>
-                        <input id="searchInput" type="text" placeholder="Szukaj...">
+                    <div class="flex-row flex-baseline searchBarContainer">
+                        <div class="symbol clickable searchIcon" tabindex="0">&#xe800;</div>
+                        <input class="searchInput" type="text" placeholder="Szukaj...">
                     </div>
                 </div>
-                <a href="/profil/zamówienia" class="navElem">
-                    <span class="text">Moje zamówienia</span>
-                </a>
-                <a href="/profil/ulubione" class="navElem">
+                <a href="/profil/?sel=ulubione" class="navElem">
                     <span class="text">Moje ulubione</span>
                 </a>
                 <a href="/kontakt" class="navElem">
                     <span class="text">Kontakt</span>
                 </a>
-                <a href="/współpraca" class="navElem">
-                    <span class="text">Współpraca</span>
+                <a href="/oNas" class="navElem">
+                    <span class="text">O nas</span>
                 </a>
             </div>
         </div>
@@ -99,7 +101,7 @@
             </div>
 
             <div class="self-centered">
-                <a href="/współpraca" class="big">Współpraca</a>
+                <a href="/oNas" class="big">O nas</a>
             </div>
         </div>
         

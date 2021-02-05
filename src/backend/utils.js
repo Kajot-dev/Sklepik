@@ -149,6 +149,10 @@ function produceUpdater(newVal) {
     }
 }
 
+function insensitiveName(name) {
+    return name.replace(/[^A-Z]|\s/gim, "").toLowerCase();
+}
+
 module.exports = {
     hasExtension,
     doesExist,
@@ -163,5 +167,6 @@ module.exports = {
     produceUpdater,
     completePrices,
     convertPrice,
-    hashProd
+    hashProd,
+    insensitiveName
 };

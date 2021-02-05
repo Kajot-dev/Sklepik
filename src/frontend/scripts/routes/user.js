@@ -44,11 +44,11 @@ export function logowanie() {
 
 
 export function rejstracja() {
-    localData.logOut();
     const loginForm = document.getElementById("login");
     const errorBox = document.getElementById("error");
     const submitBtn = loginForm.querySelector(`button[type="submit"]`);
     loginForm.addEventListener("submit", e => {
+        localData.logOut();
         const formD = new FormData(loginForm);
         const formQuery = new URLSearchParams(formD);
         submitBtn.disabled = true;
@@ -101,6 +101,7 @@ export async function profil() {
     const passInput = userData.querySelector(`input[name="password"]`);
     const submitBtn = userData.querySelector(`[type="submit"]`);
     const allInputs = [nickInput, emailInput, oldPassInput, passInput];
+    const delBtn = document.getElementById("delete-account");
     const errorBox = document.getElementById("profile-error");
     let user = await updateUserFields(...allInputs);
     if (user) {
@@ -148,7 +149,20 @@ export async function profil() {
                 })
             }
         });
-
+        delBtn.addEventListener("click", e => {
+            if (confirm("Czy na pewno chcesz usunąć swoje konto?")) {
+                fetch("/api/users", {
+                    method: "DELETE"
+                }).then(res => {
+                    if (res.ok) {
+                        localData.clearData();
+                        goto("/");
+                    }
+                });
+            }
+        }, {
+            once: true
+        });
     } else redirect("/logowanie");
 }
 async function updateUserFields(nickInput, emailInput, oldPassInput, passInput) {
