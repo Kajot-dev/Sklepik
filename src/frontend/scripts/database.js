@@ -1,15 +1,14 @@
-import { Product } from './internals.js';
-
-//tutaj będzie "sztuczna" baza danych (przechowywana w cookies) oraz w plikach JSON
+import {
+    Product
+} from './internals.js';
 
 let databaseIsReady = false;
 
 const products = [];
 
-
 export function registerProduct(pr) {
     if (pr instanceof Product) {
-        if (products.includes(pr.name)) throw new Error(`Product "${pr.name}" already registered!`);
+        if (products.includes(pr)) throw new Error(`Product "${pr.name}" already registered!`);
         products.push(pr);
     } else throw new Error("This is not a Product!");
 }
@@ -27,4 +26,8 @@ export function processProdObjs(prods) {
     return out;
 }
 
-export default { registerProduct, getProduct, processProdObjs };
+export default {
+    registerProduct,
+    getProduct,
+    processProdObjs
+};

@@ -24,6 +24,19 @@ function init(app) {
     defineProducts(app);
     defineAuth(app);
 
+    app.get("/profil", async (req, res) => {
+        const token = req.session.token;
+        if (typeof token === "string") {
+            const userID = await databaseHelpers.verifyToken(token);
+            if (userID) {
+                const processedPath = path.join(frontEndpath, "profil/index.html");
+                res.sendFile(processedPath, err => {
+                    if (err && err.code !== "ECONNABORTED") res.sendStatus(500);
+                });
+            } else res.redirect("/logowanie");
+        } else res.redirect("/logowanie");
+    });
+
     app.get("*", async (req, res) => {
         const reqpath = decodeURI(req.path);
         let processedPath = path.join(frontEndpath, reqpath);

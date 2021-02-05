@@ -33,7 +33,6 @@ export class ProductTileList extends HTMLElement {
         if (products.length > 1 && !listopts.sorted) {
             this.sort();
         } else {
-            console.log("retyping");
             this.retype(this.getFiltered());
             this.reshow();
         }
@@ -119,6 +118,7 @@ export class ProductTile extends HTMLElement {
     priceContainer = document.createElement("div");
     overlay = document.createElement("div");
     buyButton = document.createElement("button");
+    favButton = document.createElement("button");
     addToCartButton = document.createElement("button");
     dateContainer = document.createElement("div");
     breakLine = document.createElement("hr");
@@ -163,6 +163,24 @@ export class ProductTile extends HTMLElement {
             }, {
                 once: true
             });
+            //dodajemy
+            if (this.product.isFav) {
+                this.favButton.innerHTML = "&#9829;"
+            } else {
+                this.favButton.innerHTML = "&#9825;"
+            }
+            this.product.events.on("favUpdated", status => {
+                if (status) this.favButton.innerHTML = "&#9829;"
+                else this.favButton.innerHTML = "&#9825;"
+            });
+            this.favButton.classList.add("fav-button");
+            this.favButton.addEventListener("click", async e => {
+                e.stopPropagation();
+                if (await localData.isLoggedIn()) {
+                    if (this.product.isFav) this.product.removeFromFavourites();
+                    else this.product.addToFavourites();
+                } else routingUtils.goto("/logowanie");
+            });
             //dodaj do koszyka
             this.addToCartButton.innerText = "Dodaj do koszyka";
             this.addToCartButton.classList.add("add-to-cart-button");
@@ -171,8 +189,8 @@ export class ProductTile extends HTMLElement {
                 this.product.addToCart();
                 alert("Dodano do koszyka!"); //TODO
             });
-            //TODO EVENTY DLA PRZYCISKU
             this.overlay.appendChild(this.buyButton);
+            this.overlay.appendChild(this.favButton);
             this.overlay.appendChild(this.addToCartButton);
             this.overlay.classList.add("tile-overlay", "hidden");
             this.addEventListener("mouseenter", () => {
@@ -391,7 +409,7 @@ export class CartView extends HTMLElement {
                     }
                 });
             } else {
-                console.log(res);
+                console.warn(res);
             }
         }).catch(err => {
             console.error(err);
@@ -503,11 +521,140 @@ export class CartElement extends HTMLElement {
     }
 }
 
+
+export class FavView extends HTMLElement {
+    constructor() {
+        super();
+        this.classList.add("flex-column", "flex-start", "align-center");
+        localData.getFavourites().then(favs => {
+            if (favs.length == 0) {
+                this.classList.add("padding");
+                this.innerText = "Nie masz ulubionych produktów";
+                return;
+            }
+            fetch("/api/products/some", {
+                method: "POST", 
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    IDs: favs
+                })
+            }).then(res => {
+                if (res.ok) {
+                    res.json().then(prodObjs => {
+                        for (const p of prodObjs) {
+                            this.appendChild(new FavElement(Product.safeCreate(p)));
+                        }
+                    });
+                } else {
+                    console.warn(res);
+                }
+            }).catch(err => {
+                console.error(err);
+            });
+        });
+    }
+}
+
+export class FavElement extends HTMLElement {
+    image = document.createElement("img");
+    imageContainer = document.createElement("div");
+    productNameElement = document.createElement("span");
+    priceContainer = document.createElement("div");
+    priceElem = document.createElement("div");
+    col1 = document.createElement("div");
+    col2 = document.createElement("div");
+    col3 = document.createElement("div");
+    remBtn = document.createElement("button")
+    product;
+    constructor(product) {
+        super();
+        //sprawdzamy czy to product
+        if (!(product instanceof Product)) throw new Error("Product is required!");
+        //zapisujemy produkt
+        this.product = product;
+        //tworzymy wszystkie potrzebne elementy
+        this.classList.add("flex-row", "flex-center", "align-center");
+        //kolumna 1
+        this.col1.classList.add("col-1", "flex-center", "align-center", "flex-column");
+        //zdjęcie produktu
+        this.imageContainer.classList.add("image-container");
+        this.image.classList.add("product-image");
+        this.image.setAttribute("alt", "Zdjęcie produktu");
+        this.imageContainer.appendChild(this.image);
+        this.col1.appendChild(this.imageContainer);
+        //kolumna 2
+        this.col2.classList.add("col-2", "flex-row", "align-center", "flex-between", "side-padding");
+        //nazwa produktu
+        this.productNameElement.classList.add("product-name");
+        this.col2.appendChild(this.productNameElement);
+        //cena
+        this.priceElem.classList.add("product-price");
+        this.priceContainer.classList.add("price-container")
+        this.priceContainer.appendChild(this.priceElem);
+        this.col2.appendChild(this.priceContainer);
+        //kolumna 3
+        this.col3.classList.add("col-3", "flex-row", "align-center", "flex-around");
+        //przycisk do usuwania
+        this.remBtn.innerText = "Usuń";
+        this.col3.appendChild(this.remBtn);
+        //wypełniamy elementy
+        this.viewProductInfo(product);
+        //zakładamy eventy
+        this.product.events.on("priceUpdate", this.viewPrice);
+        this.product.events.on("imageUpdate", this.viewImage);
+        this.imageContainer.addEventListener("click", () => {
+            let dest = new URL("/produkty/pokaż.html", window.location.origin);
+            dest.searchParams.set("p", this.product.getID());
+            routingUtils.goto(dest);
+        });
+        this.productNameElement.addEventListener("click", () => {
+            let dest = new URL("/produkty/pokaż.html", window.location.origin);
+            dest.searchParams.set("p", this.product.getID());
+            routingUtils.goto(dest);
+        });
+        //usuwanie z ulubionych
+        this.remBtn.addEventListener("click", e => {
+            e.stopPropagation();
+            localData.removeFromFavourites(this.product).then(() => {
+                alert("Usunięto z ulubionych!");
+            });
+            this.remove();
+        }, {
+            once: true
+        });
+        //dodajemy elementy do drzewa DOM
+        this.append(this.col1, this.col2, this.col3);
+    }
+    viewProductInfo(product) {
+        if (!(product instanceof Product) && this.product instanceof Product) product = this.product;
+        else if (product instanceof Product) this.product = product;
+        if (product.name) this.viewName(product.name);
+        if (product.imageLink) this.viewImage(product.imageLink);
+        if (product.prices) this.viewPrice(product.prices);
+    }
+    viewPrice(pricesObj) {
+        const currency = localData.currentCurrency();
+        if (currency in pricesObj) this.priceElem.innerText = pricesObj[currency] + " " + currency;
+    }
+    viewImage(imageLink) {
+        this.image.src = imageLink;
+        LazyLoad.processSingle(this.image);
+    }
+    viewName(name) {
+        this.productNameElement.innerText = name
+    }
+}
+
+
 window.customElements.define("product-list", ProductTileList);
 window.customElements.define("product-tile", ProductTile);
 window.customElements.define("product-show", ProdShow);
 window.customElements.define("cart-view", CartView);
 window.customElements.define("cart-element", CartElement);
+window.customElements.define("fav-view", FavView);
+window.customElements.define("fav-element", FavElement);
 
 export default {
     ProductTile,
@@ -516,5 +663,7 @@ export default {
     ProdShow,
     CartView,
     CartElement,
+    FavView,
+    FavElement,
     navBarTrigger
 }

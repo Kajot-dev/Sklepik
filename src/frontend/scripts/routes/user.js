@@ -102,6 +102,7 @@ export async function profil() {
     const submitBtn = userData.querySelector(`[type="submit"]`);
     const allInputs = [nickInput, emailInput, oldPassInput, passInput];
     const delBtn = document.getElementById("delete-account");
+    const logOutBtn = document.getElementById("logout");
     const errorBox = document.getElementById("profile-error");
     let user = await updateUserFields(...allInputs);
     if (user) {
@@ -124,7 +125,6 @@ export async function profil() {
                     },
                     body: JSON.stringify(updatedUserObj)
                 }).then(async res => {
-                    console.log(res.status)
                     if (res.ok) {
                         user = await updateUserFields(...allInputs);
                         submitBtn.disabled = false;
@@ -145,7 +145,7 @@ export async function profil() {
 
                 }).catch(err => {
                     submitBtn.disabled = false;
-                    console.log(err);
+                    console.error(err);
                 })
             }
         });
@@ -161,6 +161,12 @@ export async function profil() {
                 });
             }
         }, {
+            once: true
+        });
+        logOutBtn.addEventListener("click",async e => {
+            await localData.logOut();
+            goto("/");
+        },  {
             once: true
         });
     } else redirect("/logowanie");

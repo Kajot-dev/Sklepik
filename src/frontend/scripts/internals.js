@@ -8,6 +8,7 @@ export class Product {
     prices;
     dateCreated;
     imageLink;
+    isFav = false;
     events = new EventEmitter();
     constructor({ name, prices, imageLink, dateCreated, ID}) {
         if (!name) throw new Error("Name is required!");
@@ -18,6 +19,12 @@ export class Product {
         this.dateCreated = dateCreated;
         this.ID = ID;
         database.registerProduct(this);
+        localData.isInFavourites(this.ID).then(status => {
+            if (status) {
+                this.isFav = true;
+                this.events.emit("favUpdated", status);
+            }
+        });
     }
     updateInfo({ prices, imageLink , dateCreated}) {
         if (prices) this.updatePrice(prices);
@@ -46,6 +53,20 @@ export class Product {
     }
     addToCart(quantity = 1) {
         localData.addToCart(this, quantity);
+    }
+    addToFavourites() {
+        localData.addToFavourites(this.ID).then(() => {
+            alert("Dodano do ulubionych");
+            this.isFav = true;
+            this.events.emit("favUpdated", true);
+        })
+    }
+    removeFromFavourites() {
+        localData.removeFromFavourites(this.ID).then(() => {
+            alert("Usunięto z ulubionych");
+            this.isFav = false;
+            this.events.emit("favUpdated", false);
+        });
     }
     static safeCreate(prodObj) {
         let { name } = prodObj;

@@ -70,7 +70,7 @@
                         <input class="searchInput" type="text" placeholder="Szukaj...">
                     </div>
                 </div>
-                <a href="/profil/?sel=ulubione" class="navElem">
+                <a href="/profil/?sel=favourites" class="navElem">
                     <span class="text">Moje ulubione</span>
                 </a>
                 <a href="/kontakt" class="navElem">
@@ -82,7 +82,7 @@
             </div>
         </div>
     </header>
-    <section type="bg" class="theme-A flex-column align-center flex-center">
+    <section type="bg" class="theme-C flex-column align-center flex-center">
         <div class="huge-max blod title-font">Twoje dane</div>
         <section type="selection-layout" role="profile-data" class="flex-row flex-center">
             <div class="selection-column theme-D black">
@@ -90,8 +90,8 @@
                 <div class="selection-option" data-option="favourites">Moje ulubione</div>
                 <div class="selection-option" data-option="cart">Koszyk</div>
             </div>
-            <div class="data-column flex-column theme-C black">
-                <div class="selection-data" data-content="userdata">
+            <div class="data-column flex-column theme-A">
+                <div class="selection-data hidden black" data-content="userdata">
                     <form id="userdata">
                         <div class="flex-row">
                             <label for="nick">Twój nick: </label>
@@ -111,13 +111,17 @@
                         </div>
                         <button type="submit">Zapisz zmiany</button>
                     </form>
-                    <button id="delete-account">USUŃ KONTO</button>
+                    <div class="flex-row">
+                        <button id="logout">Wyloguj się</button>
+                        <button id="delete-account">USUŃ KONTO</button>
+                    </div>
+                    
                     <div class="abs-down err-down invisible" id="profile-error"></div>
                 </div>
-                <div class="selection-data" data-content="favourites">
+                <div class="selection-data hidden" data-content="favourites">
                     <section type="favourites"></section>
                 </div>
-                <div class="selection-data" data-content="cart">
+                <div class="selection-data hidden" data-content="cart">
                     <section type="cart"></section>
                 </div>
             </div>

@@ -23,9 +23,10 @@ function sendActivationMail({ mail, nick, activationlink }) {
         subject: "Aktywacja konta na witty-shop.herokuapp.com",
         html: "<h1>Witaj " + nick + "!</h1>\n" +
         'Poniżej znajdziesz link atywacyjny do konta na <a href="witty-shop.herokuapp.com" target="_blank">Witty-shop</a><br><br>' +
-        'LINK: <a href="witty-shop.herokuapp.com' + activationlink + '"><strong>AKTYWUJ KONTO</strong></a><br><br>' +
+        'LINK: <a href="https://witty-shop.herokuapp.com' + activationlink + '"><strong>AKTYWUJ KONTO</strong></a><br><br>' +
+        'Jeżeli uruchomiłeś/aś stronę na localhost, skorzystaj z <a href="localhost:8000' + activationlink + '"><strong>localhost:8000' + activationlink + '</strong></a><br><br>' +
         'Jeżeli nie zakładałeś/aś konta zignoruj ten mejl.'
     });
 }
 
-module.exports ={ sendMail, sendActivationMail };
+module.exports = { sendMail, sendActivationMail };

@@ -1,13 +1,15 @@
 import database from "./database.js";
 import {
     ProductTileList,
-    CartView
+    CartView,
+    FavView
 } from "./UI.js";
 
 export function processAll() {
     processProductsSections();
     processSectionLayouts();
     processCartSections();
+    processFavSections();
 }
 
 export function processProductsSections(context = document) {
@@ -68,7 +70,15 @@ export function processSectionLayouts(context = document) {
                 opt.setAttribute("selected", "");
             });
         }
-        let selected = selectables.find(s => s.hasAttribute("selected"));
+        let selected;
+        let selQuery = new URLSearchParams(window.location.search).get("sel");
+        if (typeof selQuery === "string") {
+            selQuery = selQuery.trim();
+            selected = selectables.find(s => {
+                return s.getAttribute("data-option") === selQuery
+            });
+        }
+        selected = selected ? selected : selectables.find(s => s.hasAttribute("selected"));
         selected = selected ? selected : selectables[0];
         selected.removeAttribute("selected");
         selected.click();
@@ -79,6 +89,13 @@ export function processCartSections(context = document) {
     const allCarts = context.querySelectorAll(`section[type="cart"]`);
     for (const cartCont of allCarts) {
         cartCont.appendChild(new CartView());
+    }
+}
+
+export function processFavSections(context = document) {
+    const allFavs = context.querySelectorAll(`section[type="favourites"]`);
+    for (const favCont of allFavs) {
+        favCont.appendChild(new FavView());
     }
 }
 

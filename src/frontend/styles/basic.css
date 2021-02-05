@@ -1,15 +1,15 @@
 :root {
     --color-A: #134B3B;
-    --color-A-alpha: #649286;
+    --color-A-alpha: #4d7268;
     --color-B: #C6A663;
     --color-B-alpha: #c0af89;
     --color-B-transparent: #c6a76380;
     --color-C: #6A734E;
-    --color-C-alpha: #8c966e;
+    --color-C-alpha: #99a375;
     --color-D: #44645C;
-    --color-D-alpha: #67978b;
+    --color-D-alpha: #679777;
     --color-E: #828C60;
-    --color-E-alpha: #9fac76;
+    --color-E-alpha: #78ac76;
 } 
 
 body {
