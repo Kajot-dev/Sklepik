@@ -17,12 +17,7 @@ async function init() {
     if (cluster.isMaster) {
         console.log("Running in " + colors.yellow(process.env.NODE_ENV) + " environment!");
 
-        if (process.env.NODE_ENV !== "testing") {
-            for (let i = 0; i < os.cpus().length; i++) {
-                cluster.fork({ threadID: i+1 });
-            }
-        } cluster.fork({ threadID: 1});
-        
+        cluster.fork({ threadID: 1});
         
         console.log("Worker is starting!");
         worker.init();

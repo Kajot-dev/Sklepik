@@ -38,10 +38,10 @@ const mailActivations = low(new FileAsync(path.join(databasePath, "emailActivati
 
 
 async function defs() {
-    (await users).defaults({}).write();
-    (await tokens).defaults({}).write();
-    (await products).defaults([]).write();
-    (await mailActivations).defaults({}).write();
+    await (await users).defaults({}).write();
+    await (await tokens).defaults({}).write();
+    await (await products).defaults([]).write();
+    await (await mailActivations).defaults({}).write();
     const configData = (await config).value();
     configData.sessionSecret = configData.sessionSecret || unique.random(uniqueOpts);
     configData.sessionName = configData.sessionName || unique.random(uniqueOpts);
