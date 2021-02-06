@@ -1,5 +1,6 @@
 
-let isLoginDataSaved = false;
+let isLoginDataSaved = false
+if (typeof sessionStorage.getItem("loginData") === "string") isLoginDataSaved = sessionStorage.getItem("loginData") === "true" ? true : false;
 
 export async function getnick() {
     if (!isLoginDataSaved) {
@@ -106,6 +107,7 @@ export function logOut() {
 
 function clearData() {
     isLoginDataSaved = false;
+    sessionStorage.removeItem("loginData");
     localStorage.removeItem("tempCart");
     sessionStorage.removeItem("tempnick");
     sessionStorage.removeItem("tempFavourites");
@@ -121,6 +123,7 @@ export function logIn() {
                             sessionStorage.setItem("tempnick", userObj.nick);
                             sessionStorage.setItem("tempFavourites", JSON.stringify(userObj.favourites));
                             isLoginDataSaved = true;
+                            sessionStorage.setItem("loginData", "true");
                             resolve(userObj);
                         });
                     } else resolve(null);
