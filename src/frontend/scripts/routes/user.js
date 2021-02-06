@@ -44,12 +44,14 @@ export function logowanie() {
 
 
 export function rejstracja() {
-    const loginForm = document.getElementById("login");
+    const loginForm = document.getElementById("register");
     const errorBox = document.getElementById("error");
     const submitBtn = loginForm.querySelector(`button[type="submit"]`);
     loginForm.addEventListener("submit", e => {
         localData.logOut();
         const formD = new FormData(loginForm);
+        let nick = document.querySelector(`input[name="nick"]`);
+        formD.set("nick", nick.value);
         const formQuery = new URLSearchParams(formD);
         submitBtn.disabled = true;
         fetch("/api/users", {
@@ -99,8 +101,10 @@ export async function profil() {
     const emailInput = userData.querySelector(`input[name="email"]`);
     const oldPassInput = userData.querySelector(`input[name="oldpassword"]`);
     const passInput = userData.querySelector(`input[name="password"]`);
+    const activation = userData.querySelector(`input[name="activation"]`);
     const submitBtn = userData.querySelector(`[type="submit"]`);
-    const allInputs = [nickInput, emailInput, oldPassInput, passInput];
+    const activationBtn = userData.querySelector("button#activationstatus");
+    const allInputs = [nickInput, emailInput, oldPassInput, passInput, activation, activationBtn];
     const delBtn = document.getElementById("delete-account");
     const logOutBtn = document.getElementById("logout");
     const errorBox = document.getElementById("profile-error");
@@ -130,6 +134,7 @@ export async function profil() {
                         submitBtn.disabled = false;
                         localData.updateNick(user.nick);
                         loginButton.innerText = user.nick;
+                        alert("Zmiany zostały zapisane!");
                     } else {
                         res.text().then(t => {
                             errorBox.style.animation = "";
@@ -169,16 +174,23 @@ export async function profil() {
         },  {
             once: true
         });
+        activationBtn.addEventListener("click", e => {
+            goto("activation/status");
+        }, {
+            once: true
+        })
     } else redirect("/logowanie");
 }
-async function updateUserFields(nickInput, emailInput, oldPassInput, passInput) {
+async function updateUserFields(nickInput, emailInput, oldPassInput, passInput, activation, activationBtn) {
     const user = await localData.getUserData();
     if (user) {
         nickInput.value = user.nick;
         emailInput.value = user.email;
         oldPassInput.value = "";
         passInput.value = "";
-        enableAll(nickInput, emailInput, oldPassInput, passInput);
+        activation.value = user.activated ? "TAK" : "NIE";
+        activationBtn.disabled = user.activated; 
+        enableAll(nickInput, emailInput, oldPassInput, passInput, activation);
     }
     return user;
 }

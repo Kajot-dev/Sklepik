@@ -2,9 +2,9 @@
 <html lang="pl">
 
 <head>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Security-Policy" content="script-src 'self'">
-    <meta charset="utf-8">
     <meta name="author" content="Jakub Jaruszewski, Mikołaj Rak">
     <meta name="robots" content="index, follow">
     <meta name="description" content="Sklep z obuwiem typu streetwear">
@@ -84,14 +84,14 @@
     </header>
 
     <section type="bg" class="theme-A flex-column align-center flex-center">
-        <div class="title-font bold huge mrg-bottom">Zaloguj się</div>
-        <section type="form" class="theme-C flex-column align-center">
+        <div class="title-font bold huge mrg-bottom text-shadow">Zaloguj się</div>
+        <section type="form" class="theme-D flex-column align-center">
             <form id="login" action="/api/users" method="POST">
                 <label for="email" class="mrg-bottom">E-mail</label>
-                <input type="email" name="email" class="mrg-bottom" required>
+                <input type="email" name="email" class="mrg-bottom" required placeholder="Adres e-mail">
                 <label for="password" class="mrg-bottom">Hasło</label>
-                <input type="password" name="password" class="mrg-bottom" required>
-                <button type="submit" class="theme-B">Zaloguj się</button>
+                <input type="password" name="password" class="mrg-bottom" required placeholder="Hasło">
+                <button type="submit">Zaloguj się</button>
                 <span class="smaller black">Nie masz konta? <a href="/rejstracja">Utwórz konto</a></span>
             </form>
             <div class="abs-down err-down invisible" id="error"></div>

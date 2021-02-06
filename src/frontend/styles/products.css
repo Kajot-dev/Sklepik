@@ -84,12 +84,13 @@ product-tile .tile-overlay.hidden {
 }
 
 product-tile .tile-overlay button {
+    font-family: "Lato Light";
     margin-bottom: 15px;
     padding: 15px 30px;
     font-weight: bold;
     font-size: 100%;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0);
-    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0);
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
     border: none;
     transition: transform 0.4s ease, text-shadow 0.4s ease, filter 0.4s ease;
     border-radius: 0;
@@ -98,7 +99,7 @@ product-tile .tile-overlay button {
 product-tile .tile-overlay button:hover {
     cursor: pointer;
     transform: translateY(4px);
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
     filter: brightness(1.2);
 }
 

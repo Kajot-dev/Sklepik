@@ -1,15 +1,15 @@
 :root {
     --color-A: #134B3B;
     --color-A-alpha: #4d7268;
-    --color-B: #C6A663;
-    --color-B-alpha: #c0af89;
+    --color-B: #d3b962;
+    --color-B-alpha: #c7b98d;
     --color-B-transparent: #c6a76380;
     --color-C: #6A734E;
     --color-C-alpha: #99a375;
     --color-D: #44645C;
     --color-D-alpha: #679777;
-    --color-E: #828C60;
-    --color-E-alpha: #78ac76;
+    --color-E: #637235;
+    --color-E-alpha: #99a770;
 } 
 
 body {
@@ -80,11 +80,11 @@ a:hover {
 }
 
 .text-shadow {
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+    text-shadow: 3px 3px 6px rgb(0 0 0 / 20%)
 }
 
 .box-shadow {
-    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
 }
 
 .symbol {
@@ -124,7 +124,7 @@ a:hover {
 
 hr {
     border: 0;
-    margin-inline: 0.5em;
+    margin: 0.5em;
     width: auto;
     width: -moz-available;
     width: -webkit-fill-available;
@@ -147,9 +147,6 @@ hr {
 }
 .light {
     font-family: "Lato Light", sans-serif;
-}
-.mrg-bottom {
-    margin-bottom: 6px;
 }
 /*containers and positioning*/
 .flex-row {
@@ -284,6 +281,7 @@ body > section:only-of-type {
     bottom: 0;
 }
 .err-down {
+    font-family: "Lato Light";
     background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
     color: white;
     padding: 10px;
@@ -322,22 +320,29 @@ body > section:only-of-type {
 }
 .selection-column {
     width: calc(20% - 20px);
-    padding: 10px;
     flex-shrink: 1;
 }
 
 .selection-option {
     background-color: rgba(0, 0, 0, 0);
     border-radius: 0;
-    padding: 5px 10px;
+    padding: 10px 15px;
     font-size: 120%;
     font-weight: bold;
+    transition: background-color 0.4s ease, color 0.4s ease;
 }
 
-.selection-option:hover {
+.selection-option:hover, .selection-option[selected] {
     cursor: pointer;
-    background-color:  rgba(0, 0, 0, 0.6);
+    background-color:  rgba(0, 0, 0, 0.2);
     color: white;
+}
+.selection-option .text {
+    display: inline-block;
+    transition: transform 0.4s ease;
+}
+.selection-option:hover .text,  .selection-option[selected] .text{
+    transform: translateX(4px);
 }
 
 .selection-option + .selection-option {
@@ -349,8 +354,147 @@ body > section:only-of-type {
     display: none !important;
 }
 
+.selection-data {
+    height: 100%;
+    overflow: auto;
+}
+
 .data-column {
     width: calc(80% - 20px);
-    padding: 10px;
     flex-grow: 2;
+}
+
+.half-col {
+    width: 50%;
+}
+
+.mrg-top {
+    margin-top: 30px;
+}
+#userdata {
+    font-size: 90%;
+}
+
+#userdata input {
+    font-family: "Lato Light";
+    font-weight: bold;
+    border: 0;
+    border-radius: 0;
+    padding: 0.3em;
+    font-size: 115%;
+    margin-left: 20px;
+    color: inherit;
+    text-shadow: inherit;
+    background-color: transparent;
+    border-bottom: 5px solid currentColor;
+    outline: none;
+    transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+
+
+#userdata input[readonly] {
+    pointer-events: none;
+    user-select: none;
+}
+
+#userdata input:hover:not(:focus) {
+    filter: brightness(1.1);
+    transform: translateY(2px);
+}
+
+#userdata input:focus {
+    transform: scale(1.0);
+}
+
+#userdata label {
+    margin-left: 15px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+#userdata > div {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+#userdata > div:last-of-type {
+    margin-top: 40px;
+}
+
+#userdata hr {
+    margin: 0;
+    height: 2px;
+}
+
+#userdata hr.short {
+    width: 200px;
+    height: 5px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+
+[data-content="userdata"] button#activationstatus {
+    margin-left: 25px;
+    font-size: 100%;
+}
+
+[data-content="userdata"] button {
+    border: 0;
+    border-radius: 0;
+    padding: 0.7em;
+    font-family: "Lato Light";
+    font-size: 18px;
+    color: white;
+    font-weight: bold;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+    transition: transform 0.2s ease, filter 0.4s ease, opacity 0.4s ease;
+    outline: none;
+}
+
+
+
+[data-content="userdata"] button[disabled] {
+    opacity: 0.5;
+    pointer-events: none;
+    user-select: none;
+}
+
+[data-content="userdata"] button:hover {
+    cursor: pointer;
+    filter: brightness(1.2);
+    transform: translateY(4px);
+}
+
+[data-content="userdata"] button:active {
+    transform: scale(0.95);
+}
+
+#userdata button {
+    font-size: 22px;
+}
+
+#delete-account {
+    background-color: rgb(161, 0, 0);
+}
+.theme-B [data-content="userdata"] button {
+    background-color: var(--color-B);
+}
+
+.theme-C [data-content="userdata"] button {
+    background-color: var(--color-C);
+}
+
+.theme-D [data-content="userdata"] button {
+    background-color: var(--color-D);
+}
+
+.theme-E [data-content="userdata"] button {
+    background-color: var(--color-E);
+}
+
+.theme-A [data-content="userdata"] button {
+    background-color: var(--color-A);
 }

@@ -2,9 +2,9 @@
 <html lang="pl">
 
 <head>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Security-Policy" content="script-src 'self'">
-    <meta charset="utf-8">
     <meta name="author" content="Jakub Jaruszewski, Mikołaj Rak">
     <meta name="robots" content="index, follow">
     <meta name="description" content="Sklep z obuwiem typu streetwear">
@@ -83,35 +83,42 @@
         </div>
     </header>
     <section type="bg" class="theme-C flex-column align-center flex-center">
-        <div class="huge-max blod title-font">Twoje dane</div>
-        <section type="selection-layout" role="profile-data" class="flex-row flex-center">
-            <div class="selection-column theme-D black">
-                <div class="selection-option" data-option="userdata" selected>Moje dane</div>
-                <div class="selection-option" data-option="favourites">Moje ulubione</div>
-                <div class="selection-option" data-option="cart">Koszyk</div>
+        <div class="huge-max blod title-font mrg-top text-shadow">Twoje dane</div>
+        <section type="selection-layout" role="profile-data" class="flex-row flex-center box-shadow">
+            <div class="selection-column theme-D text-shadow">
+                <div class="selection-option" data-option="userdata" selected><span class="text">Moje dane</span></div>
+                <div class="selection-option" data-option="favourites"><span class="text">Moje ulubione</span></div>
+                <div class="selection-option" data-option="cart"><span class="text">Koszyk</span></div>
             </div>
             <div class="data-column flex-column theme-A">
-                <div class="selection-data hidden black" data-content="userdata">
-                    <form id="userdata">
-                        <div class="flex-row">
+                <div class="selection-data text-shadow hidden" data-content="userdata">
+                    <form id="userdata" class="mrg-bottom">
+                        <div class="flex-row align-center">
                             <label for="nick">Twój nick: </label>
                             <input type="text" name="nick" disabled>
                         </div>
                         <hr>
-                        <div class="flex-row">
+                        <div class="flex-row align-center">
                             <label for="email">Twój email: </label>
                             <input type="email" name="email" disabled>
+                            <label for="activation">Aktywny: </label>
+                            <input type="text" name="activation" disabled readonly>
+                            <button id="activationstatus" disabled>Sprawdź stan aktywacji</button>
                         </div>
                         <hr>
-                        <div class="flex-row">
+                        <div class="flex-row align-center">
                             <label for="oldpassword">Stare hasło: </label>
                             <input type="text" name="oldpassword" disabled>
                             <label for="password">Nowe hasło: </label>
                             <input type="text" name="password" disabled>
                         </div>
-                        <button type="submit">Zapisz zmiany</button>
+                        <div class="flex-row align-center flex-center">
+                            <hr class="box-shadow short ">
+                            <button type="submit">Zapisz zmiany</button>
+                            <hr class="box-shadow short">
+                        </div>
                     </form>
-                    <div class="flex-row">
+                    <div class="flex-row flex-around mrg-top">
                         <button id="logout">Wyloguj się</button>
                         <button id="delete-account">USUŃ KONTO</button>
                     </div>

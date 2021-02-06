@@ -16,7 +16,7 @@ section[type="hr-title"] {
 }
 
 section[type="hr-title"] .title {
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
     font-family: "Big Shoulders", sans-serif;
 }
 
@@ -61,6 +61,7 @@ section[type="2column-title"] {
     font-weight: bold;
     font-stretch: expanded;
     text-align: center;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
 }
 
 section[type="2column-description"] {
@@ -75,38 +76,55 @@ section[type="form"] {
     width: 18%;
     min-width: 250px;
     height: 55vh;
-    border-radius: 10px;
+    border-radius: 0px;
     padding: 2% 2%;
     overflow: hidden;
-    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.4);
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+    font-size: 110%;
 }
 
 section[type="form"] label {
-    color: black;
+    
+    font-weight: bold;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    font-size: 80%;
 }
 
 section[type="form"] input {
-    padding: 4% 3%;
-    border-radius: 6px;
-    background-color: white;
-    box-shadow: inset 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
+    border-radius: 0;
+    padding: 3% 3%;
+    background-color: transparent;
+    color: inherit;
+    font-family: "Lato Light";
+    font-weight: bold;
+    font-size: 110%;
     border: 0;
+    border-bottom: 4px solid currentColor;
     width: 80%;
     outline: none;
-    font-size: 90%;
-    transition: box-shadow 0.4s ease, transform 0.4s ease;
+    transition: filter 0.4s ease, transform 0.4s ease;
+}
+
+
+
+section[type="form"] input::placeholder {
+    color: inherit;
+    opacity: 0.5;
 }
 
 section[type="form"] input:focus {
-    box-shadow: inset 2px 2px 6px 1px rgba(0, 0, 0, 0.4);
+    filter: brightness(0.7);
 }
 
 section[type="form"] input:hover:not(:focus) {
-    transform: scale(0.95);
+    transform: scale(0.98);
+    filter: brightness(0.8);
 }
 
 section[type="form"] input.mrg-bottom {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 section[type="form"] label {
     margin-bottom: 5px;
@@ -116,18 +134,21 @@ section[type="form"] form {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
 }   
 section[type="form"] button {
     border: 0;
     padding: 3% 6%;
-    font-size: 180%;
+    font-size: 120%;
     font-weight: bold;
+    color: white;
     text-transform: uppercase;
-    border-radius: 5px;
-    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
-    text-shadow: 1px 1px 2px rgb(0 0 0 / 80%);
-    font-family: "Big Shoulders";
-    transition: opacity 0.4s ease, transform 0.4s ease, filter 0.4s ease;
+    border-radius: 0;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+    font-family: "Lato Light";
+    background-color: rgba(0, 0, 0, 0.6);
+    transition: opacity 0.4s ease, transform 0.2s ease, filter 0.4s ease;
     outline: none;
 }
 section[type="form"] button:disabled {
@@ -135,9 +156,13 @@ section[type="form"] button:disabled {
 }
 section[type="form"] button:hover {
     cursor: pointer;
-    filter: brightness(1.2);
+    filter: brightness(1.6);
+    transform: translateY(4px);
 }
 section[type="form"] button:focus:not(:hover) {
+    transform: scale(1.05);
+}
+section[type="form"] button:active {
     transform: scale(0.95);
 }
 section[type="form"] *:last-child {
@@ -164,13 +189,13 @@ section[type="text-on-image"] button.guzik {
     letter-spacing: 0.2em;
     background-color:#F8F8FF;
     -webkit-tap-highlight-color: initial;
-    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0);
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0);
     transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
 section[type="text-on-image"] button.guzik:hover {
     transform: translateX(5px);
-    box-shadow: 4px 4px 13px rgba(0, 0, 0, 0.9);
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
     cursor: pointer;
 }
 
@@ -195,6 +220,7 @@ div.napis span{
     position: absolute;
 }
 
+/* koszyk */
 section[type="cart"] {
     width: 100%;
 }
@@ -203,6 +229,7 @@ cart-view {
     width: -moz-available;
     width: -webkit-fill-available;
     width: fill-available;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
 }
 
 cart-element {
@@ -220,7 +247,7 @@ cart-element .col-1 {
 }
 
 cart-element .col-3 {
-    width: 10%;
+    width: 300px;
     min-width: 120px;
     height: 100%;
 }
@@ -245,27 +272,73 @@ cart-element .col-3 input[type="number"] {
     height: 30px;
     color: inherit;
     font-size: 120%;
-    border: 3px dashed currentColor;
+    border: 3px solid currentColor;
     background-color: transparent;
     outline: none;
     text-align: center;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+cart-element .col-3::before {
+    content: "Ilość: ";
+    font-size: 110%;
+    font-weight: bold;
 }
 
 cart-element .col-3 input[type="number"]:focus {
-    box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.6);
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+    
+}
+cart-element .col-3 input[type="number"]:hover:not(:focus) {
+    transform: scale(1.1);
 }
 cart-element .image-container:hover, cart-element .product-name:hover, cart-element .col-3 button:hover {
     cursor: pointer;
 }
 
+cart-element .product-price {
+    font-size: 110%;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
 cart-element .col-3 button {
+    font-family: "Lato Light";
     padding: 0.4em;
-    background-color: rgba(0, 0, 0, 0.4);
+    font-size: 110%;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+    font-weight: bold;
     color:white;
     border: 0;
     border-radius: 0;
+    transition: transform 0.4s ease, filter 0.4s ease;
 }
 
+.theme-A cart-element .col-3 button {
+    background-color: var(--color-A);
+}
+
+.theme-B cart-element .col-3 button {
+    background-color: var(--color-B);
+}
+
+.theme-C cart-element .col-3 button {
+    background-color: var(--color-C);
+}
+
+.theme-D cart-element .col-3 button {
+    background-color: var(--color-D);
+}
+
+.theme-E cart-element .col-3 button {
+    background-color: var(--color-E);
+}
+
+cart-element .col-3 button:hover {
+    transform: translateY(4px);
+    filter: brightness(1.2);
+}
 /* ulubione */
 section[type="faveourites"] {
     width: 100%;
@@ -275,6 +348,7 @@ fav-view {
     width: -moz-available;
     width: -webkit-fill-available;
     width: fill-available;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
 }
 
 fav-element {
@@ -289,6 +363,13 @@ fav-element + fav-element {
 fav-element .col-1 {
     width: 20%;
     height: 100%;
+}
+
+fav-element .product-price {
+    font-size: 110%;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: bold;
 }
 
 fav-element .col-3 {
@@ -318,9 +399,131 @@ fav-element .image-container:hover, fav-element .product-name:hover, fav-element
 }
 
 fav-element .col-3 button {
+    font-family: "Lato Light";
     padding: 0.4em;
-    background-color: rgba(0, 0, 0, 0.4);
+    font-size: 110%;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+    font-weight: bold;
     color:white;
     border: 0;
     border-radius: 0;
+    transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.theme-A > section fav-element .col-3 button {
+    background-color: var(--color-A);
+}
+
+.theme-B > section fav-element .col-3 button {
+    background-color: var(--color-B);
+}
+
+.theme-C > section fav-element .col-3 button {
+    background-color: var(--color-C);
+}
+
+.theme-D > section fav-element .col-3 button {
+    background-color: var(--color-D);
+}
+
+.theme-E > section fav-element .col-3 button {
+    background-color: var(--color-E);
+}
+
+fav-element .col-3 button:hover {
+    transform: translateY(4px);
+    filter: brightness(1.2);
+}
+
+/* strona prduktu */
+
+product-show {
+    min-height: calc(100vh - var(--footerHeight) - var(--navBarHeight) - (var(--footerVerticalPadding) * 2) + 1px);
+}
+product-show .image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+product-show .image-container img {
+    width: 70%;
+}
+
+product-show .product-name {
+    font-size: 200%;
+    font-weight: bold;
+    color: black;
+}
+
+product-show .break-line {
+    height: 2px;
+    margin: 0;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+product-show .price-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+product-show .price-container .product-price {
+    color: black;
+    letter-spacing: 7px;
+    font-weight: bold;
+    font-size: 250%;
+    padding: 0.05em;
+    border-bottom: 6px solid black;
+}
+
+product-show .btnContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25px;
+}
+
+.theme-A product-show .btnContainer button {
+    background-color: var(--color-A);
+}
+
+.theme-B product-show .btnContainer button {
+    background-color: var(--color-B);
+}
+.theme-C product-show .btnContainer button {
+    background-color: var(--color-C);
+}
+
+.theme-D product-show .btnContainer button {
+    background-color: var(--color-D);
+}
+
+.theme-E product-show .btnContainer button {
+    background-color: var(--color-E);
+}
+
+product-show .btnContainer button {
+    font-family: "Lato Light";
+    padding: 16px;
+    border: 0;
+    border-radius: 0;
+    font-weight: bold;
+    color: white;
+    font-size: 120%;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+    transition: filter 0.4s ease, transform 0.4s ease;
+}
+
+product-show .btnContainer button:hover {
+    cursor: pointer;
+    filter: brightness(1.2);
+    transform: translateY(4px);
+}
+
+product-show .btnContainer button + button {
+    margin-left: 30px;
+}
+
+product-show .date-container::before {
+    content: "Data dodania: "
 }

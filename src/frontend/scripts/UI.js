@@ -415,6 +415,12 @@ export class CartView extends HTMLElement {
             console.error(err);
         })
     }
+    checkEx() {
+        if (this.children.length == 0) {
+            this.innerText = "Koszyk jest pusty";
+            this.classList.add("padding");
+        }
+    }
 }
 
 export class CartElement extends HTMLElement {
@@ -493,7 +499,9 @@ export class CartElement extends HTMLElement {
         this.remBtn.addEventListener("click", e => {
             e.stopPropagation();
             localData.removeFromCart(this.product);
+            const p = this.parentNode;
             this.remove();
+            p.checkEx();
         }, {
             once: true
         });
@@ -554,6 +562,12 @@ export class FavView extends HTMLElement {
                 console.error(err);
             });
         });
+    }
+    checkEx() {
+        if (this.children.length == 0) {
+            this.innerText = "Nie masz ulubionych produktów";
+            this.classList.add("padding");
+        }
     }
 }
 
@@ -620,7 +634,9 @@ export class FavElement extends HTMLElement {
             localData.removeFromFavourites(this.product).then(() => {
                 alert("Usunięto z ulubionych!");
             });
+            const p = this.parentNode;
             this.remove();
+            p.checkEx();
         }, {
             once: true
         });

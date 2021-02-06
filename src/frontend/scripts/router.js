@@ -1,4 +1,3 @@
-
 import {
   logowanie,
   rejstracja,
@@ -8,8 +7,13 @@ import {
 import {
   redirectToMain
 } from "./routingUtils.js";
-import { ProdShow, ProductTileList } from "./UI.js";
-import { Product } from "./internals.js";
+import {
+  ProdShow,
+  ProductTileList
+} from "./UI.js";
+import {
+  Product
+} from "./internals.js";
 import database from "./database.js";
 
 const routes = {
@@ -17,14 +21,23 @@ const routes = {
     const query = new URLSearchParams(window.location.search);
     let searchquery = query.get("q");
     if (!searchquery) redirectToMain();
+    const queryTarget = document.getElementById("queryTarget")
+    queryTarget.innerText = "Wyniki dla frazy \"" + searchquery + "\"";
     let url = new URL("/api/products/query", window.location.origin);
     url.searchParams.set("q", searchquery);
     fetch(url.href).then(res => {
       if (res.ok) {
         res.json().then(prodObjs => {
           const products = database.processProdObjs(prodObjs);
-          const sec = document.querySelector(`section[type="main"]`);
-          sec.appendChild(new ProductTileList(products));
+          if (products.length > 0) {
+            const footer = document.querySelector("footer");
+            const mainSec = document.createElement("section");
+            mainSec.classList.add("theme-B");
+            mainSec.appendChild(new ProductTileList(products));
+            footer.parentNode.insertBefore(mainSec, footer);
+          } else {
+            queryTarget.innerText = "Nie znaleziono wyników";
+          }
         });
       } else redirectToMain();
     }).catch(e => {
@@ -35,7 +48,7 @@ const routes = {
   "rejstracja": rejstracja,
   "activation/status": activationStatus,
   "profil": profil,
-  "produkty/pokaż": function() {
+  "produkty/pokaż": function () {
     const prodCotainer = document.getElementById("prod-show-container");
     const queryParams = new URLSearchParams(window.location.search);
     if (queryParams.has("p")) {

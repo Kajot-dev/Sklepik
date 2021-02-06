@@ -24,7 +24,7 @@
     background-repeat: repeat;
     background-size: 150px auto;
     background-image: url(../images/bgs/geometry3-alpha.png);
-    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
 }
 
 #navBar.floating {
@@ -65,11 +65,11 @@
     background-clip: border-box;
     transform: rotate3d(0, 1, 0, 0deg);
     transform-origin: left center 0px;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0);
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0);
     background-color: transparent;
     height: 100%;
     padding: 0 0.6em 0 0.6em;
-    transition: background-color 0.4s ease, text-shadow 0.4s ease;
+    transition: background-color 0.4s ease, text-shadow 0.4s ease, filter 0.4s ease;
 }
 
 #navBar .tile-link .text {
@@ -82,7 +82,7 @@
 }
 #navBar .tile-link:hover {
     background-color: var(--color-B-transparent);
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+    text-shadow: 3px 3px 6px rgb(0 0 0 / 20%);
 }
 
 #navBar .tile-link:hover .text {
@@ -104,12 +104,12 @@
     color: var(--color-B);
 }
 #navBar div.symbol-container div.symbol {
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0);
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0);
     transition: transform 0.2s ease, text-shadow 0.4s ease, filter 0.4s ease;
 }
 
 #navBar div.symbol-container:hover div.symbol {
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
     transform: translateX(2px) scale(1);
 }
 
@@ -122,7 +122,7 @@
     height: 100vh;
     width: 300px;
     background-color: var(--color-D);
-    box-shadow: 2px 1px 2px rgba(0, 0, 0, 0);
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0);
     position: fixed;
     top: 0;
     left: -302px;
@@ -139,7 +139,7 @@
 }
 
 #navSidebarContainer.open {
-    box-shadow: 2px 1px 2px rgba(0, 0, 0, 0.8);
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
     transform: translateX(301.5px);
 }
 
@@ -174,7 +174,7 @@
 }
 
 #navSidebarContainer a:hover {
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
     filter: none;
 }
 
@@ -195,13 +195,14 @@
     background-color: var(--color-A);
 }
 
-#navSidebarContainer .bg-focus {
+.bg-focus {
     transition: background-color 0.4s ease;
 }
 
-#navSidebarContainer .bg-focus:focus-within {
+.bg-focus:focus-within {
     background-color: var(--color-A);
 }
+
 
 footer {
     box-shadow: 0px -1px 2px rgba(0, 0, 0, 0.8);
@@ -222,7 +223,7 @@ footer  {
 
 footer a {
     font-family: "Roboto Condensed", sans-serif;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
 }
 footer .flex-row {
     justify-items: stretch;
@@ -250,11 +251,11 @@ footer hr {
 
 .searchBarContainer .searchIcon {
     margin-right: 10px;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0);
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0);
     transition: transform 0.4s ease, text-shadow 0.4s ease;
 }
 .searchBarContainer .searchIcon:hover {
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
     transform: scale(1.1);
 }
 
