@@ -4,6 +4,7 @@ import {
     goto
 } from "../routingUtils.js";
 import localData from "../localData.js";
+import { PopUp } from "../UI.js";
 
 export function logowanie() {
     const loginForm = document.getElementById("login");
@@ -134,7 +135,9 @@ export async function profil() {
                         submitBtn.disabled = false;
                         localData.updateNick(user.nick);
                         loginButton.innerText = user.nick;
-                        alert("Zmiany zostały zapisane!");
+                        PopUp.create("Zmiany zostały zapisane!", {
+                            timeout: 3000
+                        });
                     } else {
                         res.text().then(t => {
                             errorBox.style.animation = "";
@@ -155,18 +158,24 @@ export async function profil() {
             }
         });
         delBtn.addEventListener("click", e => {
-            if (confirm("Czy na pewno chcesz usunąć swoje konto?")) {
-                fetch("/api/users", {
-                    method: "DELETE"
-                }).then(res => {
-                    if (res.ok) {
-                        localData.clearData();
-                        goto("/");
+            delBtn.disabled = true;
+            PopUp.create("Czy na pewno chcesz usunąć swoje konto?", {
+                buttons: {
+                    "TAK": () => {
+                        fetch("/api/users", {
+                            method: "DELETE"
+                        }).then(res => {
+                            if (res.ok) {
+                                localData.clearData();
+                                goto("/");
+                            }
+                        });
+                    },
+                    "NIE": () => {
+                        delBtn.disabled = false;
                     }
-                });
-            }
-        }, {
-            once: true
+                }
+            })
         });
         logOutBtn.addEventListener("click",async e => {
             await localData.logOut();
@@ -175,6 +184,7 @@ export async function profil() {
             once: true
         });
         activationBtn.addEventListener("click", e => {
+            e.preventDefault();
             goto("activation/status");
         }, {
             once: true

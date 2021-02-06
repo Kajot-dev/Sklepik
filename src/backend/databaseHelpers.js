@@ -32,7 +32,8 @@ async function removeNonActivatedUsers() {
     let dataUsers = (await database.users);
     let removedUserIDs = [];
     for (const [key, user] of Object.entries(dataUsers.value())) {
-        if (!user.activated && user.dateCreated <= lastReqDate) {
+        const checkDate = user.emailSent || user.dateCreated;
+        if (!user.activated && checkDate <= lastReqDate) {
             dataUsers = dataUsers.unset(key);
             removedUserIDs.push(key);
         }
@@ -187,13 +188,13 @@ async function updateUser(userID, {
     nick
 }) {
     if (password) password = await utils.passHash(password);
-    let activated = ((!email || (await database.users).get(userID + ".email").value() === email) && (await database.users).get(userID + ".activated").value());
+    let activated = (!email || ((await database.users).get(userID + ".email").value() === email && (await database.users).get(userID + ".activated").value()));
     let oldMail = email || null;
     const dataUsers = (await database.users);
     await dataUsers.update(userID + ".email", utils.produceUpdater(email))
         .update(userID + ".hashedPassword", utils.produceUpdater(password))
         .update(userID + ".nick", utils.produceUpdater(nick))
-        .update(userID + ".activated", activated).write();
+        .set(userID + ".activated", activated).write();
     if (oldMail) {
         const newID = await utils.hash(email);
         await changeUserID(userID, newID);

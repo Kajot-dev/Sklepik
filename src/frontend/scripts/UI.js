@@ -187,7 +187,9 @@ export class ProductTile extends HTMLElement {
             this.addToCartButton.addEventListener("click", e => {
                 e.stopPropagation();
                 this.product.addToCart();
-                alert("Dodano do koszyka!"); //TODO
+                PopUp.create("Dodano do koszyka!", {
+                    timeout: 2000
+                });
             });
             this.overlay.appendChild(this.buyButton);
             this.overlay.appendChild(this.favButton);
@@ -632,7 +634,9 @@ export class FavElement extends HTMLElement {
         this.remBtn.addEventListener("click", e => {
             e.stopPropagation();
             localData.removeFromFavourites(this.product).then(() => {
-                alert("Usunięto z ulubionych!");
+                PopUp.create("Usunięto z ulubionych!", {
+                    timeout: 2000
+                });
             });
             const p = this.parentNode;
             this.remove();
@@ -664,6 +668,77 @@ export class FavElement extends HTMLElement {
 }
 
 
+export class PopUp extends HTMLElement {
+    dialog = document.createElement("div");
+    textCont = document.createElement("div");
+    btnCont = document.createElement("div");
+    constructor(text, options = {}) {
+        super();
+        this.classList.add("flex-column", "flex-right", "align-center");
+        this.dialog.classList.add("dialog");
+        this.textCont.classList.add("text");
+        this.textCont.innerText = text;
+        this.dialog.appendChild(this.textCont);
+        if (options.buttons) {
+            this.btnCont.classList.add("btnContainer");
+            for (const [key, func] of Object.entries(options.buttons)) {
+                let btn = document.createElement("button");
+                btn.innerText = key;
+                btn.addEventListener("click", e => {
+                    e.stopPropagation();
+                    func();
+                    this.unShow();
+                });
+                this.btnCont.appendChild(btn);
+            }
+            this.dialog.appendChild(this.btnCont);
+        }
+        this.appendChild(this.dialog);
+        const showTime = typeof options.timeout === "number" ? options.timeout : 5000;
+        if (PopUp.activePopUp) {
+            this.style.display = "none";
+            PopUp.activePopUp.unShow().then(() => {
+                this.style.display = "";
+                if (!options.buttons) this.timeoutNum = setTimeout(() => {
+                    this.timeoutNum = null;
+                    this.unShow();
+                }, showTime);
+                PopUp.activePopUp = this;
+            });
+        } else {
+            if (!options.buttons) this.timeoutNum = setTimeout(() => {
+                this.timeoutNum = null;
+                this.unShow();
+            }, showTime);
+            PopUp.activePopUp = this;
+        }
+        this.dialog.style.animation = "dialog-in 0.4s ease";
+        this.style.animation = "popup-in 0.4s ease";
+        setTimeout(() => {
+            this.dialog.style.animation = "";
+            this.style.animation = "";
+        }, 400);
+    }
+    async unShow() {
+        if (PopUp.activePopUp === this) PopUp.activePopUp = null;
+        if (this.timeoutNum) clearTimeout(this.timeoutNum);
+        window.requestAnimationFrame(() => {
+            this.dialog.style.animation = "dialog-in 0.4s ease reverse forwards";
+            this.style.animation = "popup-in 0.4s ease reverse forwards";
+            setTimeout(() => {
+                this.remove();
+            }, 400);
+        });
+    }
+    static activePopUp;
+    static create(text, options) {
+        const p = new PopUp(text, options);
+        document.body.appendChild(p);
+    }
+}
+
+
+
 window.customElements.define("product-list", ProductTileList);
 window.customElements.define("product-tile", ProductTile);
 window.customElements.define("product-show", ProdShow);
@@ -671,6 +746,7 @@ window.customElements.define("cart-view", CartView);
 window.customElements.define("cart-element", CartElement);
 window.customElements.define("fav-view", FavView);
 window.customElements.define("fav-element", FavElement);
+window.customElements.define("pop-up", PopUp);
 
 export default {
     ProductTile,
@@ -681,5 +757,6 @@ export default {
     CartElement,
     FavView,
     FavElement,
+    PopUp,
     navBarTrigger
 }

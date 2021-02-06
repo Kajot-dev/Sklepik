@@ -33,7 +33,6 @@ class realAsync {
                     resolve(this.defaultValue);
                 }).catch((err) => {
                     console.error(err);
-                    alert(err.code);
                     reject(new Error("Error creating file!"));
                 })
             });

@@ -498,3 +498,80 @@ body > section:only-of-type {
 .theme-A [data-content="userdata"] button {
     background-color: var(--color-A);
 }
+
+pop-up {
+    background: radial-gradient(ellipse farthest-side at bottom, rgba(0, 0, 0, 0.6), transparent);
+    position: fixed;
+    z-index: 999;
+    min-height: 25vh;
+    width: 100vw;
+    bottom: 0;
+    pointer-events: none;
+}
+
+pop-up .dialog {
+    pointer-events: all;
+    font-family: "Lato Light";
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px;
+    margin: 40px;
+    background-color: var(--color-A);
+    color: white;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+pop-up .dialog .text {
+    font-weight: bold;
+    font-size: 110%;
+    padding: 10px;
+}
+
+pop-up .dialog .btnContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px;
+}
+
+pop-up .dialog .btnContainer button {
+    padding: 0.7em;
+    font-size: 100%;
+    color: white;
+    font-family: "Lato Light";
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.4);
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+    border: 0;
+    border-radius: 0;
+    outline: none;
+    transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+pop-up .dialog .btnContainer button:hover {
+    cursor: pointer;
+    transform: translateY(3px);
+    filter: brightness(1.8);
+}
+@keyframes popup-in {
+    from {
+        opacity: 0
+    }
+    to {
+        opacity: 1
+    }
+}
+
+@keyframes dialog-in {
+    from {
+        transform: translateY(calc(100% + 50px));
+    }
+    to {
+        transform: translateY(0);
+    }
+}

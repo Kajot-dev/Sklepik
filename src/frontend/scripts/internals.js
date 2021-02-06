@@ -2,6 +2,7 @@ import Utils from "./utils.js";
 import localData from "./localData.js";
 import database from "./database.js";
 const { EventEmitter } = Utils;
+import { PopUp } from "./UI.js";
 
 export class Product {
     name;
@@ -56,14 +57,18 @@ export class Product {
     }
     addToFavourites() {
         localData.addToFavourites(this.ID).then(() => {
-            alert("Dodano do ulubionych");
+            PopUp.create("Dodano do uubionych!", {
+                timeout: 2000
+            });
             this.isFav = true;
             this.events.emit("favUpdated", true);
         })
     }
     removeFromFavourites() {
         localData.removeFromFavourites(this.ID).then(() => {
-            alert("Usunięto z ulubionych");
+            PopUp.create("Usunięto z ulubionych!", {
+                timeout: 2000
+            });
             this.isFav = false;
             this.events.emit("favUpdated", false);
         });
