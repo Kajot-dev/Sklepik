@@ -16,7 +16,7 @@ function init(app) {
         try {
             res.sendFile(indexPath);
         } catch (e) {
-            if (e.code === "ENOENT") res.sendStatus(404);
+            if (e.code === "ENOENT") res.redirect("/404");
             else if (e.code !== "ECONNABORTED") res.sendStatus(500);
         }
     });
@@ -57,7 +57,11 @@ function init(app) {
             }
             res.sendFile(processedPath, e => {
                 if (e) {
-                    if (e.code === "ENOENT") res.sendStatus(404);
+                    if (e.code === "ENOENT") {
+                        if (req.baseUrl == "/404" || req.baseUrl == "/404.html" ) {
+                            res.sendStatus(404);
+                        } else res.redirect("/404");
+                    }
                     else if (e.code !== "ECONNABORTED") res.sendStatus(500);
                 }
             });

@@ -254,7 +254,7 @@ function defineAuth(app) {
         const token = req.params.token;
         const isSucces = await databaseHelpers.activateUser(token);
         if (isSucces) res.redirect("/activation/status");
-        else res.sendStatus(404);
+        else res.redirect("/activation_invalid");
     });
     app.get("/api/islogged", async (req, res) => {
         const token = req.session.token;
