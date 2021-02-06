@@ -194,7 +194,8 @@ async function updateUser(userID, {
     city
 }) {
     if (password) password = await utils.passHash(password);
-    let activated = (!email || ((await database.users).get(userID + ".email").value() === email && (await database.users).get(userID + ".activated").value()));
+    const curActivated = (await database.users).get(userID + ".activated").value();
+    let activated = ((!email || (await database.users).get(userID + ".email").value() === email) && curActivated);
     let oldMail = email || null;
     const dataUsers = (await database.users);
     await dataUsers.update(userID + ".email", utils.produceUpdater(email))
