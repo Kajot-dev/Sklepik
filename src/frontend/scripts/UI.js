@@ -351,6 +351,20 @@ export class ProdShow extends HTMLElement {
         //zakładamy eventy
         this.product.events.on("priceUpdate", this.viewPrice);
         this.product.events.on("imageUpdate", this.viewImage);
+        this.buyButton.addEventListener(e => {
+            e.stopPropagation();
+            this.product.addToCart();
+            routingUtils.goto("koszyk");
+        }, {
+            once: true
+        });
+        this.addToCartButton.addEventListener("click", e => {
+            e.stopPropagation();
+            this.product.addToCart();
+            PopUp.create("Dodano do koszyka!", {
+                timeout: 2000
+            });
+        });
         //dodajemy element do drzewa DOM
         this.append(this.col1, this.col2);
 
