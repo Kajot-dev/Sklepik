@@ -102,8 +102,17 @@
                             <label for="email">Twój email: </label>
                             <input type="email" name="email" disabled>
                             <label for="activation">Aktywny: </label>
-                            <input type="text" name="activation" disabled readonly>
+                            <input type="text" class="narrow" name="activation" disabled readonly>
                             <button id="activationstatus" disabled>Sprawdź stan aktywacji</button>
+                        </div>
+                        <hr>
+                        <div class="flex-row align-center">
+                            <label for="street">Ulica: </label>
+                            <input type="text" class="wide" name="street" disabled>
+                            <label for="street-number">Nr domu: </label>
+                            <input type="text" class="narrow" name="street-number" min="0" step="1" disabled>
+                            <label for="city">Miasto: </label>
+                            <input type="text" name="city" disabled>
                         </div>
                         <hr>
                         <div class="flex-row align-center">

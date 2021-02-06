@@ -171,7 +171,7 @@ export function setCartProduct(product, quantity = 1) {
     const cart = getCart();
     const id = product.getID();
     cart[id] = {
-        quantity: quantity
+        quantity: parseInt(quantity)
     }
     setCart(cart);
 }

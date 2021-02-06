@@ -119,6 +119,9 @@ async function createUser(userID, {
         .set(userID + ".lastLogged", dateCreated)
         .set(userID + ".activated", false)
         .set(userID + ".favourites", [])
+        .set(userID + ".street", null)
+        .set(userID + ".homeNr", null)
+        .set(userID + ".city", null)
         .write();
 }
 
@@ -185,7 +188,10 @@ async function verifyToken(token) {
 async function updateUser(userID, {
     email,
     password,
-    nick
+    nick,
+    street,
+    homeNr,
+    city
 }) {
     if (password) password = await utils.passHash(password);
     let activated = (!email || ((await database.users).get(userID + ".email").value() === email && (await database.users).get(userID + ".activated").value()));
@@ -194,6 +200,9 @@ async function updateUser(userID, {
     await dataUsers.update(userID + ".email", utils.produceUpdater(email))
         .update(userID + ".hashedPassword", utils.produceUpdater(password))
         .update(userID + ".nick", utils.produceUpdater(nick))
+        .update(userID + ".street", utils.produceUpdater(street))
+        .update(userID + ".homeNr", utils.produceUpdater(homeNr))
+        .update(userID + ".city", utils.produceUpdater(city))
         .set(userID + ".activated", activated).write();
     if (oldMail) {
         const newID = await utils.hash(email);

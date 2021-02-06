@@ -19,6 +19,9 @@ body {
     font-size: 130%;
 }
 
+button {
+    outline: none;
+}
 /* tile links */
 .tile-link {
     padding: 0.6em;
@@ -390,8 +393,12 @@ body > section:only-of-type {
     outline: none;
     transition: transform 0.4s ease, filter 0.4s ease;
 }
-
-
+#userdata input.narrow {
+    width: 70px;
+}
+#userdata input.wide {
+    width: 320px;
+}
 
 #userdata input[readonly] {
     pointer-events: none;

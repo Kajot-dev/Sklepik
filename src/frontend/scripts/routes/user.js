@@ -105,7 +105,12 @@ export async function profil() {
     const activation = userData.querySelector(`input[name="activation"]`);
     const submitBtn = userData.querySelector(`[type="submit"]`);
     const activationBtn = userData.querySelector("button#activationstatus");
-    const allInputs = [nickInput, emailInput, oldPassInput, passInput, activation, activationBtn];
+    //adres
+    const streetInp = userData.querySelector(`input[name="street"]`);
+    const homeInp = userData.querySelector(`input[name="street-number"]`);
+    const cityInp = userData.querySelector(`input[name="city"]`);
+    //reszta
+    const allInputs = [nickInput, emailInput, oldPassInput, passInput, activation, activationBtn, streetInp, homeInp, cityInp];
     const delBtn = document.getElementById("delete-account");
     const logOutBtn = document.getElementById("logout");
     const errorBox = document.getElementById("profile-error");
@@ -122,6 +127,9 @@ export async function profil() {
                 updatedUserObj.oldPassword = oldPassInput.value.trim();
                 updatedUserObj.password = passInput.value.trim();
             }
+            if (streetInp.value.trim() !== "") updatedUserObj.street = streetInp.value.trim();
+            if (homeInp.value.trim() !== "") updatedUserObj.homeNr = parseInt(homeInp.value.trim().replace(/[^0-9]/g, ""));
+            if (cityInp.value.trim() !== "") updatedUserObj.city = cityInp.value.trim();
             if (Object.keys(updatedUserObj).length > 0) {
                 fetch("/api/users", {
                     method: "PATCH",
@@ -191,7 +199,7 @@ export async function profil() {
         })
     } else redirect("/logowanie");
 }
-async function updateUserFields(nickInput, emailInput, oldPassInput, passInput, activation, activationBtn) {
+async function updateUserFields(nickInput, emailInput, oldPassInput, passInput, activation, activationBtn, streetInp, homeInp, cityInp) {
     const user = await localData.getUserData();
     if (user) {
         nickInput.value = user.nick;
@@ -199,8 +207,13 @@ async function updateUserFields(nickInput, emailInput, oldPassInput, passInput, 
         oldPassInput.value = "";
         passInput.value = "";
         activation.value = user.activated ? "TAK" : "NIE";
+        //adres
+        streetInp.value = user.street || "";
+        homeInp.value = user.homeNr || "";
+        cityInp.value = user.city || "";
+        //status aktywacji maila
         activationBtn.disabled = user.activated; 
-        enableAll(nickInput, emailInput, oldPassInput, passInput, activation);
+        enableAll(nickInput, emailInput, oldPassInput, passInput, activation, streetInp, homeInp, cityInp);
     }
     return user;
 }

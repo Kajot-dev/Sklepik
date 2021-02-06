@@ -294,6 +294,7 @@ export class ProdShow extends HTMLElement {
     priceContainer = document.createElement("div");
     priceElem = document.createElement("div");
     buyButton = document.createElement("button");
+    favButton = document.createElement("button");
     addToCartButton = document.createElement("button");
     dateContainer = document.createElement("div");
     breakLine1 = document.createElement("hr");
@@ -335,9 +336,16 @@ export class ProdShow extends HTMLElement {
         this.btnContainer.classList.add("btnContainer");
         this.buyButton.innerText = "Kup teraz";
         this.buyButton.setAttribute("data-role", "buy");
+        this.favButton.classList.add("fav-button");
+        if (this.product.isFav) {
+            this.favButton.innerHTML = "&#9829;"
+        } else {
+            this.favButton.innerHTML = "&#9825;"
+        }
         this.addToCartButton.innerText = "Dodaj do koszyka";
         this.addToCartButton.setAttribute("data-role", "addToCart");
         this.btnContainer.appendChild(this.addToCartButton);
+        this.btnContainer.appendChild(this.favButton);
         this.btnContainer.appendChild(this.buyButton)
         this.col2.appendChild(this.btnContainer);
         //linia2
@@ -357,6 +365,17 @@ export class ProdShow extends HTMLElement {
             routingUtils.goto("koszyk");
         }, {
             once: true
+        });
+        this.favButton.addEventListener("click", async e => {
+            e.stopPropagation();
+            if (await localData.isLoggedIn()) {
+                if (this.product.isFav) this.product.removeFromFavourites();
+                else this.product.addToFavourites();
+            } else routingUtils.goto("/logowanie");
+        });
+        this.product.events.on("favUpdated", status => {
+            if (status) this.favButton.innerHTML = "&#9829;"
+            else this.favButton.innerHTML = "&#9825;"
         });
         this.addToCartButton.addEventListener("click", e => {
             e.stopPropagation();

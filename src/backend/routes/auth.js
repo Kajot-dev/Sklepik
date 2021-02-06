@@ -123,17 +123,21 @@ function defineAuth(app) {
             email,
             password,
             nick,
-            oldPassword
+            oldPassword,
+            street,
+            homeNr,
+            city
         } = req.body;
-        if (typeof email === "string" || (typeof password === "string" && typeof oldPassword === "string") || typeof nick === "string") {
+
+        if (typeof email === "string" || (typeof password === "string" && typeof oldPassword === "string") || typeof nick === "string" || typeof street === "string" || homeNr || typeof city === "string") {
             const token = req.session.token;
 
-            if (email) email = email.trim();
+            if (typeof email === "string") email = email.trim();
             if (!utils.isEmail(email)) {
                 email = undefined;
             }
 
-            if (password) {
+            if (typeof password === "string") {
                 password = password.trim();
                 if (!utils.stringHelper(password, {
                         minL: 8,
@@ -146,7 +150,7 @@ function defineAuth(app) {
                 }
             }
 
-            if (oldPassword) {
+            if (typeof oldPassword === "string") {
                 oldPassword = oldPassword.trim();
                 if (!utils.stringHelper(oldPassword, {
                         minL: 8,
@@ -159,7 +163,7 @@ function defineAuth(app) {
                 }
             }
 
-            if (nick) nick = nick.trim();
+            if (typeof nick === "string") nick = nick.trim();
             if (!utils.stringHelper(nick, {
                     minL: 2,
                     maxL: 20,
@@ -167,6 +171,29 @@ function defineAuth(app) {
                 nick = undefined
             }
 
+            if (typeof street === "string") street = street.trim();
+            if (!utils.stringHelper(street, {
+                    minL: 2,
+                    maxL: 60,
+                })) {
+                street = undefined
+            }
+
+            if (homeNr) {
+                try {
+                    homeNr = parseInt(homeNr);
+                } catch (e) {
+                    homeNr = undefined;
+                }
+            }
+
+            if (typeof city === "string") city = city.trim();
+            if (!utils.stringHelper(city, {
+                    minL: 2,
+                    maxL: 60,
+                })) {
+                city = undefined
+            }
             if (typeof token == "string") {
                 const userID = await databaseHelpers.verifyToken(token);
                 if (userID) {
@@ -191,11 +218,14 @@ function defineAuth(app) {
                             return;
                         }
                     }
-                    if (password || nick || email) {
+                    if (password || nick || email || street || homeNr || city) {
                         await databaseHelpers.updateUser(userID, {
                             email,
                             password,
-                            nick
+                            nick,
+                            street,
+                            homeNr,
+                            city
                         });
                     }
                     res.sendStatus(200);
