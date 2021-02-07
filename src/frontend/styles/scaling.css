@@ -1,31 +1,3 @@
-@media only screen and (max-width: 768px) {
-    [if-normal] {
-        display: none !important;
-    }
-    [if-tablet]:not([if-phone]) {
-        display: none !important;
-    }
-    footer hr {
-        display: none !important;
-    }
-    product-tile {
-        width: calc((100% / 2) - 40px)
-    }
-    .flex-row.convertable {
-        flex-direction: column !important;
-    }
-    product-show .half-col {
-        width: 90%;
-        margin-bottom: 15px;
-    }
-    :root {
-        --footerHeight: 230px;
-    }
-    body {
-        font-size: 100%;
-    }
-}
-
 @media only screen and (max-width: 1024px) {
     [if-normal]:not([if-tablet]) {
         display: none !important;
@@ -61,6 +33,35 @@
     }
     product-tile .tile-overlay button {
         padding: 5px !important;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    [if-normal] {
+        display: none !important;
+    }
+    [if-tablet]:not([if-phone]) {
+        display: none !important;
+    }
+    footer hr {
+        display: none !important;
+    }
+    product-tile {
+        width: calc((100% / 2) - 40px)
+    }
+    .flex-row.convertable {
+        flex-direction: column !important;
+    }
+    product-show .half-col {
+        width: 90%;
+        margin-bottom: 15px;
+    }
+    :root {
+        --footerHeight: calc(100vh / 4);
+        --navBarFontSize: 16px;
+    }
+    body {
+        font-size: 100%;
     }
 }
 
