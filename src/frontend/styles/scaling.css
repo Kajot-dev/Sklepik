@@ -18,6 +18,12 @@
         width: 90%;
         margin-bottom: 15px;
     }
+    :root {
+        --footerHeight: 230px;
+    }
+    body {
+        font-size: 100%;
+    }
 }
 
 @media only screen and (max-width: 1024px) {
