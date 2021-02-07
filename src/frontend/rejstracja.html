@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/styles/sections.css">
     <link rel="stylesheet" href="/styles/basic.css">
     <link rel="stylesheet" href="/styles/products.css">
+    <link rel="stylesheet" href="/styles/scaling.css">
     <script src="/scripts/main.js" type="module"></script>
     <link rel="icon" href="/favicon-256.ico" type="image/x-icon" sizes="256x256">
     <link rel="icon" href="/favicon-128.ico" type="image/x-icon" sizes="128x128">
@@ -37,14 +38,14 @@
                     <a class="tile-link" href="/produkty">
                         <span class="text">Produkty</span>
                     </a>
-                    <a class="tile-link" href="/oNas">
+                    <a class="tile-link" href="/oNas" if-normal if-tablet>
                         <span class="text">O Nas</span>
                     </a>
                 </div>
                 
                 <div class="flex-row flex-left flex-inline full-height right">
                     
-                    <div class="flex-row flex-baseline searchBarContainer">
+                    <div class="flex-row flex-baseline searchBarContainer" if-normal if-tablet>
                         <div class="symbol clickable searchIcon" tabindex="0">&#xe800;</div>
                         <input class="searchInput" type="text" placeholder="Szukaj...">
                     </div>

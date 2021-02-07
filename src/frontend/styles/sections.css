@@ -30,7 +30,7 @@ section[type="text-on-image"].high {
     height: calc(100vh - var(--navBarHeight));
    
 }
-section[type="text-on-image"] div {
+section[type="text-on-image"] > div {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -39,16 +39,16 @@ section[type="text-on-image"] div {
     overflow: hidden;
 }  
 
-section[type="text-on-image"] div.bgPhoto {
+section[type="text-on-image"] > div.bgPhoto {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 section[type="text-on-image"] img {
-    width: 100%;
     min-height: 100%;
-
+    height: auto;
+    width: auto;
 }
 
 section[type="2column-title"] {
@@ -171,10 +171,8 @@ section[type="form"] *:last-child {
 section[type="content"] {
     padding: 2%;
 }
-section[type="text-on-image"] button.guzik {
-    position: absolute;
-    top: 75%;
-    left: 10%;
+section[type="text-on-image"] button.white-btn {
+    margin-top: 15px;
     color:rgba(0, 0, 0, 0.8);
     border-color: #ffffff;
     display: block;
@@ -193,7 +191,7 @@ section[type="text-on-image"] button.guzik {
     transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
-section[type="text-on-image"] button.guzik:hover {
+section[type="text-on-image"] button.white-btn:hover {
     transform: translateX(5px);
     box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
     cursor: pointer;
@@ -207,17 +205,10 @@ section[type="selection-layout"] {
     flex-grow: 1;
     overflow: hidden;
 }
-div.napis{
-    position: relative;   
-}
-div.napis span{
-    color: white;
-    font-weight: bold;
-    top: 65%;
-    left: 7%;
-    font-family: "Lato Light", sans-serif;
-    text-align: center;
+div.index-corner{
     position: absolute;
+    left: 10%;
+    bottom: 15%;
 }
 
 /* koszyk */
@@ -225,3 +216,7 @@ section[type="cart"] {
     width: 100%;
 }
 
+section[type="2column"] {
+    display: flex;
+    flex-direction: row;
+}

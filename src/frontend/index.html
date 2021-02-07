@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/styles/sections.css">
     <link rel="stylesheet" href="/styles/basic.css">
     <link rel="stylesheet" href="/styles/products.css">
+    <link rel="stylesheet" href="/styles/scaling.css">
     <script src="/scripts/main.js" type="module"></script>
     <link rel="icon" href="/favicon-256.ico" type="image/x-icon" sizes="256x256">
     <link rel="icon" href="/favicon-128.ico" type="image/x-icon" sizes="128x128">
@@ -37,14 +38,14 @@
                     <a class="tile-link" href="/produkty">
                         <span class="text">Produkty</span>
                     </a>
-                    <a class="tile-link" href="/oNas">
+                    <a class="tile-link" href="/oNas" if-normal if-tablet>
                         <span class="text">O Nas</span>
                     </a>
                 </div>
                 
                 <div class="flex-row flex-left flex-inline full-height right">
                     
-                    <div class="flex-row flex-baseline searchBarContainer">
+                    <div class="flex-row flex-baseline searchBarContainer" if-normal if-tablet>
                         <div class="symbol clickable searchIcon" tabindex="0">&#xe800;</div>
                         <input class="searchInput" type="text" placeholder="Szukaj...">
                     </div>
@@ -82,31 +83,34 @@
             </div>
         </div>
     </header>
-    
+
     <section type="text-on-image" class="theme-B big high">
         <div class="bgPhoto">
             <img class="darker" src="/images/bgs/tlo1.jpg" alt="Tło">
         </div>
-        <div class="napis">
-            <span>ADIDAS YEEZY BOOST 350V2 <br/> ZEBRA</span>
+        <div>
+            <div class="flex-column align-center flex-center index-corner">
+                <span class="light white center">ADIDAS YEEZY BOOST 350V2 <br> ZEBRA</span>
+                <a href="/produkty/pokaż.html?p=584487851844230494">
+                    <button class="white-btn">KUP TERAZ</button>
+                </a>
+            </div>
         </div>
-        <a href="/produkty/pokaż.html?p=584487851844230494">
-        <button class="guzik">KUP TERAZ</button>
-        </a>
+
     </section>
-  
+
     <section type="hr-title" class="theme-D">
         <hr class="box-shadow">
         <span class="title">Nowości</span>
         <hr class="box-shadow">
     </section>
-    <section type="product-tile-list" name="produkty" quantity="3" which="recent" order="date" no-overlay></section>
+    <section type="product-tile-list" name="produkty" quantity="6" which="recent" order="date" no-overlay></section>
     <section type="hr-title" class="theme-C">
         <hr class="box-shadow">
         <span class="title">Co oferujemy</span>
         <hr class="box-shadow">
     </section>
-    <section name="events" class="flex-row">
+    <section name="events" type="2column" class="flex-row">
         <section type="2column-title" class="theme-D padding flex-column align-center flex-center huge-max">
             <span>Eventy</span>
         </section>
@@ -114,8 +118,8 @@
             <span>Tu są opisy eventów</span>
         </section>
     </section>
-    <section name="brands" class="flex-row">
-        
+    <section name="brands" type="2column" class="flex-row">
+
         <section type="2column-description" class="theme-C black padding big">
             <span>Tu są opisy marek</span>
         </section>

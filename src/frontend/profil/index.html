@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/styles/sections.css">
     <link rel="stylesheet" href="/styles/basic.css">
     <link rel="stylesheet" href="/styles/products.css">
+    <link rel="stylesheet" href="/styles/scaling.css">
     <script src="/scripts/main.js" type="module"></script>
     <link rel="icon" href="/favicon-256.ico" type="image/x-icon" sizes="256x256">
     <link rel="icon" href="/favicon-128.ico" type="image/x-icon" sizes="128x128">
@@ -37,14 +38,14 @@
                     <a class="tile-link" href="/produkty">
                         <span class="text">Produkty</span>
                     </a>
-                    <a class="tile-link" href="/oNas">
+                    <a class="tile-link" href="/oNas" if-normal if-tablet>
                         <span class="text">O Nas</span>
                     </a>
                 </div>
                 
                 <div class="flex-row flex-left flex-inline full-height right">
                     
-                    <div class="flex-row flex-baseline searchBarContainer">
+                    <div class="flex-row flex-baseline searchBarContainer" if-normal if-tablet>
                         <div class="symbol clickable searchIcon" tabindex="0">&#xe800;</div>
                         <input class="searchInput" type="text" placeholder="Szukaj...">
                     </div>
@@ -98,28 +99,42 @@
                             <input type="text" name="nick" disabled>
                         </div>
                         <hr>
-                        <div class="flex-row align-center">
-                            <label for="email">Twój email: </label>
-                            <input type="email" name="email" disabled>
-                            <label for="activation">Aktywny: </label>
-                            <input type="text" class="narrow" name="activation" disabled readonly>
+                        <div class="flex-row align-center convertable">
+                            <span>
+                                <label for="email">Twój email: </label>
+                                <input type="email" name="email" disabled>
+                            </span>
+                            <span>
+                                <label for="activation">Aktywny: </label>
+                                <input type="text" class="narrow" name="activation" disabled readonly>
+                            </span>
                             <button id="activationstatus" disabled>Sprawdź stan aktywacji</button>
                         </div>
                         <hr>
-                        <div class="flex-row align-center">
-                            <label for="street">Ulica: </label>
-                            <input type="text" class="wide" name="street" disabled>
-                            <label for="street-number">Nr domu: </label>
-                            <input type="text" class="narrow" name="street-number" min="0" step="1" disabled>
-                            <label for="city">Miasto: </label>
-                            <input type="text" name="city" disabled>
+                        <div class="flex-row align-center convertable">
+                            <span>
+                                <label for="street">Ulica: </label>
+                                <input type="text" class="wide" name="street" disabled>
+                            </span>
+                            <span>
+                                <label for="street-number">Nr domu: </label>
+                                <input type="text" class="narrow" name="street-number" min="0" step="1" disabled>
+                            </span>
+                            <span>
+                                <label for="city">Miasto: </label>
+                                <input type="text" name="city" disabled>
+                            </span>
                         </div>
                         <hr>
-                        <div class="flex-row align-center">
-                            <label for="oldpassword">Stare hasło: </label>
+                        <div class="flex-row align-center convertable">
+                            <span>
+                                <label for="oldpassword">Stare hasło: </label>
                             <input type="text" name="oldpassword" disabled>
-                            <label for="password">Nowe hasło: </label>
-                            <input type="text" name="password" disabled>
+                            </span>
+                            <span>
+                                <label for="password">Nowe hasło: </label>
+                                <input type="text" name="password" disabled>
+                            </span>
                         </div>
                         <div class="flex-row align-center flex-center">
                             <hr class="box-shadow short ">

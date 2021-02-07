@@ -191,6 +191,8 @@ export class ProductTile extends HTMLElement {
                     timeout: 2000
                 });
             });
+            this.overlay.setAttribute("if-normal", "");
+            this.overlay.setAttribute("if-tablet", "");
             this.overlay.appendChild(this.buyButton);
             this.overlay.appendChild(this.favButton);
             this.overlay.appendChild(this.addToCartButton);
@@ -310,7 +312,7 @@ export class ProdShow extends HTMLElement {
         //zapisujemy produkt
         this.product = product;
         //tworzymy wszystkie potrzebne elementy
-        this.classList.add("flex-row", "flex-center", "align-center");
+        this.classList.add("flex-row", "flex-center", "align-center", "convertable");
         //kolumna 1
         this.col1.classList.add("half-col");
         //zdjęcie produktu

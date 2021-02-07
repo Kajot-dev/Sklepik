@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/styles/sections.css">
     <link rel="stylesheet" href="/styles/basic.css">
     <link rel="stylesheet" href="/styles/products.css">
+    <link rel="stylesheet" href="/styles/scaling.css">
     <script src="/scripts/main.js" type="module"></script>
     <link rel="icon" href="/favicon-256.ico" type="image/x-icon" sizes="256x256">
     <link rel="icon" href="/favicon-128.ico" type="image/x-icon" sizes="128x128">
@@ -37,14 +38,14 @@
                     <a class="tile-link" href="/produkty">
                         <span class="text">Produkty</span>
                     </a>
-                    <a class="tile-link" href="/oNas">
+                    <a class="tile-link" href="/oNas" if-normal if-tablet>
                         <span class="text">O Nas</span>
                     </a>
                 </div>
                 
                 <div class="flex-row flex-left flex-inline full-height right">
                     
-                    <div class="flex-row flex-baseline searchBarContainer">
+                    <div class="flex-row flex-baseline searchBarContainer" if-normal if-tablet>
                         <div class="symbol clickable searchIcon" tabindex="0">&#xe800;</div>
                         <input class="searchInput" type="text" placeholder="Szukaj...">
                     </div>
@@ -87,7 +88,7 @@
         <span class="title">Dane kontaktowe</span>
         <hr class="box-shadow">
     </section>
-    <section name="dane-kontaktowe" class="padding flex-row flex-around theme-B big">
+    <section name="dane-kontaktowe" class="padding flex-row align-center flex-around theme-B big convertable">
         <section name="owner" class="half-w flex-column align-center center">
             <span class="bold mrg-bottom text-shadow">Mikołaj Rak</span>
             <span class="black light">
@@ -112,7 +113,7 @@
         <span class="title">Lokalizacja</span>
         <hr class="box-shadow">
     </section>
-    <section name="lokalizacja" class="padding flex-row flex-around theme-D">
+    <section name="lokalizacja" class="padding flex-row flex-around align-center theme-D convertable">
         <section name="mapa" class="half-w flex-row flex-center">
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2432.6184668293326!2d16.904507515693535!3d52.4317104797976!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470445d688f78565%3A0x34dc8adec612709d!2sWielki%20Mur%20Boni%C5%84ski!5e0!3m2!1spl!2spl!4v1610996361610!5m2!1spl!2spl" width="600" height="450" allowfullscreen="" aria-hidden="false" tabindex="0" title="Lokalizacja firmy" id="map" class="box-shadow"></iframe>
         </section>
