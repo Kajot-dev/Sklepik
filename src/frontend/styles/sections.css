@@ -18,6 +18,7 @@ section[type="hr-title"] {
 section[type="hr-title"] .title {
     text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
     font-family: "Big Shoulders", sans-serif;
+    text-align: center;
 }
 
 section[type="hr-title"] hr {

@@ -58,7 +58,7 @@
         margin-bottom: 15px;
     }
     :root {
-        --footerHeight: calc(100vh / 4);
+        --footerHeight: calc(100vh / 5);
         --navBarFontSize: 16px;
     }
     body {
