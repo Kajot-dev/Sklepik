@@ -26,4 +26,5 @@ npm run start-local
 ## Dodatkowo strona jest dostępna online [tutaj.](https://witty-shop.herokuapp.com)
 
 ### UWAGA
+ - Ponieważ baza danych jest zapisywana w plikach .json, z uwagi na to, że heroku nie zapisuje zmian w plikach, baza resetuje się po restarcie serwera (nie powinno mieć miejsca przy uruchamianiu lokalnym)
  - Z racji darmowego hostingu po 30 minutach nieaktywności strona jest usypiana i potrzebuje kilkunastu sekund żeby się uruchomić.
