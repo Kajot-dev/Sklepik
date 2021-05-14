@@ -24,7 +24,6 @@ async function removeExpiredActivations() {
         if (token.expires <= now) dataMails = dataMails.unset(key);
     }
     if (mails.length > 0) await dataMails.write();
-    return;
 }
 
 async function removeNonActivatedUsers() {
@@ -109,6 +108,7 @@ async function createUser(userID, {
     password,
     nick
 }) {
+    const actState = !!(await database.config).get("emailActivationDisabled").value();
     const hashedPassword = await utils.passHash(password);
     const dateCreated = new Date().getTime();
     await (await database.users).set(userID)
@@ -117,7 +117,7 @@ async function createUser(userID, {
         .set(userID + ".nick", nick)
         .set(userID + ".dateCreated", dateCreated)
         .set(userID + ".lastLogged", dateCreated)
-        .set(userID + ".activated", false)
+        .set(userID + ".activated", actState)
         .set(userID + ".favourites", [])
         .set(userID + ".street", null)
         .set(userID + ".homeNr", null)

@@ -1,6 +1,5 @@
 const express = require("express");
 const session = require("cookie-session");
-const bodyParser = require("body-parser");
 const routes = require("./routes");
 const cluster = require("cluster");
 const colors = require("colors");
@@ -17,8 +16,8 @@ async function init() {
     if (cluster.isMaster) {
         console.log("Running in " + colors.yellow(process.env.NODE_ENV) + " environment!");
 
-        cluster.fork({ threadID: 1});
-        
+        cluster.fork({ threadID: 1}); //threading disabled due to the free hosting performance
+
         console.log("Worker is starting!");
         worker.init();
     } else {
@@ -50,10 +49,10 @@ async function init() {
                 signed: true
             }
         }));
-        app.use(bodyParser.urlencoded({
+        app.use(express.urlencoded({
             extended: true
         }));
-        app.use(bodyParser.json());
+        app.use(express.json());
 
         routes.init(app);
 

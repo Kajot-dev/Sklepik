@@ -1,10 +1,13 @@
 const nodemailer = require("nodemailer");
+const {
+    config
+} = require("./database");
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'witty.shop.noreply@gmail.com',
-        pass: 'zRAV7_qguFS7FLR'
+        user: '', //no password on a public repo :)
+        pass: ''
     }
 });
 

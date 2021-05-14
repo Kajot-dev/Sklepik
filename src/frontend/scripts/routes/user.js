@@ -84,13 +84,23 @@ export async function activationStatus() {
     const statusBox = document.getElementById("actStatus");
     if (await localData.isLoggedIn()) {
         fetch("/api/activationstatus").then(res => res.json()).then(data => {
-            if (data.status === 0) {
-                statusBox.innerText = "Email właśnie został wysłany. Sprawdź swoją skrzynkę odbiorczą.";
-            } else if (data.status === 1) {
-                statusBox.innerText = "Email został już wcześniej wysłany. Sprawdź swoją skrzynkę odbiorczą.";
-            } else if (data.status === 2) {
-                statusBox.innerText = "Konto zostało aktywowane pomyślnie.";
-            } else redirectToMain();
+            switch (data.status) {
+                case 0:
+                    statusBox.innerText = "Email właśnie został wysłany. Sprawdź swoją skrzynkę odbiorczą.";
+                    break;
+                case 1:
+                    statusBox.innerText = "Email został już wcześniej wysłany. Sprawdź swoją skrzynkę odbiorczą.";
+                    break;
+                case 2:
+                    statusBox.innerText = "Konto zostało aktywowane pomyślnie.";
+                    break;
+                case -1:
+                    statusBox.innerText = "Weryfikacja e-mail jest obecnie wyłączona.";
+                    break;
+                default:
+                    redirectToMain();
+                    break;
+            }
             statusBox.classList.remove("invisible");
         });
     } else redirect("/logowanie");

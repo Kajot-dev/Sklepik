@@ -1,6 +1,8 @@
 const databaseHelpers = require("../databaseHelpers");
 const utils = require("../utils");
-
+const {
+    config
+} = require("../database");
 
 function defineAuth(app) {
     //logowanie
@@ -281,7 +283,11 @@ function defineAuth(app) {
         res.status(200);
         if (userID) {
 
-            if (await databaseHelpers.isUserAwaitingActivation(userID)) {
+            if ((await config).get("emailActivationDisabled").value() === true) {
+                res.send({
+                    status: -1
+                });
+            } else if (await databaseHelpers.isUserAwaitingActivation(userID)) {
                 res.send({
                     status: 1
                 });
