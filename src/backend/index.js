@@ -54,6 +54,10 @@ async function init() {
         }));
         app.use(express.json());
 
+        app.use(express.static("src/frontend", {
+            extensions: ["html"]
+        }));
+
         routes.init(app);
 
         app.listen(httpPort);
